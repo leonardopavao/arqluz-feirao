@@ -716,11 +716,8 @@ async function apiGet(action) {
   return r.json();
 }
 async function apiPost(body) {
-  const r = await fetch(API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  });
+  const params = new URLSearchParams({ payload: JSON.stringify(body) });
+  const r = await fetch(`${API_URL}?${params}`);
   return r.json();
 }
 
