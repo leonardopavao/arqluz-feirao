@@ -1379,25 +1379,30 @@ async function init() {
     return;
   }
 
-  // Check if setup is needed
-  const setup = await apiGet('checkSetup');
-  if (!setup.ready) {
-    await apiGet('setup');
-  }
-
-  // Load data
-  const [pRes, cRes, cfgRes] = await Promise.all([
-    apiGet('getProducts'),
-    apiGet('getCategories'),
-    apiGet('getConfig'),
-  ]);
-  state.products   = pRes.products   || [];
-  state.categories = cRes.categories || [];
-  state.config     = cfgRes.config   || {};
-
+  // Mostra o catálogo imediatamente — não espera a API
   showView('catalog');
   renderCatalog();
-  if (state.config.popup_ativo !== 'false') showPopup(state.config);
+
+  try {
+    // Verifica setup em background
+    const setup = await apiGet('checkSetup');
+    if (!setup.ready) await apiGet('setup');
+
+    // Carrega dados em background
+    const [pRes, cRes, cfgRes] = await Promise.all([
+      apiGet('getProducts'),
+      apiGet('getCategories'),
+      apiGet('getConfig'),
+    ]);
+    state.products   = pRes.products   || [];
+    state.categories = cRes.categories || [];
+    state.config     = cfgRes.config   || {};
+
+    renderCatalog();
+    if (state.config.popup_ativo !== 'false') showPopup(state.config);
+  } catch(err) {
+    console.error('Erro ao carregar dados:', err);
+  }
 }
 
 init();
