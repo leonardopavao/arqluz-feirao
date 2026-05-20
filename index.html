@@ -307,7 +307,7 @@ img{max-width:100%}
 .btn-success{background:var(--green);color:#fff}
 .btn-sm{padding:7px 12px;font-size:12px}
 .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
-.search-input{padding:10px 14px;font-size:13px;width:240px}
+.search-input{padding:10px 14px;font-size:13px;width:260px}
 
 .products-table{width:100%;border-collapse:collapse}
 .products-table th{
@@ -326,6 +326,8 @@ img{max-width:100%}
 .status-disponivel{background:rgba(58,125,90,.12);color:var(--green)}
 .status-vendido{background:rgba(176,48,48,.12);color:var(--red)}
 .actions-cell{display:flex;gap:6px;flex-wrap:wrap}
+.admin-code-cell{font-weight:600;color:var(--gold)}
+.stock-cell{font-weight:600}
 
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .form-group{display:flex;flex-direction:column;gap:6px}
@@ -598,7 +600,8 @@ textarea.form-input{resize:vertical;min-height:80px}
   .admin-main{padding:20px}
   .form-grid{grid-template-columns:1fr}
   .products-table th:nth-child(3),.products-table td:nth-child(3),
-  .products-table th:nth-child(4),.products-table td:nth-child(4){display:none}
+  .products-table th:nth-child(5),.products-table td:nth-child(5),
+  .products-table th:nth-child(6),.products-table td:nth-child(6){display:none}
   .product-card-img,.product-card-img-placeholder{height:220px}
 }
 </style>
@@ -703,7 +706,7 @@ textarea.form-input{resize:vertical;min-height:80px}
             <div class="admin-page-sub" id="products-count"></div>
           </div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-            <input class="search-input" type="text" placeholder="Buscar produto..." id="search-products" oninput="filterProducts()"/>
+            <input class="search-input" type="text" placeholder="Buscar nome, COD ou categoria..." id="search-products" oninput="filterProducts()"/>
             <button class="btn btn-gold" onclick="adminNav('add-product')">+ Novo Produto</button>
           </div>
         </div>
@@ -713,6 +716,8 @@ textarea.form-input{resize:vertical;min-height:80px}
               <tr>
                 <th style="padding-left:16px">Foto</th>
                 <th>Nome</th>
+                <th>COD</th>
+                <th>Estoque</th>
                 <th>Categoria</th>
                 <th>Preço</th>
                 <th>Status</th>
@@ -739,6 +744,17 @@ textarea.form-input{resize:vertical;min-height:80px}
               <label class="form-label">Nome do Produto *</label>
               <input class="form-input" type="text" id="pf-nome" placeholder="Ex: Pendente Dourado Athens"/>
             </div>
+
+            <div class="form-group">
+              <label class="form-label">COD Interno</label>
+              <input class="form-input" type="text" id="pf-cod-interno" placeholder="Ex: ABJ-023"/>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Quantidade em Estoque</label>
+              <input class="form-input" type="number" id="pf-estoque" placeholder="0" min="0" step="1"/>
+            </div>
+
             <div class="form-group">
               <label class="form-label">Categoria *</label>
               <select class="form-select" id="pf-cat" onchange="onCatChange()">
@@ -1246,7 +1262,7 @@ function renderProductsTable() {
     `${state.products.length} produto(s) - ${state.products.filter(p => p.Status === 'vendido').length} vendido(s)`;
 
   if (!state.products.length) {
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--muted)">Nenhum produto cadastrado ainda.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--muted)">Nenhum produto cadastrado ainda.</td></tr>`;
     return;
   }
 
@@ -1260,11 +1276,12 @@ function filterProducts() {
 
   const filtered = state.products.filter(p =>
     String(p.Nome || '').toLowerCase().includes(q) ||
+    String(p.Codigo_Interno || '').toLowerCase().includes(q) ||
     String(p.Categoria || '').toLowerCase().includes(q)
   );
 
   if (!filtered.length) {
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--muted)">Nenhum produto encontrado.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--muted)">Nenhum produto encontrado.</td></tr>`;
     return;
   }
 
@@ -1285,6 +1302,8 @@ function filterProducts() {
     tr.innerHTML = `
       <td style="padding-left:16px">${imgHtml}</td>
       <td><strong>${esc(p.Nome)}</strong></td>
+      <td class="admin-code-cell">${esc(p.Codigo_Interno || '-')}</td>
+      <td class="stock-cell">${esc(p.Estoque || '0')}</td>
       <td>${esc([p.Categoria, p.Subcategoria].filter(Boolean).join(' › '))}</td>
       <td>${p.Preco_Por ? formatMoney(p.Preco_Por) : '-'}</td>
       <td><span class="status-badge status-${soldLabel}">${soldText}</span></td>
@@ -1338,7 +1357,7 @@ async function deleteProduct(id) {
 }
 
 function clearProductForm() {
-  ['pf-nome','pf-obs','pf-price-de','pf-price-por'].forEach(id => {
+  ['pf-nome','pf-cod-interno','pf-estoque','pf-obs','pf-price-de','pf-price-por'].forEach(id => {
     const el = $(id);
     if (el) el.value = '';
   });
@@ -1398,6 +1417,8 @@ function editProduct(id) {
 
   $('product-form-title').textContent = 'Editar Produto';
   $('pf-nome').value = p.Nome || '';
+  $('pf-cod-interno').value = p.Codigo_Interno || '';
+  $('pf-estoque').value = p.Estoque || '';
   $('pf-obs').value = p.Observacoes || '';
   $('pf-price-de').value = p.Preco_De || '';
   $('pf-price-por').value = p.Preco_Por || '';
@@ -1597,6 +1618,8 @@ async function saveProduct() {
   try {
     const product = {
       Nome: nome,
+      Codigo_Interno: $('pf-cod-interno').value.trim(),
+      Estoque: $('pf-estoque').value,
       Categoria: cat,
       Subcategoria: $('pf-subcat').value,
       Preco_De: $('pf-price-de').value,
