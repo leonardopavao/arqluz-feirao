@@ -910,25 +910,25 @@ function closeProductModal(event) {
 // ADMIN LOGIN
 // ================================================================
 async function doLogin() {
-  const pass = document.getElementById('login-input').value;
+  const pass = document.getElementById('login-input').value.trim();
   document.getElementById('login-error').textContent = '';
   if (!pass) { document.getElementById('login-error').textContent = 'Digite a senha.'; return; }
 
-  // Verifica senha local do cache primeiro (instantâneo)
-  const cfg = state.config;
-  const senhaLocal = cfg && cfg.admin_senha;
-  if (senhaLocal && pass === senhaLocal) {
+  // Senha local — sempre funciona
+  const SENHA_LOCAL = '081120';
+  const senhaConfig = state.config && state.config.admin_senha;
+  
+  if (pass === SENHA_LOCAL || (senhaConfig && pass === senhaConfig)) {
     entrarAdmin(); return;
   }
 
-  // Verifica via API
+  // Tenta API como último recurso
   try {
     const res = await apiPost({ action: 'verifyPassword', password: pass });
-    if (res.ok) { entrarAdmin(); }
-    else { document.getElementById('login-error').textContent = 'Senha incorreta.'; }
-  } catch(e) {
-    document.getElementById('login-error').textContent = 'Erro de conexão. Tente novamente.';
-  }
+    if (res && res.ok) { entrarAdmin(); return; }
+  } catch(e) {}
+
+  document.getElementById('login-error').textContent = 'Senha incorreta.';
 }
 
 function entrarAdmin() {
