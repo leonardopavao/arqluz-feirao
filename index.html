@@ -6,8 +6,7 @@
 <title>Feirão Arq Luz</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
-/* ========== RESET & VARS ========== */
-*{margin:0;padding:0;box-sizing:border-box;}
+*{margin:0;padding:0;box-sizing:border-box}
 :root{
   --bg:#f5f0e8;
   --surface:#fffdf8;
@@ -16,405 +15,220 @@
   --gold:#a0722a;
   --gold2:#c4923e;
   --text:#2c2416;
-  --text-muted:#8a7a62;
+  --muted:#8a7a62;
   --red:#b03030;
   --green:#3a7d5a;
   --radius:12px;
-  --shadow:0 8px 32px rgba(100,80,40,0.12);
+  --shadow:0 8px 32px rgba(100,80,40,.12);
 }
-html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);}
-.hidden{display:none!important;}
-button{cursor:pointer;font-family:'DM Sans',sans-serif;}
-input,textarea,select{font-family:'DM Sans',sans-serif;}
+html,body{min-height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text)}
+.hidden{display:none!important}
+button,input,textarea,select{font-family:'DM Sans',sans-serif}
+button{cursor:pointer}
+img{max-width:100%}
+::-webkit-scrollbar{width:6px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 
-/* ========== SCROLLBAR ========== */
-::-webkit-scrollbar{width:6px;}
-::-webkit-scrollbar-track{background:var(--bg);}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+#popup-overlay{position:fixed;inset:0;background:rgba(60,45,20,.58);z-index:9999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
+#popup-modal{background:var(--surface);border:1px solid var(--gold);border-radius:20px;max-width:480px;width:90%;padding:44px 36px;text-align:center;box-shadow:0 0 60px rgba(160,114,42,.15);animation:slideUp .35s ease}
+#popup-logo{font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:6px;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+#popup-modal h2{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;margin-bottom:20px;line-height:1.2}
+.popup-info{display:flex;flex-direction:column;gap:10px;margin:20px 0 28px}
+.popup-row{display:flex;gap:10px;padding:10px 14px;background:var(--surface2);border-radius:8px;font-size:14px;text-align:left}
+#popup-extra{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.6}
+#popup-btn{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff;border:none;padding:14px 40px;border-radius:50px;font-size:15px;font-weight:600;box-shadow:0 4px 20px rgba(160,114,42,.3)}
 
-/* ========== POPUP ========== */
-#popup-overlay{
-  position:fixed;inset:0;background:rgba(60,45,20,.6);z-index:9999;
-  display:flex;align-items:center;justify-content:center;
-  backdrop-filter:blur(6px);
-  animation:fadeIn .4s ease;
-}
-#popup-modal{
-  background:var(--surface);border:1px solid var(--gold);border-radius:20px;
-  max-width:480px;width:90%;padding:44px 36px;text-align:center;
-  box-shadow:0 0 60px rgba(160,114,42,0.15);
-  animation:slideUp .4s ease;
-}
-#popup-logo{font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:6px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;}
-#popup-modal h2{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;margin-bottom:20px;line-height:1.2;}
-.popup-info{display:flex;flex-direction:column;gap:10px;margin:20px 0 28px;}
-.popup-row{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface2);border-radius:8px;font-size:14px;text-align:left;}
-.popup-row .pi{width:18px;opacity:.7;flex-shrink:0;}
-#popup-extra{font-size:13px;color:var(--text-muted);margin-bottom:24px;line-height:1.6;}
-#popup-btn{
-  background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff;
-  border:none;padding:14px 40px;border-radius:50px;font-size:15px;font-weight:600;
-  letter-spacing:.5px;transition:transform .2s,box-shadow .2s;
-  box-shadow:0 4px 20px rgba(160,114,42,0.3);
-}
-#popup-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(160,114,42,0.45);}
+#view-catalog{min-height:100vh}
+#cat-header{background:linear-gradient(180deg,#ede8de 0%,var(--bg) 100%);border-bottom:1px solid var(--border);padding:20px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+#cat-header-brand{font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;display:block}
+#cat-header-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600}
+#cat-header-right{display:flex;gap:10px;align-items:center}
+#btn-admin-access{background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:50px;font-size:12px}
+#catalog-stats{font-size:12px;color:var(--muted)}
 
-/* ========== CATALOG HEADER ========== */
-#view-catalog{min-height:100vh;}
-#cat-header{
-  background:linear-gradient(180deg,#ede8de 0%,var(--bg) 100%);
-  border-bottom:1px solid var(--border);
-  padding:20px 28px;
-  display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:100;backdrop-filter:blur(10px);
-}
-#cat-header-left{display:flex;flex-direction:column;}
-#cat-header-brand{font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;}
-#cat-header-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;line-height:1.1;}
-#cat-header-right{display:flex;gap:10px;align-items:center;}
-#btn-admin-access{
-  background:transparent;border:1px solid var(--border);color:var(--text-muted);
-  padding:8px 16px;border-radius:50px;font-size:12px;
-  transition:all .2s;
-}
-#btn-admin-access:hover{border-color:var(--gold);color:var(--gold);}
-#catalog-stats{font-size:12px;color:var(--text-muted);}
+#cat-filters{padding:20px 28px;border-bottom:1px solid var(--border);background:var(--surface)}
+.filter-scroll{display:flex;gap:8px;overflow-x:auto;flex-wrap:wrap}
+.filter-btn{padding:8px 16px;border-radius:50px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:13px;white-space:nowrap}
+.filter-btn.active{background:var(--gold);border-color:var(--gold);color:#fff;font-weight:600}
 
-/* ========== FILTERS ========== */
-#cat-filters{
-  padding:20px 28px;
-  border-bottom:1px solid var(--border);
-  background:var(--surface);
-}
-.filter-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;flex-wrap:wrap;}
-.filter-scroll::-webkit-scrollbar{height:3px;}
-.filter-btn{
-  padding:8px 16px;border-radius:50px;border:1px solid var(--border);
-  background:transparent;color:var(--text-muted);font-size:13px;white-space:nowrap;
-  transition:all .2s;flex-shrink:0;
-}
-.filter-btn:hover{border-color:var(--gold);color:var(--gold);}
-.filter-btn.active{background:var(--gold);border-color:var(--gold);color:#fff;font-weight:600;}
-#subcat-filters{margin-top:10px;}
-#subcat-filters.hidden{display:none!important;}
+#cat-content{padding:28px}
+#products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+.product-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:.2s;position:relative}
+.product-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(100,80,40,.15)}
+.product-card.sold{opacity:.45}
+.product-card-img{width:100%;height:260px;object-fit:contain;object-position:center;background:#fff;display:block;padding:8px}
+.product-card-img-placeholder{width:100%;height:260px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:34px;color:var(--muted)}
+.sold-badge{position:absolute;top:10px;right:10px;background:var(--red);color:#fff;font-size:11px;font-weight:600;padding:4px 10px;border-radius:50px}
+.product-card-body{padding:14px}
+.product-card-name{font-size:14px;font-weight:500;margin-bottom:6px;line-height:1.3}
+.product-card-cat{font-size:11px;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
+.price-de{font-size:11px;color:var(--muted);text-decoration:line-through;margin-right:8px}
+.price-por{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:#e8000d}
+.empty-msg,.page-loader{text-align:center;padding:60px;color:var(--muted);font-size:14px;grid-column:1/-1}
 
-/* ========== PRODUCT GRID ========== */
-#cat-content{padding:28px;}
-#products-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:20px;
-}
-.product-card{
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
-  overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s,border-color .2s;
-  position:relative;
-}
-.product-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(100,80,40,.15);border-color:rgba(160,114,42,0.25);}
-.product-card.sold{opacity:.45;pointer-events:none;}
-.product-card-img{
-  width:100%;aspect-ratio:1;object-fit:cover;background:var(--surface2);
-  display:block;
-}
-.product-card-img-placeholder{
-  width:100%;aspect-ratio:1;background:var(--surface2);
-  display:flex;align-items:center;justify-content:center;
-  color:var(--text-muted);font-size:32px;
-}
-.sold-badge{
-  position:absolute;top:10px;right:10px;background:var(--red);
-  color:#fff;font-size:11px;font-weight:600;letter-spacing:1px;
-  padding:4px 10px;border-radius:50px;text-transform:uppercase;
-}
-.product-card-body{padding:14px;}
-.product-card-name{font-size:14px;font-weight:500;margin-bottom:6px;line-height:1.3;}
-.product-card-cat{font-size:11px;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px;}
-.product-card-prices{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
-.price-de{font-size:11px;color:var(--text-muted);text-decoration:line-through;}
-.price-por{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:#e8000d;}
-.empty-msg{grid-column:1/-1;text-align:center;padding:60px;color:var(--text-muted);font-size:14px;}
+/* ===== MODAL PRODUTO ===== */
+#product-modal-overlay{position:fixed;inset:0;background:rgba(60,45,20,.58);z-index:9999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
+#product-modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;max-width:760px;width:95%;max-height:90vh;overflow:auto;animation:slideUp .25s ease}
+#product-modal-header{display:flex;justify-content:space-between;gap:15px;padding:24px 24px 0}
+#product-modal-cat{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+#product-modal-name{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600}
+.modal-close{background:none;border:1px solid var(--border);width:32px;height:32px;border-radius:50%}
+#product-modal-imgs{padding:20px 24px;display:flex;flex-direction:column;gap:12px}
+#product-modal-main-img{width:100%;height:320px;object-fit:contain;object-position:center;background:#fff;border-radius:12px;display:block}
+#product-modal-main-placeholder{width:100%;height:320px;background:var(--surface2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:48px;color:var(--muted)}
+#product-modal-thumbs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.modal-thumb{width:68px;height:68px;object-fit:contain;object-position:center;background:#fff;border-radius:8px;flex-shrink:0;cursor:pointer;border:2px solid transparent;transition:.2s}
+.modal-thumb:hover,.modal-thumb.active{border-color:var(--gold)}
+#product-modal-info{padding:0 24px 24px;display:flex;flex-direction:column;gap:12px}
+.product-modal-meta{display:flex;gap:10px;flex-wrap:wrap}
+.product-modal-meta-item{background:var(--surface2);border-radius:8px;padding:8px 14px;display:flex;flex-direction:column;gap:2px}
+.product-modal-meta-label{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:500}
+.product-modal-meta-value{font-size:14px;font-weight:600;color:var(--text)}
+#product-modal-price-de{font-size:14px;color:var(--muted);text-decoration:line-through;margin-right:12px}
+#product-modal-price-por{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:#e8000d}
+#product-modal-obs{font-size:14px;color:var(--muted);line-height:1.6;background:var(--surface2);padding:14px;border-radius:8px}
+#product-modal-sold-wrap span{display:inline-block;background:var(--red);color:#fff;font-size:13px;font-weight:600;padding:6px 14px;border-radius:50px}
 
-/* ========== PRODUCT MODAL ========== */
-#product-modal-overlay{
-  position:fixed;inset:0;background:rgba(60,45,20,.55);z-index:1000;
-  display:flex;align-items:center;justify-content:center;
-  backdrop-filter:blur(4px);
-  animation:fadeIn .2s ease;
-}
-#product-modal{
-  background:var(--surface);border:1px solid var(--border);border-radius:20px;
-  max-width:680px;width:95%;max-height:90vh;overflow-y:auto;
-  animation:slideUp .3s ease;
-}
-#product-modal-header{
-  display:flex;justify-content:space-between;align-items:flex-start;
-  padding:24px 24px 0;
-}
-#product-modal-name{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;line-height:1.2;}
-.modal-close{background:none;border:1px solid var(--border);color:var(--text);width:32px;height:32px;border-radius:50%;font-size:16px;flex-shrink:0;transition:all .2s;}
-.modal-close:hover{background:var(--border);}
-#product-modal-imgs{padding:20px 24px;display:flex;flex-direction:column;gap:12px;}
-#product-modal-main-img{width:100%;height:320px;object-fit:contain;object-position:center;background:#fff;border-radius:12px;display:block;}
-#product-modal-main-placeholder{width:100%;height:320px;background:var(--surface2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:48px;color:var(--text-muted);}
-#product-modal-thumbs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;}
-.modal-thumb{width:68px;height:68px;object-fit:contain;background:#fff;border-radius:8px;flex-shrink:0;cursor:pointer;border:2px solid transparent;transition:.2s;}
-.modal-thumb:hover,.modal-thumb.active{border-color:var(--gold);}
-#product-modal-info{padding:0 24px 24px;display:flex;flex-direction:column;gap:12px;}
-#product-modal-prices{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
-#product-modal-price-de{font-size:14px;color:var(--text-muted);text-decoration:line-through;}
-#product-modal-price-por{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:#e8000d;}
-.product-modal-meta{display:flex;gap:10px;flex-wrap:wrap;}
-.product-modal-meta-item{background:var(--surface2);border-radius:8px;padding:8px 14px;font-size:13px;display:flex;flex-direction:column;gap:2px;}
-.product-modal-meta-label{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);font-weight:500;}
-.product-modal-meta-value{font-weight:600;color:var(--text);}
-#product-modal-obs{font-size:14px;color:var(--text-muted);line-height:1.6;background:var(--surface2);padding:14px;border-radius:8px;}
-#product-modal-cat{font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;}
-#product-modal-sold{display:inline-block;background:var(--red);color:#fff;font-size:13px;font-weight:600;padding:6px 14px;border-radius:50px;letter-spacing:.5px;}
+.admin-wrap{display:flex;min-height:100vh}
+.admin-sidebar{width:220px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:20px 0;position:sticky;top:0;height:100vh}
+.admin-brand{padding:0 20px 20px;border-bottom:1px solid var(--border)}
+.admin-brand-sub,.login-logo-sub{font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase}
+.admin-brand-name,.login-logo-name{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600}
+.admin-nav{padding:20px 12px;flex:1;display:flex;flex-direction:column;gap:4px}
+.admin-nav-btn{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;background:none;border:none;color:var(--muted);font-size:13px;text-align:left}
+.admin-nav-btn:hover,.admin-nav-btn.active{background:var(--surface2);color:var(--gold)}
+.admin-logout{padding:12px;border-top:1px solid var(--border)}
+.admin-logout-btn{width:100%;padding:10px;border-radius:8px;background:none;border:1px solid var(--border);color:var(--muted);font-size:12px;margin-top:6px}
+.admin-main{flex:1;padding:32px;overflow:auto}
+.admin-page-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;margin-bottom:6px}
+.admin-page-sub{font-size:13px;color:var(--muted);margin-bottom:24px}
 
-/* ========== ADMIN LAYOUT ========== */
-.admin-wrap{display:flex;min-height:100vh;}
-.admin-sidebar{
-  width:220px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);
-  display:flex;flex-direction:column;padding:20px 0;position:sticky;top:0;height:100vh;
-}
-.admin-brand{padding:0 20px 20px;border-bottom:1px solid var(--border);}
-.admin-brand-sub{font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;}
-.admin-brand-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;}
-.admin-nav{padding:20px 12px;flex:1;display:flex;flex-direction:column;gap:4px;}
-.admin-nav-btn{
-  display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;
-  background:none;border:none;color:var(--text-muted);font-size:13px;font-weight:500;
-  text-align:left;transition:all .2s;width:100%;
-}
-.admin-nav-btn:hover,.admin-nav-btn.active{background:var(--surface2);color:var(--text);}
-.admin-nav-btn.active{color:var(--gold);}
-.admin-nav-icon{width:16px;text-align:center;}
-.admin-logout{padding:12px;border-top:1px solid var(--border);}
-.admin-logout-btn{
-  width:100%;padding:10px;border-radius:8px;background:none;
-  border:1px solid var(--border);color:var(--text-muted);font-size:12px;transition:all .2s;
-}
-.admin-logout-btn:hover{border-color:var(--red);color:var(--red);}
-.admin-main{flex:1;padding:32px;overflow-y:auto;}
-.admin-page-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;margin-bottom:6px;}
-.admin-page-sub{font-size:13px;color:var(--text-muted);margin-bottom:28px;}
+#view-admin-login{min-height:100vh;display:flex;align-items:center;justify-content:center}
+.login-box{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:44px 40px;width:100%;max-width:380px;text-align:center}
+.login-desc{font-size:13px;color:var(--muted);margin:8px 0 30px}
+.login-box input,.form-input,.form-select,.search-input{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);outline:none}
+.login-box input{width:100%;padding:14px 16px;font-size:14px;margin-bottom:12px}
+#login-error{font-size:12px;color:var(--red);margin-bottom:12px;min-height:16px}
+.btn-primary,.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff;border:none;font-weight:600}
+.btn-primary{width:100%;padding:14px;border-radius:10px;font-size:14px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px}
+.btn{padding:10px 18px;border-radius:8px;border:none;font-size:13px;font-weight:500;display:inline-flex;align-items:center;gap:6px}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-danger{background:transparent;border:1px solid var(--border);color:var(--red)}
+.btn-success{background:var(--green);color:#fff}
+.btn-sm{padding:7px 12px;font-size:12px}
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.search-input{padding:10px 14px;font-size:13px;width:260px}
+.products-table{width:100%;border-collapse:collapse}
+.products-table th{text-align:left;font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--border);font-weight:500}
+.products-table td{padding:12px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+.product-img-thumb{width:44px;height:44px;object-fit:contain;border-radius:6px;background:#fff}
+.status-badge{display:inline-block;padding:3px 10px;border-radius:50px;font-size:11px;font-weight:600}
+.status-disponivel{background:rgba(58,125,90,.12);color:var(--green)}
+.status-vendido{background:rgba(176,48,48,.12);color:var(--red)}
+.actions-cell{display:flex;gap:6px;flex-wrap:wrap}
+.admin-code-cell{font-weight:600;color:var(--gold)}
+.stock-cell{font-weight:600}
 
-/* ========== LOGIN ========== */
-#view-admin-login{
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  background:var(--bg);
-}
-.login-box{
-  background:var(--surface);border:1px solid var(--border);border-radius:20px;
-  padding:44px 40px;width:100%;max-width:380px;text-align:center;
-}
-.login-logo-sub{font-size:11px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;}
-.login-logo-name{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;margin-bottom:6px;}
-.login-desc{font-size:13px;color:var(--text-muted);margin-bottom:32px;}
-.login-box input{
-  width:100%;padding:14px 16px;background:var(--surface2);border:1px solid var(--border);
-  border-radius:10px;color:var(--text);font-size:14px;margin-bottom:12px;
-  transition:border-color .2s;outline:none;
-}
-.login-box input:focus{border-color:var(--gold);}
-#login-error{font-size:12px;color:var(--red);margin-bottom:12px;min-height:16px;}
-.btn-primary{
-  width:100%;padding:14px;background:linear-gradient(135deg,var(--gold),var(--gold2));
-  border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:600;
-  transition:transform .2s,box-shadow .2s;
-}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(160,114,42,0.3);}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group.full{grid-column:1/-1}
+.form-label{font-size:12px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.form-input,.form-select{padding:12px 14px;font-size:14px}
+textarea.form-input{resize:vertical;min-height:80px}
+.upload-area{border:2px dashed var(--border);border-radius:10px;padding:28px;text-align:center;cursor:pointer;transition:.2s;background:rgba(255,255,255,.3)}
+.upload-area:hover,.upload-area.drag-over{border-color:var(--gold);background:rgba(160,114,42,.05)}
+.upload-area p{font-size:13px;color:var(--muted);margin-top:6px}
+.paste-hint{font-size:11px!important;color:var(--gold)!important}
+.photos-preview{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.photo-preview-item{position:relative}
+.photo-preview-item img{width:80px;height:80px;object-fit:contain;border-radius:8px;background:#fff}
+.photo-remove{position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;border:none;font-size:11px}
+.upload-progress{height:3px;background:var(--border);border-radius:2px;margin-top:8px;overflow:hidden}
+.upload-progress-bar{height:100%;background:var(--gold);width:0%;transition:width .3s}
 
-/* ========== ADMIN COMPONENTS ========== */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px;}
-.btn{
-  padding:10px 20px;border-radius:8px;border:none;font-size:13px;font-weight:500;
-  cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px;
-}
-.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff;font-weight:600;}
-.btn-gold:hover{box-shadow:0 4px 16px rgba(160,114,42,0.3);}
-.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);}
-.btn-outline:hover{border-color:var(--gold);color:var(--gold);}
-.btn-danger{background:transparent;border:1px solid var(--border);color:var(--red);}
-.btn-danger:hover{background:rgba(176,48,48,0.08);}
-.btn-success{background:var(--green);color:#fff;border:none;}
-.btn-sm{padding:7px 14px;font-size:12px;}
+.cat-list{display:flex;flex-direction:column;gap:12px}
+.cat-item{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px}
+.cat-item-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.cat-item-name{font-weight:600;font-size:15px}
+.subcats{display:flex;flex-wrap:wrap;gap:6px}
+.subcat-tag{background:var(--surface);border:1px solid var(--border);border-radius:50px;padding:4px 12px;font-size:12px;color:var(--muted);display:flex;gap:6px}
+.subcat-remove{background:none;border:none;color:var(--muted)}
+.subcat-add{display:flex;gap:8px;margin-top:10px}
+.subcat-add input,.new-cat-form input{padding:9px 12px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);outline:none}
+.subcat-add input{flex:1}
+.new-cat-form{background:var(--surface2);border:2px dashed var(--border);border-radius:10px;padding:20px;margin-bottom:20px}
+.settings-section{margin-bottom:28px}
+.settings-section-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
 
-.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
-.search-input{
-  padding:10px 14px;background:var(--surface2);border:1px solid var(--border);
-  border-radius:8px;color:var(--text);font-size:13px;width:240px;outline:none;transition:border-color .2s;
-}
-.search-input:focus{border-color:var(--gold);}
+#view-print-label{min-height:100vh;padding:24px;background:var(--bg)}
+#print-actions{margin-bottom:20px;display:flex;gap:10px}
+#print-content{background:#fff!important;color:#000!important;width:100%;max-width:720px!important;min-height:980px;padding:48px!important;border-radius:10px;font-family:'DM Sans',sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;margin:0 auto}
+#print-label-img{width:100%!important;max-width:420px!important;height:430px!important;object-fit:contain!important;object-position:center!important;background:#fff!important;border-radius:6px;margin-bottom:28px!important}
+#print-label-name{width:100%;max-width:520px;font-size:28px!important;font-weight:700;line-height:1.2;text-align:center;margin-bottom:10px}
+#print-label-cat{font-size:13px!important;color:#777!important;text-transform:uppercase;letter-spacing:.8px;text-align:center;margin-bottom:24px!important}
+#print-label-price-de{font-size:16px!important;color:#999!important;text-decoration:line-through;text-align:center;margin-bottom:4px}
+#print-label-price-por{font-size:48px!important;line-height:1;font-weight:800;color:#a0722a!important;text-align:center;margin-bottom:24px!important}
+#print-label-obs{width:100%;max-width:520px;font-size:16px!important;color:#444!important;line-height:1.5;text-align:center}
+#print-label-brand{width:100%;max-width:520px;margin-top:32px!important;padding-top:18px!important;border-top:1px solid #e8e0d0;font-size:12px!important;color:#999!important;text-align:center;letter-spacing:3px}
 
-.products-table{width:100%;border-collapse:collapse;}
-.products-table th{
-  text-align:left;font-size:11px;letter-spacing:.8px;text-transform:uppercase;
-  color:var(--text-muted);padding:10px 12px;border-bottom:1px solid var(--border);font-weight:500;
-}
-.products-table td{padding:12px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle;}
-.products-table tr:last-child td{border-bottom:none;}
-.products-table tr:hover td{background:rgba(160,114,42,.04);}
-.product-img-thumb{width:44px;height:44px;object-fit:cover;border-radius:6px;background:var(--surface2);}
-.status-badge{
-  display:inline-block;padding:3px 10px;border-radius:50px;font-size:11px;font-weight:600;letter-spacing:.5px;
-}
-.status-disponivel{background:rgba(58,125,90,0.12);color:var(--green);}
-.status-vendido{background:rgba(176,48,48,0.12);color:var(--red);}
-.actions-cell{display:flex;gap:6px;flex-wrap:wrap;}
-
-/* ========== FORM ========== */
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.form-group{display:flex;flex-direction:column;gap:6px;}
-.form-group.full{grid-column:1/-1;}
-.form-label{font-size:12px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;}
-.form-input{
-  padding:12px 14px;background:var(--surface2);border:1px solid var(--border);
-  border-radius:8px;color:var(--text);font-size:14px;outline:none;transition:border-color .2s;
-}
-.form-input:focus{border-color:var(--gold);}
-.form-select{
-  padding:12px 14px;background:var(--surface2);border:1px solid var(--border);
-  border-radius:8px;color:var(--text);font-size:14px;outline:none;
-  appearance:none;cursor:pointer;
-}
-textarea.form-input{resize:vertical;min-height:80px;}
-
-.upload-area{
-  border:2px dashed var(--border);border-radius:10px;padding:28px;text-align:center;
-  cursor:pointer;transition:all .2s;
-}
-.upload-area:hover,.upload-area.drag-over{border-color:var(--gold);background:rgba(160,114,42,0.05);}
-.upload-area p{font-size:13px;color:var(--text-muted);margin-top:6px;}
-.paste-hint{font-size:11px;color:var(--gold);margin-top:4px;opacity:.8;}
-.photos-preview{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;}
-.photo-preview-item{position:relative;}
-.photo-preview-item img{width:80px;height:80px;object-fit:cover;border-radius:8px;}
-.photo-remove{
-  position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;
-  background:var(--red);color:#fff;border:none;font-size:11px;
-  display:flex;align-items:center;justify-content:center;cursor:pointer;
-}
-.upload-progress{height:3px;background:var(--border);border-radius:2px;margin-top:8px;overflow:hidden;}
-.upload-progress-bar{height:100%;background:var(--gold);width:0%;transition:width .3s;}
-
-/* ========== CATEGORIES ADMIN ========== */
-.cat-list{display:flex;flex-direction:column;gap:12px;}
-.cat-item{
-  background:var(--surface2);border:1px solid var(--border);border-radius:10px;
-  padding:16px;
-}
-.cat-item-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
-.cat-item-name{font-weight:600;font-size:15px;}
-.cat-item-actions{display:flex;gap:6px;}
-.subcats{display:flex;flex-wrap:wrap;gap:6px;}
-.subcat-tag{
-  background:var(--surface);border:1px solid var(--border);border-radius:50px;
-  padding:4px 12px;font-size:12px;color:var(--text-muted);
-  display:flex;align-items:center;gap:6px;
-}
-.subcat-remove{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:11px;padding:0;}
-.subcat-remove:hover{color:var(--red);}
-.subcat-add{display:flex;gap:8px;margin-top:10px;}
-.subcat-add input{
-  flex:1;padding:8px 12px;background:var(--surface);border:1px solid var(--border);
-  border-radius:6px;color:var(--text);font-size:13px;outline:none;
-}
-.subcat-add input:focus{border-color:var(--gold);}
-.new-cat-form{
-  background:var(--surface2);border:2px dashed var(--border);border-radius:10px;
-  padding:20px;margin-bottom:20px;
-}
-.new-cat-form input{
-  padding:10px 14px;background:var(--surface);border:1px solid var(--border);
-  border-radius:8px;color:var(--text);font-size:14px;outline:none;margin-right:8px;
-  transition:border-color .2s;
-}
-.new-cat-form input:focus{border-color:var(--gold);}
-
-/* ========== SETTINGS ========== */
-.settings-form{max-width:560px;}
-.settings-section{margin-bottom:28px;}
-.settings-section-title{
-  font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;
-  margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border);
-}
-
-/* ========== PRINT LABEL ========== */
-#view-print-label{padding:40px;background:var(--bg);}
-#print-content{
-  background:#fff;color:#000;max-width:320px;padding:24px;border-radius:10px;
-  font-family:'DM Sans',sans-serif;
-}
-#print-label-img{width:100%;height:200px;object-fit:cover;border-radius:6px;margin-bottom:16px;}
-#print-label-name{font-size:18px;font-weight:700;margin-bottom:4px;}
-#print-label-cat{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;}
-#print-label-price-de{font-size:12px;color:#999;text-decoration:line-through;}
-#print-label-price-por{font-size:28px;font-weight:700;color:#c9943a;margin-bottom:8px;}
-#print-label-obs{font-size:12px;color:#555;line-height:1.5;}
-#print-label-brand{margin-top:14px;padding-top:10px;border-top:1px solid #e8e0d0;font-size:11px;color:#999;text-align:center;letter-spacing:2px;}
-#print-actions{margin-top:24px;display:flex;gap:10px;}
-@media print{
-  body{background:#fff!important;}
-  #print-actions,.admin-sidebar,#print-back-btn{display:none!important;}
-  #print-content{box-shadow:none;border-radius:0;max-width:100%;page-break-after:avoid;}
-}
-
-/* ========== TOAST ========== */
-#toast{
-  position:fixed;bottom:24px;right:24px;z-index:9999;
-  background:var(--surface);border:1px solid var(--border);border-radius:10px;
-  padding:14px 20px;font-size:13px;
-  box-shadow:var(--shadow);
-  transform:translateY(80px);opacity:0;transition:all .3s;
-  pointer-events:none;
-}
-#toast.show{transform:translateY(0);opacity:1;}
-#toast.success{border-color:var(--green);color:var(--green);}
-#toast.error{border-color:var(--red);color:var(--red);}
-
-/* ========== LOADER ========== */
-.loader{display:inline-block;width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;}
-.page-loader{display:flex;align-items:center;justify-content:center;padding:60px;gap:12px;color:var(--text-muted);font-size:13px;}
-
-/* ========== ANIMATIONS ========== */
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+#toast{position:fixed;bottom:24px;right:24px;z-index:10000;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 20px;font-size:13px;box-shadow:var(--shadow);transform:translateY(80px);opacity:0;transition:.3s;pointer-events:none}
+#toast.show{transform:translateY(0);opacity:1}
+#toast.success{border-color:var(--green);color:var(--green)}
+#toast.error{border-color:var(--red);color:var(--red)}
+.loader{display:inline-block;width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
 
-/* ========== RESPONSIVE ========== */
+@page{size:A4 portrait;margin:10mm}
+@media print{
+  html,body{width:210mm;min-height:297mm;background:#fff!important}
+  body *{visibility:hidden!important}
+  #view-print-label,#view-print-label *{visibility:visible!important}
+  #view-print-label{position:absolute!important;inset:0!important;padding:0!important;background:#fff!important}
+  #print-actions{display:none!important}
+  #print-content{width:190mm!important;height:277mm!important;max-width:none!important;min-height:0!important;margin:0 auto!important;padding:14mm!important;border-radius:0!important;box-shadow:none!important}
+  #print-label-img{max-width:110mm!important;height:115mm!important;margin-bottom:10mm!important}
+  #print-label-name{max-width:150mm!important;font-size:24pt!important}
+  #print-label-cat{font-size:10pt!important;margin-bottom:8mm!important}
+  #print-label-price-de{font-size:13pt!important}
+  #print-label-price-por{font-size:44pt!important;margin-bottom:8mm!important}
+  #print-label-obs{max-width:150mm!important;font-size:13pt!important}
+  #print-label-brand{max-width:150mm!important;margin-top:12mm!important;font-size:9pt!important}
+}
 @media(max-width:768px){
-  #products-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;}
-  #cat-content{padding:16px;}
-  .admin-wrap{flex-direction:column;}
-  .admin-sidebar{width:100%;height:auto;position:static;flex-direction:row;padding:0;flex-wrap:wrap;}
-  .admin-nav{flex-direction:row;padding:10px;flex-wrap:wrap;}
-  .admin-main{padding:20px;}
-  .form-grid{grid-template-columns:1fr;}
+  #products-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
+  #cat-content{padding:16px}
+  .admin-wrap{flex-direction:column}
+  .admin-sidebar{width:100%;height:auto;position:static}
+  .admin-nav{flex-direction:row;flex-wrap:wrap}
+  .admin-main{padding:20px}
+  .form-grid{grid-template-columns:1fr}
   .products-table th:nth-child(3),.products-table td:nth-child(3),
-  .products-table th:nth-child(4),.products-table td:nth-child(4){display:none;}
+  .products-table th:nth-child(5),.products-table td:nth-child(5),
+  .products-table th:nth-child(6),.products-table td:nth-child(6){display:none}
+  .product-card-img,.product-card-img-placeholder{height:220px}
 }
 </style>
 </head>
 <body>
 
-<!-- =============== POPUP =============== -->
 <div id="popup-overlay" class="hidden">
   <div id="popup-modal">
     <div id="popup-logo">ARQ LUZ ILUMINAÇÃO</div>
     <h2 id="popup-titulo">Bem-vindo ao Feirão!</h2>
     <div class="popup-info">
-      <div class="popup-row" id="popup-row-data"><span class="pi">📅</span><span id="popup-data-txt"></span></div>
-      <div class="popup-row" id="popup-row-horario"><span class="pi">⏰</span><span id="popup-horario-txt"></span></div>
-      <div class="popup-row" id="popup-row-local"><span class="pi">📍</span><span id="popup-local-txt"></span></div>
-      <div class="popup-row" id="popup-row-pagamento"><span class="pi">💳</span><span id="popup-pagamento-txt"></span></div>
+      <div class="popup-row" id="popup-row-data"><span>📅</span><span id="popup-data-txt"></span></div>
+      <div class="popup-row" id="popup-row-horario"><span>⏰</span><span id="popup-horario-txt"></span></div>
+      <div class="popup-row" id="popup-row-local"><span>📍</span><span id="popup-local-txt"></span></div>
+      <div class="popup-row" id="popup-row-pagamento"><span>💳</span><span id="popup-pagamento-txt"></span></div>
     </div>
     <p id="popup-extra"></p>
     <button id="popup-btn" onclick="closePopup()">Ver os produtos 🔦</button>
   </div>
 </div>
 
-<!-- =============== PRODUCT DETAIL MODAL =============== -->
 <div id="product-modal-overlay" class="hidden" onclick="closeProductModal(event)">
   <div id="product-modal">
     <div id="product-modal-header">
@@ -430,7 +244,7 @@ textarea.form-input{resize:vertical;min-height:80px;}
     </div>
     <div id="product-modal-info">
       <div class="product-modal-meta" id="product-modal-meta"></div>
-      <div id="product-modal-prices">
+      <div>
         <span id="product-modal-price-de"></span>
         <span id="product-modal-price-por"></span>
       </div>
@@ -440,10 +254,9 @@ textarea.form-input{resize:vertical;min-height:80px;}
   </div>
 </div>
 
-<!-- =============== CATALOG =============== -->
 <div id="view-catalog" class="hidden">
   <header id="cat-header">
-    <div id="cat-header-left">
+    <div>
       <span id="cat-header-brand">ARQ LUZ ILUMINAÇÃO</span>
       <span id="cat-header-title">Feirão</span>
     </div>
@@ -453,33 +266,29 @@ textarea.form-input{resize:vertical;min-height:80px;}
     </div>
   </header>
   <div id="cat-filters">
-    <div class="filter-scroll" id="cat-filter-row">
-      <button class="filter-btn active" onclick="filterCat('all',this)">Todos</button>
-    </div>
-    <div class="filter-scroll hidden" id="subcat-filters" style="margin-top:10px;"></div>
+    <div class="filter-scroll" id="cat-filter-row"></div>
+    <div class="filter-scroll hidden" id="subcat-filters" style="margin-top:10px"></div>
   </div>
   <div id="cat-content">
     <div id="products-grid">
-      <div class="page-loader"><div class="loader"></div> Carregando produtos...</div>
+      <div class="page-loader"><span class="loader"></span> Carregando produtos...</div>
     </div>
   </div>
 </div>
 
-<!-- =============== ADMIN LOGIN =============== -->
 <div id="view-admin-login" class="hidden">
   <div class="login-box">
     <div class="login-logo-sub">Admin</div>
     <div class="login-logo-name">Arq Luz</div>
-    <p class="login-desc">Área restrita — acesso somente para administradores</p>
+    <p class="login-desc">Área restrita</p>
     <input type="password" id="login-input" placeholder="Senha" onkeydown="if(event.key==='Enter')doLogin()"/>
     <div id="login-error"></div>
     <button class="btn-primary" onclick="doLogin()">Entrar</button>
     <br/><br/>
-    <button class="btn btn-outline" style="width:100%" onclick="showView('catalog')">← Voltar ao catálogo</button>
+    <button class="btn btn-outline" style="width:100%;justify-content:center" onclick="showView('catalog')">← Voltar ao catálogo</button>
   </div>
 </div>
 
-<!-- =============== ADMIN SHELL (sidebar + conteúdo) =============== -->
 <div id="view-admin" class="hidden">
   <div class="admin-wrap">
     <aside class="admin-sidebar">
@@ -488,46 +297,39 @@ textarea.form-input{resize:vertical;min-height:80px;}
         <div class="admin-brand-name">Arq Luz</div>
       </div>
       <nav class="admin-nav">
-        <button class="admin-nav-btn active" id="nav-products" onclick="adminNav('products')"><span class="admin-nav-icon">📦</span>Produtos</button>
-        <button class="admin-nav-btn" id="nav-add-product" onclick="adminNav('add-product')"><span class="admin-nav-icon">➕</span>Novo Produto</button>
-        <button class="admin-nav-btn" id="nav-categories" onclick="adminNav('categories')"><span class="admin-nav-icon">🏷️</span>Categorias</button>
-        <button class="admin-nav-btn" id="nav-settings" onclick="adminNav('settings')"><span class="admin-nav-icon">⚙️</span>Configurações</button>
+        <button class="admin-nav-btn active" id="nav-products" onclick="adminNav('products')">📦 Produtos</button>
+        <button class="admin-nav-btn" id="nav-add-product" onclick="adminNav('add-product')">➕ Novo Produto</button>
+        <button class="admin-nav-btn" id="nav-categories" onclick="adminNav('categories')">🏷️ Categorias</button>
+        <button class="admin-nav-btn" id="nav-settings" onclick="adminNav('settings')">⚙️ Configurações</button>
       </nav>
       <div class="admin-logout">
         <button class="admin-logout-btn" onclick="showView('catalog')">← Ver Catálogo</button>
-        <button class="admin-logout-btn" onclick="doLogout()" style="margin-top:6px;">Sair</button>
+        <button class="admin-logout-btn" onclick="doLogout()">Sair</button>
       </div>
     </aside>
     <main class="admin-main">
-
-      <!-- PRODUCTS LIST -->
       <div id="admin-products">
         <div class="toolbar">
           <div>
             <div class="admin-page-title">Produtos</div>
             <div class="admin-page-sub" id="products-count"></div>
           </div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-            <input class="search-input" type="text" placeholder="Buscar produto..." id="search-products" oninput="filterProducts()"/>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+            <input class="search-input" type="text" placeholder="Buscar nome, COD ou categoria..." id="search-products" oninput="filterProducts()"/>
             <button class="btn btn-gold" onclick="adminNav('add-product')">+ Novo Produto</button>
           </div>
         </div>
-        <div class="card" style="padding:0;overflow:auto;">
-          <table class="products-table" id="products-table">
+        <div class="card" style="padding:0;overflow:auto">
+          <table class="products-table">
             <thead><tr>
               <th style="padding-left:16px">Foto</th>
-              <th>Nome</th>
-              <th>Categoria</th>
-              <th>Preço</th>
-              <th>Status</th>
-              <th>Ações</th>
+              <th>Nome</th><th>COD</th><th>Estoque</th><th>Categoria</th><th>Preço</th><th>Status</th><th>Ações</th>
             </tr></thead>
             <tbody id="products-tbody"></tbody>
           </table>
         </div>
       </div>
 
-      <!-- ADD / EDIT PRODUCT -->
       <div id="admin-add-product" class="hidden">
         <div class="toolbar">
           <div>
@@ -543,23 +345,27 @@ textarea.form-input{resize:vertical;min-height:80px;}
               <input class="form-input" type="text" id="pf-nome" placeholder="Ex: Pendente Dourado Athens"/>
             </div>
             <div class="form-group">
+              <label class="form-label">COD Interno</label>
+              <input class="form-input" type="text" id="pf-cod-interno" placeholder="Ex: ABJ-023"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Quantidade em Estoque</label>
+              <input class="form-input" type="number" id="pf-estoque" placeholder="0" min="0" step="1"/>
+            </div>
+            <div class="form-group">
               <label class="form-label">Categoria *</label>
-              <select class="form-select form-input" id="pf-cat" onchange="onCatChange()">
-                <option value="">Selecione...</option>
-              </select>
+              <select class="form-select" id="pf-cat" onchange="onCatChange()"><option value="">Selecione...</option></select>
             </div>
             <div class="form-group">
               <label class="form-label">Subcategoria</label>
-              <select class="form-select form-input" id="pf-subcat">
-                <option value="">Selecione...</option>
-              </select>
+              <select class="form-select" id="pf-subcat"><option value="">Selecione...</option></select>
             </div>
             <div class="form-group">
               <label class="form-label">Preço De (R$)</label>
               <input class="form-input" type="number" id="pf-price-de" placeholder="0,00" step="0.01"/>
             </div>
             <div class="form-group">
-              <label class="form-label">Preço Por — Feirão (R$) *</label>
+              <label class="form-label">Preço Por - Feirão (R$) *</label>
               <input class="form-input" type="number" id="pf-price-por" placeholder="0,00" step="0.01"/>
             </div>
             <div class="form-group full">
@@ -569,7 +375,7 @@ textarea.form-input{resize:vertical;min-height:80px;}
             <div class="form-group full">
               <label class="form-label">Foto Principal *</label>
               <div class="upload-area" id="upload-main-area" onclick="document.getElementById('input-main-photo').click()">
-                <div style="font-size:28px;">📷</div>
+                <div style="font-size:28px">📷</div>
                 <p>Clique para escolher ou arraste aqui</p>
                 <p class="paste-hint">📋 Ou copie a imagem e pressione Ctrl+V</p>
               </div>
@@ -580,7 +386,7 @@ textarea.form-input{resize:vertical;min-height:80px;}
             <div class="form-group full">
               <label class="form-label">Fotos Extras (Ambientadas)</label>
               <div class="upload-area" id="upload-extras-area" onclick="document.getElementById('input-extras-photos').click()">
-                <div style="font-size:28px;">🖼️</div>
+                <div style="font-size:28px">🖼️</div>
                 <p>Clique para adicionar fotos extras (até 5)</p>
                 <p class="paste-hint">📋 Ou copie e pressione Ctrl+V para adicionar</p>
               </div>
@@ -589,105 +395,66 @@ textarea.form-input{resize:vertical;min-height:80px;}
               <div class="photos-preview" id="preview-extras"></div>
             </div>
           </div>
-          <div style="margin-top:24px;display:flex;gap:10px;">
+          <div style="margin-top:24px;display:flex;gap:10px;flex-wrap:wrap">
             <button class="btn btn-gold" onclick="saveProduct()" id="btn-save-product">Salvar Produto</button>
             <button class="btn btn-outline" onclick="adminNav('products')">Cancelar</button>
           </div>
         </div>
       </div>
 
-      <!-- CATEGORIES -->
       <div id="admin-categories" class="hidden">
-        <div class="toolbar">
-          <div>
-            <div class="admin-page-title">Categorias</div>
-            <div class="admin-page-sub">Gerencie categorias e subcategorias</div>
-          </div>
-        </div>
+        <div class="toolbar"><div><div class="admin-page-title">Categorias</div><div class="admin-page-sub">Gerencie categorias e subcategorias</div></div></div>
         <div class="new-cat-form">
-          <div style="font-size:13px;font-weight:600;margin-bottom:12px;">Nova categoria</div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:12px">Nova categoria</div>
           <input type="text" id="new-cat-input" placeholder="Nome da categoria..." onkeydown="if(event.key==='Enter')addCategory()"/>
           <button class="btn btn-gold btn-sm" onclick="addCategory()">+ Criar</button>
         </div>
         <div class="cat-list" id="cat-list"></div>
       </div>
 
-      <!-- SETTINGS -->
       <div id="admin-settings" class="hidden">
         <div class="admin-page-title">Configurações do Feirão</div>
         <div class="admin-page-sub">Texto e informações do pop-up de boas-vindas</div>
-        <div class="card settings-form">
+        <div class="card" style="max-width:560px">
           <div class="settings-section">
             <div class="settings-section-title">Informações do Evento</div>
             <div class="form-grid">
-              <div class="form-group full">
-                <label class="form-label">Nome do Feirão</label>
-                <input class="form-input" type="text" id="cfg-nome" placeholder="Ex: Feirão Arq Luz"/>
-              </div>
-              <div class="form-group full">
-                <label class="form-label">Título do Pop-up</label>
-                <input class="form-input" type="text" id="cfg-popup-titulo" placeholder="Bem-vindo ao Feirão!"/>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Data</label>
-                <input class="form-input" type="text" id="cfg-data" placeholder="Ex: 28 de junho de 2025"/>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Horário</label>
-                <input class="form-input" type="text" id="cfg-horario" placeholder="Ex: Das 09h às 18h"/>
-              </div>
-              <div class="form-group full">
-                <label class="form-label">Local</label>
-                <input class="form-input" type="text" id="cfg-local" placeholder="Endereço da loja"/>
-              </div>
-              <div class="form-group full">
-                <label class="form-label">Formas de Pagamento</label>
-                <input class="form-input" type="text" id="cfg-pagamento" placeholder="Ex: Pix, cartão, dinheiro"/>
-              </div>
-              <div class="form-group full">
-                <label class="form-label">Texto Extra</label>
-                <textarea class="form-input" id="cfg-texto" placeholder="Outras informações importantes..."></textarea>
-              </div>
+              <div class="form-group full"><label class="form-label">Nome do Feirão</label><input class="form-input" type="text" id="cfg-nome"/></div>
+              <div class="form-group full"><label class="form-label">Título do Pop-up</label><input class="form-input" type="text" id="cfg-popup-titulo"/></div>
+              <div class="form-group"><label class="form-label">Data</label><input class="form-input" type="text" id="cfg-data"/></div>
+              <div class="form-group"><label class="form-label">Horário</label><input class="form-input" type="text" id="cfg-horario"/></div>
+              <div class="form-group full"><label class="form-label">Local</label><input class="form-input" type="text" id="cfg-local"/></div>
+              <div class="form-group full"><label class="form-label">Formas de Pagamento</label><input class="form-input" type="text" id="cfg-pagamento"/></div>
+              <div class="form-group full"><label class="form-label">Texto Extra</label><textarea class="form-input" id="cfg-texto"></textarea></div>
             </div>
           </div>
           <div class="settings-section">
             <div class="settings-section-title">Pop-up</div>
             <div class="form-group">
               <label class="form-label">Exibir pop-up ao abrir o site?</label>
-              <select class="form-select form-input" id="cfg-popup-ativo">
-                <option value="true">Sim — exibir</option>
-                <option value="false">Não — ocultar</option>
-              </select>
+              <select class="form-select" id="cfg-popup-ativo"><option value="true">Sim - exibir</option><option value="false">Não - ocultar</option></select>
             </div>
           </div>
           <div class="settings-section">
             <div class="settings-section-title">Senha do Admin</div>
             <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label">Nova Senha</label>
-                <input class="form-input" type="password" id="cfg-senha" placeholder="Deixe em branco para não alterar"/>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Confirmar Nova Senha</label>
-                <input class="form-input" type="password" id="cfg-senha2"/>
-              </div>
+              <div class="form-group"><label class="form-label">Nova Senha</label><input class="form-input" type="password" id="cfg-senha" placeholder="Deixe em branco para não alterar"/></div>
+              <div class="form-group"><label class="form-label">Confirmar Nova Senha</label><input class="form-input" type="password" id="cfg-senha2"/></div>
             </div>
           </div>
           <button class="btn btn-gold" onclick="saveSettings()">Salvar Configurações</button>
         </div>
       </div>
-
     </main>
   </div>
 </div>
 
-<!-- =============== PRINT LABEL =============== -->
 <div id="view-print-label" class="hidden">
   <div id="print-actions">
-    <button class="btn btn-outline" id="print-back-btn" onclick="adminNav('products')">← Voltar</button>
+    <button class="btn btn-outline" onclick="showView('admin');adminNav('products')">← Voltar</button>
     <button class="btn btn-gold" onclick="window.print()">🖨️ Imprimir</button>
   </div>
-  <div id="print-content" style="margin-top:20px;">
+  <div id="print-content">
     <img id="print-label-img" src="" alt="" onerror="this.style.display='none'"/>
     <div id="print-label-name"></div>
     <div id="print-label-cat"></div>
@@ -698,860 +465,438 @@ textarea.form-input{resize:vertical;min-height:80px;}
   </div>
 </div>
 
-<!-- =============== TOAST =============== -->
 <div id="toast"></div>
 
 <script>
-// ================================================================
-// CONFIG — COLE A URL DO APPS SCRIPT AQUI
-// ================================================================
 const API_URL = 'https://script.google.com/macros/s/AKfycbwi9fJFeaQ0BZnvhmQo-omRrBp2cGqEhAwnPQUexWsV1w9IcuRkhqdGB5uxflZ3tNrs/exec';
 
-// ================================================================
-// STATE
-// ================================================================
 let state = {
-  products: [],
-  categories: [],
-  config: {},
-  isAdmin: false,
-  editingProductId: null,
-  productFormPhotos: { main: null, extras: [] },
-  activeView: 'catalog',
-  activeAdminTab: 'products',
-  filterCat: 'all',
-  filterSubcat: 'all',
+  products:[],categories:[],config:{},isAdmin:false,
+  editingProductId:null,productFormPhotos:{main:null,extras:[]},
+  activeView:'catalog',activeAdminTab:'products',filterCat:'all',filterSubcat:'all'
 };
 
-// ================================================================
-// API
-// ================================================================
-async function apiGet(action) {
-  const r = await fetch(`${API_URL}?action=${action}`);
-  return r.json();
-}
-async function apiPost(body) {
-  const params = new URLSearchParams({ payload: JSON.stringify(body) });
-  const r = await fetch(`${API_URL}?${params}`);
-  return r.json();
-}
+const $ = id => document.getElementById(id);
+function esc(v){return String(v??'').replace(/[&<>"']/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[s]))}
 
-// ================================================================
-// VIEWS
-// ================================================================
-const allViews = ['catalog','admin-login','admin','print-label'];
+async function apiGet(action){const r=await fetch(`${API_URL}?action=${encodeURIComponent(action)}&t=${Date.now()}`);return r.json()}
+async function apiPost(body){const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});return r.json()}
 
-function showView(v) {
-  allViews.forEach(id => {
-    const el = document.getElementById('view-' + id);
-    if (el) el.classList.add('hidden');
-  });
-  const target = document.getElementById('view-' + v);
-  if (target) target.classList.remove('hidden');
-  state.activeView = v;
-}
+const allViews=['catalog','admin-login','admin','print-label'];
+function showView(v){allViews.forEach(id=>{const el=$('view-'+id);if(el)el.classList.add('hidden')});const t=$('view-'+v);if(t)t.classList.remove('hidden');state.activeView=v}
 
-// ================================================================
-// POPUP
-// ================================================================
-function showPopup(cfg) {
-  if (cfg.popup_ativo === 'false') return;
-  const el = id => document.getElementById(id);
-  el('popup-titulo').textContent = cfg.popup_titulo || 'Bem-vindo ao Feirão!';
-  const setRow = (rowId, txtId, val) => {
-    if (val) { el(rowId).classList.remove('hidden'); el(txtId).textContent = val; }
-    else el(rowId).classList.add('hidden');
-  };
-  setRow('popup-row-data',     'popup-data-txt',      cfg.popup_data);
-  setRow('popup-row-horario',  'popup-horario-txt',   cfg.popup_horario);
-  setRow('popup-row-local',    'popup-local-txt',     cfg.popup_local);
-  setRow('popup-row-pagamento','popup-pagamento-txt', cfg.popup_pagamento);
-  el('popup-extra').textContent = cfg.popup_texto || '';
-  el('popup-overlay').classList.remove('hidden');
+function showPopup(cfg){
+  if(cfg.popup_ativo==='false')return;
+  $('popup-titulo').textContent=cfg.popup_titulo||'Bem-vindo ao Feirão!';
+  const setRow=(rowId,txtId,val)=>{if(val){$(rowId).classList.remove('hidden');$(txtId).textContent=val}else{$(rowId).classList.add('hidden')}};
+  setRow('popup-row-data','popup-data-txt',cfg.popup_data);
+  setRow('popup-row-horario','popup-horario-txt',cfg.popup_horario);
+  setRow('popup-row-local','popup-local-txt',cfg.popup_local);
+  setRow('popup-row-pagamento','popup-pagamento-txt',cfg.popup_pagamento);
+  $('popup-extra').textContent=cfg.popup_texto||'';
+  $('popup-overlay').classList.remove('hidden');
 }
-function closePopup() {
-  document.getElementById('popup-overlay').classList.add('hidden');
+function closePopup(){$('popup-overlay').classList.add('hidden')}
+
+function renderCatalog(){
+  renderCatFilters();renderProductsGrid();
+  const title=state.config.feirao_nome||'Feirão';
+  $('cat-header-title').textContent=title;document.title=title+' - Arq Luz';
 }
 
-// ================================================================
-// CATALOG
-// ================================================================
-function renderCatalog() {
-  renderCatFilters();
-  renderProductsGrid();
-  const title = state.config.feirao_nome || 'Feirão';
-  document.getElementById('cat-header-title').textContent = title;
-  document.title = title + ' — Arq Luz';
+function renderCatFilters(){
+  const row=$('cat-filter-row');row.innerHTML='';
+  const all=document.createElement('button');all.className='filter-btn'+(state.filterCat==='all'?' active':'');all.textContent='Todos';all.onclick=()=>filterCat('all');row.appendChild(all);
+  state.categories.forEach(c=>{const btn=document.createElement('button');btn.className='filter-btn'+(state.filterCat===c.Nome?' active':'');btn.textContent=c.Nome;btn.onclick=()=>filterCat(c.Nome);row.appendChild(btn)});
+  renderSubcatFilters();
 }
 
-function renderCatFilters() {
-  const row = document.getElementById('cat-filter-row');
-  row.innerHTML = '<button class="filter-btn active" onclick="filterCat(\'all\',this)">Todos</button>';
-  state.categories.forEach(c => {
-    const btn = document.createElement('button');
-    btn.className = 'filter-btn';
-    btn.textContent = c.Nome;
-    btn.onclick = function() { filterCat(c.Nome, this); };
-    row.appendChild(btn);
-  });
+function renderSubcatFilters(){
+  const subcatRow=$('subcat-filters');
+  if(state.filterCat==='all'){subcatRow.classList.add('hidden');subcatRow.innerHTML='';return}
+  const catObj=state.categories.find(c=>c.Nome===state.filterCat);
+  if(!catObj||!catObj.Subcategorias||!catObj.Subcategorias.length){subcatRow.classList.add('hidden');subcatRow.innerHTML='';return}
+  subcatRow.innerHTML='';
+  const all=document.createElement('button');all.className='filter-btn'+(state.filterSubcat==='all'?' active':'');all.textContent='Todos';all.onclick=()=>filterSubcat('all');subcatRow.appendChild(all);
+  catObj.Subcategorias.forEach(sc=>{const b=document.createElement('button');b.className='filter-btn'+(state.filterSubcat===sc?' active':'');b.textContent=sc;b.onclick=()=>filterSubcat(sc);subcatRow.appendChild(b)});
+  subcatRow.classList.remove('hidden');
 }
 
-function filterCat(cat, btn) {
-  state.filterCat = cat;
-  state.filterSubcat = 'all';
-  document.querySelectorAll('#cat-filter-row .filter-btn').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
+function filterCat(cat){state.filterCat=cat;state.filterSubcat='all';renderCatFilters();renderProductsGrid()}
+function filterSubcat(sub){state.filterSubcat=sub;renderSubcatFilters();renderProductsGrid()}
+function formatMoney(v){if(v===undefined||v===null||v==='')return'';const n=parseFloat(String(v).replace(',','.'));if(Number.isNaN(n))return'';return'R$ '+n.toFixed(2).replace('.',',')}
 
-  const subcatRow = document.getElementById('subcat-filters');
-  if (cat !== 'all') {
-    const catObj = state.categories.find(c => c.Nome === cat);
-    if (catObj && catObj.Subcategorias && catObj.Subcategorias.length > 0) {
-      subcatRow.innerHTML = '<button class="filter-btn active" onclick="filterSubcat(\'all\',this)">Todos</button>';
-      catObj.Subcategorias.forEach(sc => {
-        const b = document.createElement('button');
-        b.className = 'filter-btn';
-        b.textContent = sc;
-        b.onclick = function() { filterSubcat(sc, this); };
-        subcatRow.appendChild(b);
-      });
-      subcatRow.classList.remove('hidden');
-    } else {
-      subcatRow.classList.add('hidden');
-    }
-  } else {
-    subcatRow.classList.add('hidden');
-  }
-  renderProductsGrid();
-}
-
-function filterSubcat(sub, btn) {
-  state.filterSubcat = sub;
-  document.querySelectorAll('#subcat-filters .filter-btn').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  renderProductsGrid();
-}
-
-function renderProductsGrid() {
-  const grid = document.getElementById('products-grid');
-  let products = state.products;
-  if (state.filterCat !== 'all') products = products.filter(p => p.Categoria === state.filterCat);
-  if (state.filterSubcat !== 'all') products = products.filter(p => p.Subcategoria === state.filterSubcat);
-
-  const total = state.products.length;
-  const disp = state.products.filter(p => p.Status !== 'vendido').length;
-  document.getElementById('catalog-stats').textContent = `${disp} disponíveis`;
-
-  if (!products.length) {
-    grid.innerHTML = '<div class="empty-msg">Nenhum produto nesta categoria ainda.</div>';
-    return;
-  }
-
-  grid.innerHTML = '';
-  products.forEach(p => {
-    const card = document.createElement('div');
-    card.className = 'product-card' + (p.Status === 'vendido' ? ' sold' : '');
-    card.onclick = () => openProductModal(p);
-
-    const imgHtml = p.Foto_Principal
-      ? `<img class="product-card-img" src="${p.Foto_Principal}" alt="${p.Nome}" loading="lazy"/>`
-      : `<div class="product-card-img-placeholder">💡</div>`;
-
-    const soldBadge = p.Status === 'vendido' ? '<div class="sold-badge">Vendido</div>' : '';
-
-    const precoDeHtml = p.Preco_De
-      ? `<span class="price-de">R$ ${parseFloat(p.Preco_De).toFixed(2).replace('.',',')}</span>` : '';
-    const precoPorHtml = p.Preco_Por
-      ? `<span class="price-por">R$ ${parseFloat(p.Preco_Por).toFixed(2).replace('.',',')}</span>` : '';
-
-    card.innerHTML = `
-      ${imgHtml}
-      ${soldBadge}
-      <div class="product-card-body">
-        <div class="product-card-name">${p.Nome}</div>
-        <div class="product-card-cat">${[p.Categoria, p.Subcategoria].filter(Boolean).join(' · ')}</div>
-        <div class="product-card-prices">${precoDeHtml}${precoPorHtml}</div>
-      </div>`;
+function renderProductsGrid(){
+  const grid=$('products-grid');
+  let products=[...state.products];
+  if(state.filterCat!=='all')products=products.filter(p=>p.Categoria===state.filterCat);
+  if(state.filterSubcat!=='all')products=products.filter(p=>p.Subcategoria===state.filterSubcat);
+  const disp=state.products.filter(p=>p.Status!=='vendido').length;
+  $('catalog-stats').textContent=`${disp} disponíveis`;
+  if(!products.length){grid.innerHTML='<div class="empty-msg">Nenhum produto nesta categoria ainda.</div>';return}
+  grid.innerHTML='';
+  products.forEach(p=>{
+    const card=document.createElement('div');
+    card.className='product-card'+(p.Status==='vendido'?' sold':'');
+    card.onclick=()=>openProductModal(p);
+    const imgHtml=p.Foto_Principal?`<img class="product-card-img" src="${esc(p.Foto_Principal)}" alt="${esc(p.Nome)}" loading="lazy"/>`:`<div class="product-card-img-placeholder">💡</div>`;
+    card.innerHTML=`${imgHtml}${p.Status==='vendido'?'<div class="sold-badge">Vendido</div>':''}<div class="product-card-body"><div class="product-card-name">${esc(p.Nome)}</div><div class="product-card-cat">${esc([p.Categoria,p.Subcategoria].filter(Boolean).join(' · '))}</div><div class="product-card-prices">${p.Preco_De?`<span class="price-de">${formatMoney(p.Preco_De)}</span>`:''}${p.Preco_Por?`<span class="price-por">${formatMoney(p.Preco_Por)}</span>`:''}</div></div>`;
     grid.appendChild(card);
   });
 }
 
-// ================================================================
-// PRODUCT MODAL
-// ================================================================
-function openProductModal(p) {
-  const el = id => document.getElementById(id);
-  el('product-modal-name').textContent = p.Nome;
-  el('product-modal-cat').textContent = [p.Categoria, p.Subcategoria].filter(Boolean).join(' · ');
-
-  const de = p.Preco_De ? `R$ ${parseFloat(p.Preco_De).toFixed(2).replace('.',',')}` : '';
-  const por = p.Preco_Por ? `R$ ${parseFloat(p.Preco_Por).toFixed(2).replace('.',',')}` : '';
-  el('product-modal-price-de').textContent = de;
-  el('product-modal-price-por').textContent = por;
-  el('product-modal-obs').textContent = p.Observacoes || '';
-  el('product-modal-obs').style.display = p.Observacoes ? 'block' : 'none';
-  el('product-modal-sold-wrap').innerHTML = p.Status === 'vendido' ? '<span class="product-modal-sold">Vendido</span>' : '';
+function openProductModal(p){
+  $('product-modal-name').textContent=p.Nome||'';
+  $('product-modal-cat').textContent=[p.Categoria,p.Subcategoria].filter(Boolean).join(' · ');
+  $('product-modal-price-de').textContent=p.Preco_De?formatMoney(p.Preco_De):'';
+  $('product-modal-price-por').textContent=p.Preco_Por?formatMoney(p.Preco_Por):'';
+  $('product-modal-obs').textContent=p.Observacoes||'';
+  $('product-modal-obs').style.display=p.Observacoes?'block':'none';
+  $('product-modal-sold-wrap').innerHTML=p.Status==='vendido'?'<span>Vendido</span>':'';
 
   // COD e Estoque
-  const meta = el('product-modal-meta');
-  meta.innerHTML = '';
-  if (p.Codigo_Interno) {
-    meta.innerHTML += `<div class="product-modal-meta-item"><span class="product-modal-meta-label">Código</span><span class="product-modal-meta-value">${p.Codigo_Interno}</span></div>`;
-  }
-  if (p.Estoque) {
-    meta.innerHTML += `<div class="product-modal-meta-item"><span class="product-modal-meta-label">Estoque</span><span class="product-modal-meta-value">${p.Estoque} un.</span></div>`;
-  }
+  const meta=$('product-modal-meta');meta.innerHTML='';
+  if(p.Codigo_Interno)meta.innerHTML+=`<div class="product-modal-meta-item"><span class="product-modal-meta-label">Código</span><span class="product-modal-meta-value">${esc(p.Codigo_Interno)}</span></div>`;
+  if(p.Estoque&&p.Estoque!=='0')meta.innerHTML+=`<div class="product-modal-meta-item"><span class="product-modal-meta-label">Estoque</span><span class="product-modal-meta-value">${esc(p.Estoque)} un.</span></div>`;
 
-  // Galeria de imagens
-  const allImgs = [p.Foto_Principal, ...(p.Fotos_Extras ? p.Fotos_Extras.split(',').map(u => u.trim()) : [])].filter(Boolean);
-  const mainWrap = el('product-modal-main-wrap');
-  const thumbsDiv = el('product-modal-thumbs');
-  mainWrap.innerHTML = '';
-  thumbsDiv.innerHTML = '';
+  // Galeria
+  const allImgs=[p.Foto_Principal,...(p.Fotos_Extras?String(p.Fotos_Extras).split(',').map(u=>u.trim()):[])].filter(Boolean);
+  const mainWrap=$('product-modal-main-wrap');
+  const thumbsDiv=$('product-modal-thumbs');
+  mainWrap.innerHTML='';thumbsDiv.innerHTML='';
 
-  if (allImgs.length) {
-    // Imagem principal
-    const mainImg = document.createElement('img');
-    mainImg.id = 'product-modal-main-img';
-    mainImg.src = allImgs[0];
-    mainImg.alt = p.Nome;
+  if(allImgs.length){
+    const mainImg=document.createElement('img');
+    mainImg.id='product-modal-main-img';mainImg.src=allImgs[0];mainImg.alt=p.Nome||'';
     mainWrap.appendChild(mainImg);
-
-    // Miniaturas (só mostra se tiver mais de 1)
-    if (allImgs.length > 1) {
-      allImgs.forEach((url, i) => {
-        const thumb = document.createElement('img');
-        thumb.className = 'modal-thumb' + (i === 0 ? ' active' : '');
-        thumb.src = url;
-        thumb.alt = `Foto ${i+1}`;
-        thumb.onclick = () => {
-          mainImg.src = url;
-          document.querySelectorAll('.modal-thumb').forEach(t => t.classList.remove('active'));
-          thumb.classList.add('active');
-        };
+    if(allImgs.length>1){
+      allImgs.forEach((url,i)=>{
+        const thumb=document.createElement('img');
+        thumb.className='modal-thumb'+(i===0?' active':'');
+        thumb.src=url;thumb.alt=`Foto ${i+1}`;
+        thumb.onclick=()=>{mainImg.src=url;document.querySelectorAll('.modal-thumb').forEach(t=>t.classList.remove('active'));thumb.classList.add('active')};
         thumbsDiv.appendChild(thumb);
       });
     }
-  } else {
-    mainWrap.innerHTML = '<div id="product-modal-main-placeholder">💡</div>';
+  }else{
+    mainWrap.innerHTML='<div id="product-modal-main-placeholder">💡</div>';
   }
-
-  el('product-modal-overlay').classList.remove('hidden');
+  $('product-modal-overlay').classList.remove('hidden');
 }
 
-function closeProductModal(event) {
-  if (!event || event.target.id === 'product-modal-overlay' || event.target.classList.contains('modal-close')) {
-    document.getElementById('product-modal-overlay').classList.add('hidden');
-  }
+function closeProductModal(event){
+  if(!event||event.target.id==='product-modal-overlay'||event.target.classList.contains('modal-close'))
+    $('product-modal-overlay').classList.add('hidden');
 }
 
-// ================================================================
-// ADMIN LOGIN
-// ================================================================
-async function doLogin() {
-  const pass = document.getElementById('login-input').value.trim();
-  document.getElementById('login-error').textContent = '';
-  if (!pass) { document.getElementById('login-error').textContent = 'Digite a senha.'; return; }
-
-  // Senha local — sempre funciona
-  const SENHA_LOCAL = '081120';
-  const senhaConfig = state.config && state.config.admin_senha;
-  
-  if (pass === SENHA_LOCAL || (senhaConfig && pass === senhaConfig)) {
-    entrarAdmin(); return;
-  }
-
-  // Tenta API como último recurso
-  try {
-    const res = await apiPost({ action: 'verifyPassword', password: pass });
-    if (res && res.ok) { entrarAdmin(); return; }
-  } catch(e) {}
-
-  document.getElementById('login-error').textContent = 'Senha incorreta.';
+async function doLogin(){
+  const pass=$('login-input').value.trim();
+  $('login-error').textContent='';
+  if(!pass){$('login-error').textContent='Digite a senha.';return}
+  const SENHA_LOCAL='081120';
+  const senhaConfig=state.config&&state.config.admin_senha;
+  if(pass===SENHA_LOCAL||(senhaConfig&&pass===senhaConfig)){entrarAdmin();return}
+  try{const res=await apiPost({action:'verifyPassword',password:pass});if(res&&res.ok){entrarAdmin();return}}catch(e){}
+  $('login-error').textContent='Senha incorreta.';
 }
 
-function entrarAdmin() {
-  state.isAdmin = true;
-  document.getElementById('login-input').value = '';
-  showView('admin');
-  adminNav('products');
-  loadAdminData();
-}
+function entrarAdmin(){state.isAdmin=true;$('login-input').value='';showView('admin');adminNav('products');loadAdminData()}
+function doLogout(){state.isAdmin=false;showView('catalog')}
 
-function doLogout() {
-  state.isAdmin = false;
-  showView('catalog');
-}
-
-// ================================================================
-// ADMIN NAV
-// ================================================================
-function adminNav(tab) {
-  ['products','add-product','categories','settings'].forEach(t => {
-    document.getElementById('admin-' + t).classList.add('hidden');
-    const nb = document.getElementById('nav-' + t);
-    if (nb) nb.classList.remove('active');
+function adminNav(tab){
+  ['products','add-product','categories','settings'].forEach(t=>{
+    const page=$('admin-'+t);if(page)page.classList.add('hidden');
+    const nav=$('nav-'+t);if(nav)nav.classList.remove('active');
   });
-  document.getElementById('admin-' + tab).classList.remove('hidden');
-  const nb = document.getElementById('nav-' + tab);
-  if (nb) nb.classList.add('active');
-  state.activeAdminTab = tab;
-
-  if (tab === 'add-product') {
-    clearProductForm();
-    document.getElementById('product-form-title').textContent = 'Novo Produto';
-    state.editingProductId = null;
-  }
-  if (tab === 'categories') renderCategoriesAdmin();
-  if (tab === 'settings') fillSettingsForm();
-  if (tab === 'products') renderProductsTable();
+  $('admin-'+tab).classList.remove('hidden');
+  const nb=$('nav-'+tab);if(nb)nb.classList.add('active');
+  state.activeAdminTab=tab;
+  if(tab==='add-product'){clearProductForm();$('product-form-title').textContent='Novo Produto';state.editingProductId=null}
+  if(tab==='categories')renderCategoriesAdmin();
+  if(tab==='settings')fillSettingsForm();
+  if(tab==='products')renderProductsTable();
 }
 
-// ================================================================
-// ADMIN DATA
-// ================================================================
-async function loadAdminData() {
-  const [pRes, cRes] = await Promise.all([apiGet('getProducts'), apiGet('getCategories')]);
-  state.products = (pRes.products || []);
-  state.categories = (cRes.categories || []);
-  renderProductsTable();
-  renderCatFilters();
+async function loadAdminData(){
+  try{
+    const[pRes,cRes]=await Promise.all([apiGet('getProducts'),apiGet('getCategories')]);
+    state.products=pRes.products||[];state.categories=cRes.categories||[];
+    saveCache('products',state.products);saveCache('categories',state.categories);
+    renderProductsTable();renderCatalog();
+  }catch(err){toast('Erro ao carregar dados do admin.','error')}
 }
 
-// ================================================================
-// PRODUCTS TABLE
-// ================================================================
-function renderProductsTable() {
-  const tbody = document.getElementById('products-tbody');
-  const products = state.products;
-  document.getElementById('products-count').textContent =
-    `${products.length} produto(s) — ${products.filter(p=>p.Status==='vendido').length} vendido(s)`;
-
-  if (!products.length) {
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted);">Nenhum produto cadastrado ainda.</td></tr>`;
-    return;
-  }
-
-  tbody.innerHTML = '';
+function renderProductsTable(){
+  const tbody=$('products-tbody');
+  $('products-count').textContent=`${state.products.length} produto(s) - ${state.products.filter(p=>p.Status==='vendido').length} vendido(s)`;
+  if(!state.products.length){tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--muted)">Nenhum produto cadastrado ainda.</td></tr>`;return}
   filterProducts();
 }
 
-function filterProducts() {
-  const q = (document.getElementById('search-products')?.value || '').toLowerCase();
-  const tbody = document.getElementById('products-tbody');
-  tbody.innerHTML = '';
-  const filtered = state.products.filter(p =>
-    p.Nome.toLowerCase().includes(q) || p.Categoria.toLowerCase().includes(q)
-  );
-  filtered.forEach(p => {
-    const tr = document.createElement('tr');
-    const imgHtml = p.Foto_Principal
-      ? `<img class="product-img-thumb" src="${p.Foto_Principal}" alt=""/>`
-      : `<div class="product-img-thumb" style="display:flex;align-items:center;justify-content:center;color:var(--text-muted)">💡</div>`;
-    const price = p.Preco_Por ? `R$ ${parseFloat(p.Preco_Por).toFixed(2).replace('.',',')}` : '—';
-    const soldLabel = p.Status === 'vendido' ? 'vendido' : 'disponivel';
-    const soldText = p.Status === 'vendido' ? 'Vendido' : 'Disponível';
-    const soldBtn = p.Status === 'vendido'
-      ? `<button class="btn btn-outline btn-sm" onclick="toggleSold('${p.ID}','disponivel')">↩ Disponível</button>`
-      : `<button class="btn btn-danger btn-sm" onclick="toggleSold('${p.ID}','vendido')">✓ Vendido</button>`;
-    tr.innerHTML = `
-      <td style="padding-left:16px">${imgHtml}</td>
-      <td><strong>${p.Nome}</strong></td>
-      <td>${[p.Categoria,p.Subcategoria].filter(Boolean).join(' › ')}</td>
-      <td>${price}</td>
-      <td><span class="status-badge status-${soldLabel}">${soldText}</span></td>
-      <td><div class="actions-cell">
-        ${soldBtn}
-        <button class="btn btn-outline btn-sm" onclick="editProduct('${p.ID}')">✏️ Editar</button>
-        <button class="btn btn-outline btn-sm" onclick="printLabel('${p.ID}')">🖨️ Etiqueta</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteProduct('${p.ID}')">🗑️</button>
-      </div></td>`;
+function filterProducts(){
+  const q=($('search-products')?.value||'').toLowerCase();
+  const tbody=$('products-tbody');tbody.innerHTML='';
+  const filtered=state.products.filter(p=>String(p.Nome||'').toLowerCase().includes(q)||String(p.Codigo_Interno||'').toLowerCase().includes(q)||String(p.Categoria||'').toLowerCase().includes(q));
+  if(!filtered.length){tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--muted)">Nenhum produto encontrado.</td></tr>`;return}
+  filtered.forEach(p=>{
+    const tr=document.createElement('tr');
+    const imgHtml=p.Foto_Principal?`<img class="product-img-thumb" src="${esc(p.Foto_Principal)}" alt=""/>`:`<div class="product-img-thumb" style="display:flex;align-items:center;justify-content:center;color:var(--muted)">💡</div>`;
+    const soldLabel=p.Status==='vendido'?'vendido':'disponivel';
+    const soldBtn=p.Status==='vendido'?`<button class="btn btn-outline btn-sm" onclick="toggleSold('${esc(p.ID)}','disponivel')">↩ Disponível</button>`:`<button class="btn btn-danger btn-sm" onclick="toggleSold('${esc(p.ID)}','vendido')">✓ Vendido</button>`;
+    tr.innerHTML=`<td style="padding-left:16px">${imgHtml}</td><td><strong>${esc(p.Nome)}</strong></td><td class="admin-code-cell">${esc(p.Codigo_Interno||'-')}</td><td class="stock-cell">${esc(p.Estoque||'0')}</td><td>${esc([p.Categoria,p.Subcategoria].filter(Boolean).join(' › '))}</td><td>${p.Preco_Por?formatMoney(p.Preco_Por):'-'}</td><td><span class="status-badge status-${soldLabel}">${soldLabel==='vendido'?'Vendido':'Disponível'}</span></td><td><div class="actions-cell">${soldBtn}<button class="btn btn-outline btn-sm" onclick="editProduct('${esc(p.ID)}')">✏️ Editar</button><button class="btn btn-outline btn-sm" onclick="printLabel('${esc(p.ID)}')">🖨️ Etiqueta</button><button class="btn btn-danger btn-sm" onclick="deleteProduct('${esc(p.ID)}')">🗑️</button></div></td>`;
     tbody.appendChild(tr);
   });
 }
 
-async function toggleSold(id, status) {
-  await apiPost({ action: 'markAsSold', id, status });
-  const p = state.products.find(p => p.ID === id);
-  if (p) p.Status = status;
-  filterProducts();
-  renderProductsGrid();
-  toast(`Produto marcado como ${status === 'vendido' ? 'vendido' : 'disponível'}!`, 'success');
+async function toggleSold(id,status){
+  const res=await apiPost({action:'markAsSold',id,status});
+  if(!res.ok){toast('Erro ao atualizar status.','error');return}
+  const p=state.products.find(p=>p.ID===id);if(p)p.Status=status;
+  saveCache('products',state.products);filterProducts();renderProductsGrid();
+  toast(`Produto marcado como ${status==='vendido'?'vendido':'disponível'}!`,'success');
 }
 
-async function deleteProduct(id) {
-  if (!confirm('Excluir este produto? Esta ação não pode ser desfeita.')) return;
-  await apiPost({ action: 'deleteProduct', id });
-  state.products = state.products.filter(p => p.ID !== id);
-  filterProducts();
-  renderProductsGrid();
-  toast('Produto excluído.', 'success');
+async function deleteProduct(id){
+  if(!confirm('Excluir este produto?'))return;
+  const res=await apiPost({action:'deleteProduct',id});
+  if(!res.ok){toast('Erro ao excluir produto.','error');return}
+  state.products=state.products.filter(p=>p.ID!==id);
+  saveCache('products',state.products);filterProducts();renderProductsGrid();toast('Produto excluído.','success');
 }
 
-// ================================================================
-// PRODUCT FORM
-// ================================================================
-function clearProductForm() {
-  ['pf-nome','pf-obs','pf-price-de','pf-price-por'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = '';
-  });
-  document.getElementById('pf-cat').value = '';
-  document.getElementById('pf-subcat').innerHTML = '<option value="">Selecione...</option>';
-  document.getElementById('preview-main').innerHTML = '';
-  document.getElementById('preview-extras').innerHTML = '';
-  document.getElementById('progress-main').style.width = '0%';
-  document.getElementById('progress-extras').style.width = '0%';
-  state.productFormPhotos = { main: null, extras: [] };
-  fillCatSelect();
+function clearProductForm(){
+  ['pf-nome','pf-cod-interno','pf-estoque','pf-obs','pf-price-de','pf-price-por'].forEach(id=>{const el=$(id);if(el)el.value=''});
+  $('pf-cat').value='';$('pf-subcat').innerHTML='<option value="">Selecione...</option>';
+  $('preview-main').innerHTML='';$('preview-extras').innerHTML='';
+  $('progress-main').style.width='0%';$('progress-extras').style.width='0%';
+  state.productFormPhotos={main:null,extras:[]};fillCatSelect();
 }
 
-function fillCatSelect() {
-  const sel = document.getElementById('pf-cat');
-  const current = sel.value;
-  sel.innerHTML = '<option value="">Selecione...</option>';
-  state.categories.forEach(c => {
-    const opt = document.createElement('option');
-    opt.value = c.Nome;
-    opt.textContent = c.Nome;
-    sel.appendChild(opt);
-  });
-  if (current) sel.value = current;
+function fillCatSelect(){
+  const sel=$('pf-cat');const current=sel.value;
+  sel.innerHTML='<option value="">Selecione...</option>';
+  state.categories.forEach(c=>{const opt=document.createElement('option');opt.value=c.Nome;opt.textContent=c.Nome;sel.appendChild(opt)});
+  if(current)sel.value=current;
 }
 
-function onCatChange() {
-  const cat = document.getElementById('pf-cat').value;
-  const subcatSel = document.getElementById('pf-subcat');
-  subcatSel.innerHTML = '<option value="">Sem subcategoria</option>';
-  const catObj = state.categories.find(c => c.Nome === cat);
-  if (catObj && catObj.Subcategorias) {
-    catObj.Subcategorias.forEach(sc => {
-      const opt = document.createElement('option');
-      opt.value = sc;
-      opt.textContent = sc;
-      subcatSel.appendChild(opt);
-    });
-  }
+function onCatChange(){
+  const cat=$('pf-cat').value;const subcatSel=$('pf-subcat');
+  subcatSel.innerHTML='<option value="">Sem subcategoria</option>';
+  const catObj=state.categories.find(c=>c.Nome===cat);
+  if(catObj&&catObj.Subcategorias)catObj.Subcategorias.forEach(sc=>{const opt=document.createElement('option');opt.value=sc;opt.textContent=sc;subcatSel.appendChild(opt)});
 }
 
-function editProduct(id) {
-  const p = state.products.find(p => p.ID === id);
-  if (!p) return;
-  state.editingProductId = id;
-  adminNav('add-product');
-  document.getElementById('product-form-title').textContent = 'Editar Produto';
-  document.getElementById('pf-nome').value = p.Nome || '';
-  document.getElementById('pf-obs').value = p.Observacoes || '';
-  document.getElementById('pf-price-de').value = p.Preco_De || '';
-  document.getElementById('pf-price-por').value = p.Preco_Por || '';
-  fillCatSelect();
-  document.getElementById('pf-cat').value = p.Categoria || '';
-  onCatChange();
-  document.getElementById('pf-subcat').value = p.Subcategoria || '';
-
-  if (p.Foto_Principal) {
-    state.productFormPhotos.main = p.Foto_Principal;
-    document.getElementById('preview-main').innerHTML =
-      `<div class="photo-preview-item"><img src="${p.Foto_Principal}"/></div>`;
-  }
-  if (p.Fotos_Extras) {
-    const urls = p.Fotos_Extras.split(',').map(u => u.trim()).filter(Boolean);
-    state.productFormPhotos.extras = urls;
-    document.getElementById('preview-extras').innerHTML = urls
-      .map((u,i) => `<div class="photo-preview-item"><img src="${u}"/><button class="photo-remove" onclick="removeExtra(${i})">✕</button></div>`)
-      .join('');
-  }
+function editProduct(id){
+  const p=state.products.find(p=>p.ID===id);if(!p)return;
+  adminNav('add-product');state.editingProductId=id;
+  $('product-form-title').textContent='Editar Produto';
+  $('pf-nome').value=p.Nome||'';$('pf-cod-interno').value=p.Codigo_Interno||'';$('pf-estoque').value=p.Estoque||'';
+  $('pf-obs').value=p.Observacoes||'';$('pf-price-de').value=p.Preco_De||'';$('pf-price-por').value=p.Preco_Por||'';
+  fillCatSelect();$('pf-cat').value=p.Categoria||'';onCatChange();$('pf-subcat').value=p.Subcategoria||'';
+  if(p.Foto_Principal){state.productFormPhotos.main=p.Foto_Principal;$('preview-main').innerHTML=`<div class="photo-preview-item"><img src="${esc(p.Foto_Principal)}"/><button class="photo-remove" onclick="removeMainPhoto()">✕</button></div>`}
+  if(p.Fotos_Extras){const urls=String(p.Fotos_Extras).split(',').map(u=>u.trim()).filter(Boolean);state.productFormPhotos.extras=urls;renderExtrasPreview()}
 }
 
-function removeExtra(idx) {
-  state.productFormPhotos.extras.splice(idx, 1);
-  document.getElementById('preview-extras').innerHTML = state.productFormPhotos.extras
-    .map((u,i) => `<div class="photo-preview-item"><img src="${u}"/><button class="photo-remove" onclick="removeExtra(${i})">✕</button></div>`)
-    .join('');
+function removeMainPhoto(){state.productFormPhotos.main=null;$('preview-main').innerHTML=''}
+function removeExtra(idx){state.productFormPhotos.extras.splice(idx,1);renderExtrasPreview()}
+function renderExtrasPreview(){$('preview-extras').innerHTML=state.productFormPhotos.extras.map((u,i)=>`<div class="photo-preview-item"><img src="${esc(u)}"/><button class="photo-remove" onclick="removeExtra(${i})">✕</button></div>`).join('')}
+
+async function handleMainPhoto(event){
+  const file=event.target.files[0];event.target.value='';if(!file)return;
+  toast('Enviando foto principal...','success');
+  const url=await uploadFile(file,'progress-main');
+  if(url){state.productFormPhotos.main=url;$('preview-main').innerHTML=`<div class="photo-preview-item"><img src="${esc(url)}"/><button class="photo-remove" onclick="removeMainPhoto()">✕</button></div>`;toast('Foto principal enviada!','success')}
 }
 
-async function handleMainPhoto(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const url = await uploadFile(file, 'progress-main');
-  if (url) {
-    state.productFormPhotos.main = url;
-    document.getElementById('preview-main').innerHTML =
-      `<div class="photo-preview-item"><img src="${url}"/><button class="photo-remove" onclick="state.productFormPhotos.main=null;document.getElementById('preview-main').innerHTML=''">✕</button></div>`;
-  }
+async function handleExtrasPhotos(event){
+  const files=Array.from(event.target.files).slice(0,5-state.productFormPhotos.extras.length);event.target.value='';if(!files.length)return;
+  const progressBar=$('progress-extras');let done=0;
+  for(const file of files){toast('Enviando foto extra...','success');const url=await uploadFile(file,null);if(url)state.productFormPhotos.extras.push(url);done++;progressBar.style.width=(done/files.length*100)+'%';renderExtrasPreview()}
+  setTimeout(()=>{progressBar.style.width='0%'},800);toast('Fotos extras enviadas!','success');
 }
 
-async function handleExtrasPhotos(event) {
-  const files = Array.from(event.target.files).slice(0, 5 - state.productFormPhotos.extras.length);
-  if (!files.length) return;
-  const progressBar = document.getElementById('progress-extras');
-  let done = 0;
-  for (const file of files) {
-    const url = await uploadFile(file, null);
-    if (url) state.productFormPhotos.extras.push(url);
-    done++;
-    progressBar.style.width = (done / files.length * 100) + '%';
-  }
-  setTimeout(() => { progressBar.style.width = '0%'; }, 1000);
-  document.getElementById('preview-extras').innerHTML = state.productFormPhotos.extras
-    .map((u,i) => `<div class="photo-preview-item"><img src="${u}"/><button class="photo-remove" onclick="removeExtra(${i})">✕</button></div>`)
-    .join('');
-}
-
-// ================================================================
-// COMPRESSÃO E UPLOAD DE FOTO (local — sem servidor externo)
-// ================================================================
-async function compressImage(file, maxSize = 480, quality = 0.72) {
-  return new Promise((resolve) => {
-    const img = new Image();
-    const objUrl = URL.createObjectURL(file);
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      let w = img.width, h = img.height;
-      const ratio = Math.min(maxSize / w, maxSize / h, 1);
-      w = Math.round(w * ratio); h = Math.round(h * ratio);
-      canvas.width = w; canvas.height = h;
-      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      URL.revokeObjectURL(objUrl);
-      resolve(canvas.toDataURL('image/jpeg', quality));
+function compressImage(file,maxSize=1400,quality=0.88){
+  return new Promise(resolve=>{
+    const img=new Image();const objUrl=URL.createObjectURL(file);
+    img.onload=()=>{
+      const canvas=document.createElement('canvas');
+      let w=img.width,h=img.height;const ratio=Math.min(maxSize/w,maxSize/h,1);
+      w=Math.round(w*ratio);h=Math.round(h*ratio);canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);URL.revokeObjectURL(objUrl);
+      resolve(canvas.toDataURL('image/jpeg',quality));
     };
-    img.onerror = () => { URL.revokeObjectURL(objUrl); resolve(null); };
-    img.src = objUrl;
+    img.onerror=()=>{URL.revokeObjectURL(objUrl);resolve(null)};
+    img.src=objUrl;
   });
 }
 
-async function uploadFile(file, progressId) {
-  if (progressId) document.getElementById(progressId).style.width = '40%';
-  const dataUrl = await compressImage(file);
-  if (progressId) {
-    document.getElementById(progressId).style.width = '100%';
-    setTimeout(() => { document.getElementById(progressId).style.width = '0%'; }, 600);
-  }
-  return dataUrl; // salva direto como data URL — sem upload externo
+async function uploadFile(file,progressId){
+  if(progressId)$(progressId).style.width='25%';
+  const dataUrl=await compressImage(file,1400,0.88);
+  if(!dataUrl){if(progressId)$(progressId).style.width='0%';toast('Erro ao processar imagem.','error');return null}
+  if(progressId)$(progressId).style.width='55%';
+  const match=dataUrl.match(/^data:(.+);base64,(.+)$/);
+  if(!match){if(progressId)$(progressId).style.width='0%';toast('Imagem inválida.','error');return null}
+  const mimeType=match[1],base64=match[2];
+  const safeName=(file.name||'foto.jpg').replace(/[^\w.\-]/g,'_');
+  const filename=`${Date.now()}-${safeName}`;
+  try{
+    const res=await apiPost({action:'uploadPhoto',base64,filename,mimeType});
+    if(!res.ok){toast('Erro ao enviar foto: '+(res.error||'desconhecido'),'error');return null}
+    return res.url;
+  }catch(err){toast('Erro ao enviar foto.','error');return null}
+  finally{if(progressId){$(progressId).style.width='100%';setTimeout(()=>{$(progressId).style.width='0%'},600)}}
 }
 
-async function saveProduct() {
-  const nome = document.getElementById('pf-nome').value.trim();
-  const cat  = document.getElementById('pf-cat').value;
-  const por  = document.getElementById('pf-price-por').value;
-
-  if (!nome) { toast('Informe o nome do produto.', 'error'); return; }
-  if (!cat)  { toast('Selecione uma categoria.', 'error'); return; }
-  if (!por)  { toast('Informe o preço do feirão.', 'error'); return; }
-
-  const btn = document.getElementById('btn-save-product');
-  btn.disabled = true; btn.textContent = 'Salvando...';
-
-  const product = {
-    Nome:          nome,
-    Categoria:     cat,
-    Subcategoria:  document.getElementById('pf-subcat').value,
-    Preco_De:      document.getElementById('pf-price-de').value,
-    Preco_Por:     por,
-    Observacoes:   document.getElementById('pf-obs').value.trim(),
-    Foto_Principal: state.productFormPhotos.main || '',
-    Fotos_Extras:  state.productFormPhotos.extras.join(','),
-  };
-
-  let res;
-  if (state.editingProductId) {
-    res = await apiPost({ action: 'updateProduct', id: state.editingProductId, product });
-    if (res.ok) {
-      const idx = state.products.findIndex(p => p.ID === state.editingProductId);
-      if (idx >= 0) state.products[idx] = { ...state.products[idx], ...product };
-    }
-  } else {
-    res = await apiPost({ action: 'createProduct', product });
-    if (res.ok) {
-      state.products.unshift({ ID: res.id, ...product, Status: 'disponivel' });
-    }
-  }
-
-  btn.disabled = false; btn.textContent = 'Salvar Produto';
-
-  if (res.ok) {
-    toast('Produto salvo com sucesso!', 'success');
-    renderProductsGrid();
-    adminNav('products');
-  } else {
-    toast('Erro ao salvar: ' + (res.error || 'desconhecido'), 'error');
-  }
+async function saveProduct(){
+  const nome=$('pf-nome').value.trim(),cat=$('pf-cat').value,por=$('pf-price-por').value;
+  if(!nome){toast('Informe o nome do produto.','error');return}
+  if(!cat){toast('Selecione uma categoria.','error');return}
+  if(!por){toast('Informe o preço do feirão.','error');return}
+  const btn=$('btn-save-product');btn.disabled=true;btn.textContent='Salvando...';
+  try{
+    const product={Nome:nome,Codigo_Interno:$('pf-cod-interno').value.trim(),Estoque:$('pf-estoque').value,Categoria:cat,Subcategoria:$('pf-subcat').value,Preco_De:$('pf-price-de').value,Preco_Por:por,Observacoes:$('pf-obs').value.trim(),Foto_Principal:state.productFormPhotos.main||'',Fotos_Extras:state.productFormPhotos.extras.join(',')};
+    let res;
+    if(state.editingProductId){res=await apiPost({action:'updateProduct',id:state.editingProductId,product});if(res.ok){const idx=state.products.findIndex(p=>p.ID===state.editingProductId);if(idx>=0)state.products[idx]={...state.products[idx],...product}}}
+    else{res=await apiPost({action:'createProduct',product});if(res.ok)state.products.unshift({ID:res.id,...product,Status:'disponivel'})}
+    if(res&&res.ok){saveCache('products',state.products);toast('Produto salvo com sucesso!','success');renderCatalog();adminNav('products')}
+    else toast('Erro ao salvar: '+((res&&res.error)||'desconhecido'),'error');
+  }catch(err){toast('Erro ao salvar produto.','error')}
+  finally{btn.disabled=false;btn.textContent='Salvar Produto'}
 }
 
-// ================================================================
-// PRINT LABEL
-// ================================================================
-function printLabel(id) {
-  const p = state.products.find(p => p.ID === id);
-  if (!p) return;
-  document.getElementById('print-label-img').src = p.Foto_Principal || '';
-  document.getElementById('print-label-name').textContent = p.Nome;
-  document.getElementById('print-label-cat').textContent = [p.Categoria, p.Subcategoria].filter(Boolean).join(' · ');
-  document.getElementById('print-label-price-de').textContent = p.Preco_De ? `De: R$ ${parseFloat(p.Preco_De).toFixed(2).replace('.',',')}` : '';
-  document.getElementById('print-label-price-por').textContent = p.Preco_Por ? `R$ ${parseFloat(p.Preco_Por).toFixed(2).replace('.',',')}` : '';
-  document.getElementById('print-label-obs').textContent = p.Observacoes || '';
+function printLabel(id){
+  const p=state.products.find(p=>p.ID===id);if(!p)return;
+  $('print-label-img').style.display=p.Foto_Principal?'block':'none';
+  $('print-label-img').src=p.Foto_Principal||'';
+  $('print-label-name').textContent=p.Nome||'';
+  $('print-label-cat').textContent=[p.Categoria,p.Subcategoria].filter(Boolean).join(' · ');
+  $('print-label-price-de').textContent=p.Preco_De?`De: ${formatMoney(p.Preco_De)}`:'';
+  $('print-label-price-por').textContent=p.Preco_Por?formatMoney(p.Preco_Por):'';
+  $('print-label-obs').textContent=p.Observacoes||'';
   showView('print-label');
 }
 
-// ================================================================
-// CATEGORIES ADMIN
-// ================================================================
-function renderCategoriesAdmin() {
-  const list = document.getElementById('cat-list');
-  if (!state.categories.length) {
-    list.innerHTML = '<div style="color:var(--text-muted);font-size:13px;padding:20px;">Nenhuma categoria criada ainda.</div>';
-    return;
-  }
-  list.innerHTML = '';
-  state.categories.forEach(cat => {
-    const div = document.createElement('div');
-    div.className = 'cat-item';
-    div.id = 'cat-item-' + cat.ID;
-    div.innerHTML = `
-      <div class="cat-item-header">
-        <span class="cat-item-name">${cat.Nome}</span>
-        <div class="cat-item-actions">
-          <button class="btn btn-danger btn-sm" onclick="deleteCategoryAdmin('${cat.ID}')">🗑️ Excluir</button>
-        </div>
-      </div>
-      <div class="subcats" id="subcats-${cat.ID}">
-        ${(cat.Subcategorias||[]).map((sc,i) =>
-          `<span class="subcat-tag">${sc}<button class="subcat-remove" onclick="removeSubcat('${cat.ID}',${i})">✕</button></span>`
-        ).join('')}
-      </div>
-      <div class="subcat-add">
-        <input type="text" placeholder="Nova subcategoria..." id="subcat-input-${cat.ID}" onkeydown="if(event.key==='Enter')addSubcat('${cat.ID}')"/>
-        <button class="btn btn-outline btn-sm" onclick="addSubcat('${cat.ID}')">+ Add</button>
-      </div>`;
+function renderCategoriesAdmin(){
+  const list=$('cat-list');
+  if(!state.categories.length){list.innerHTML='<div style="color:var(--muted);font-size:13px;padding:20px">Nenhuma categoria criada ainda.</div>';return}
+  list.innerHTML='';
+  state.categories.forEach(cat=>{
+    const div=document.createElement('div');div.className='cat-item';
+    div.innerHTML=`<div class="cat-item-header"><span class="cat-item-name">${esc(cat.Nome)}</span><button class="btn btn-danger btn-sm" onclick="deleteCategoryAdmin('${esc(cat.ID)}')">🗑️ Excluir</button></div><div class="subcats">${(cat.Subcategorias||[]).map((sc,i)=>`<span class="subcat-tag">${esc(sc)}<button class="subcat-remove" onclick="removeSubcat('${esc(cat.ID)}',${i})">✕</button></span>`).join('')}</div><div class="subcat-add"><input type="text" placeholder="Nova subcategoria..." id="subcat-input-${esc(cat.ID)}" onkeydown="if(event.key==='Enter')addSubcat('${esc(cat.ID)}')"/><button class="btn btn-outline btn-sm" onclick="addSubcat('${esc(cat.ID)}')">+ Add</button></div>`;
     list.appendChild(div);
   });
 }
 
-async function addCategory() {
-  const input = document.getElementById('new-cat-input');
-  const nome = input.value.trim();
-  if (!nome) return;
-  const res = await apiPost({ action: 'createCategory', category: { Nome: nome, Subcategorias: [] } });
-  if (res.ok) {
-    state.categories.push({ ID: res.id, Nome: nome, Subcategorias: [] });
-    input.value = '';
-    renderCategoriesAdmin();
-    fillCatSelect();
-    renderCatFilters();
-    toast('Categoria criada!', 'success');
-  }
+async function addCategory(){
+  const input=$('new-cat-input');const nome=input.value.trim();if(!nome)return;
+  const res=await apiPost({action:'createCategory',category:{Nome:nome,Subcategorias:[]}});
+  if(res.ok){state.categories.push({ID:res.id,Nome:nome,Subcategorias:[]});input.value='';saveCache('categories',state.categories);renderCategoriesAdmin();fillCatSelect();renderCatFilters();toast('Categoria criada!','success')}
+  else toast('Erro ao criar categoria.','error');
 }
 
-async function deleteCategoryAdmin(id) {
-  if (!confirm('Excluir esta categoria?')) return;
-  await apiPost({ action: 'deleteCategory', id });
-  state.categories = state.categories.filter(c => c.ID !== id);
-  renderCategoriesAdmin();
-  fillCatSelect();
-  renderCatFilters();
-  toast('Categoria excluída.', 'success');
+async function deleteCategoryAdmin(id){
+  if(!confirm('Excluir esta categoria?'))return;
+  const res=await apiPost({action:'deleteCategory',id});
+  if(res.ok){state.categories=state.categories.filter(c=>c.ID!==id);saveCache('categories',state.categories);renderCategoriesAdmin();fillCatSelect();renderCatFilters();toast('Categoria excluída.','success')}
+  else toast('Erro ao excluir categoria.','error');
 }
 
-async function addSubcat(catId) {
-  const input = document.getElementById('subcat-input-' + catId);
-  const nome = input.value.trim();
-  if (!nome) return;
-  const cat = state.categories.find(c => c.ID === catId);
-  if (!cat) return;
-  cat.Subcategorias = [...(cat.Subcategorias || []), nome];
-  await apiPost({ action: 'updateCategory', id: catId, category: cat });
-  input.value = '';
-  renderCategoriesAdmin();
-  renderCatFilters();
-  toast('Subcategoria adicionada!', 'success');
+async function addSubcat(catId){
+  const input=$('subcat-input-'+catId);const nome=input.value.trim();if(!nome)return;
+  const cat=state.categories.find(c=>c.ID===catId);if(!cat)return;
+  cat.Subcategorias=[...(cat.Subcategorias||[]),nome];
+  const res=await apiPost({action:'updateCategory',id:catId,category:cat});
+  if(res.ok){input.value='';saveCache('categories',state.categories);renderCategoriesAdmin();renderCatFilters();toast('Subcategoria adicionada!','success')}
+  else toast('Erro ao adicionar subcategoria.','error');
 }
 
-async function removeSubcat(catId, idx) {
-  const cat = state.categories.find(c => c.ID === catId);
-  if (!cat) return;
-  cat.Subcategorias.splice(idx, 1);
-  await apiPost({ action: 'updateCategory', id: catId, category: cat });
-  renderCategoriesAdmin();
-  renderCatFilters();
+async function removeSubcat(catId,idx){
+  const cat=state.categories.find(c=>c.ID===catId);if(!cat)return;
+  cat.Subcategorias.splice(idx,1);
+  const res=await apiPost({action:'updateCategory',id:catId,category:cat});
+  if(res.ok){saveCache('categories',state.categories);renderCategoriesAdmin();renderCatFilters()}
+  else toast('Erro ao remover subcategoria.','error');
 }
 
-// ================================================================
-// SETTINGS
-// ================================================================
-function fillSettingsForm() {
-  const cfg = state.config;
-  document.getElementById('cfg-nome').value         = cfg.feirao_nome     || '';
-  document.getElementById('cfg-popup-titulo').value = cfg.popup_titulo    || '';
-  document.getElementById('cfg-data').value         = cfg.popup_data      || '';
-  document.getElementById('cfg-horario').value      = cfg.popup_horario   || '';
-  document.getElementById('cfg-local').value        = cfg.popup_local     || '';
-  document.getElementById('cfg-pagamento').value    = cfg.popup_pagamento || '';
-  document.getElementById('cfg-texto').value        = cfg.popup_texto     || '';
-  document.getElementById('cfg-popup-ativo').value  = cfg.popup_ativo     || 'true';
+function fillSettingsForm(){
+  const cfg=state.config||{};
+  $('cfg-nome').value=cfg.feirao_nome||'';$('cfg-popup-titulo').value=cfg.popup_titulo||'';
+  $('cfg-data').value=cfg.popup_data||'';$('cfg-horario').value=cfg.popup_horario||'';
+  $('cfg-local').value=cfg.popup_local||'';$('cfg-pagamento').value=cfg.popup_pagamento||'';
+  $('cfg-texto').value=cfg.popup_texto||'';$('cfg-popup-ativo').value=cfg.popup_ativo||'true';
+  $('cfg-senha').value='';$('cfg-senha2').value='';
 }
 
-async function saveSettings() {
-  const newCfg = {
-    feirao_nome:     document.getElementById('cfg-nome').value,
-    popup_titulo:    document.getElementById('cfg-popup-titulo').value,
-    popup_data:      document.getElementById('cfg-data').value,
-    popup_horario:   document.getElementById('cfg-horario').value,
-    popup_local:     document.getElementById('cfg-local').value,
-    popup_pagamento: document.getElementById('cfg-pagamento').value,
-    popup_texto:     document.getElementById('cfg-texto').value,
-    popup_ativo:     document.getElementById('cfg-popup-ativo').value,
-  };
-  const senha  = document.getElementById('cfg-senha').value;
-  const senha2 = document.getElementById('cfg-senha2').value;
-  if (senha) {
-    if (senha !== senha2) { toast('As senhas não coincidem.', 'error'); return; }
-    newCfg.admin_senha = senha;
-  }
-  const res = await apiPost({ action: 'updateConfig', config: newCfg });
-  if (res.ok) {
-    Object.assign(state.config, newCfg);
-    document.getElementById('cfg-senha').value  = '';
-    document.getElementById('cfg-senha2').value = '';
-    toast('Configurações salvas!', 'success');
-    document.getElementById('cat-header-title').textContent = newCfg.feirao_nome || 'Feirão';
-  } else {
-    toast('Erro ao salvar.', 'error');
-  }
+async function saveSettings(){
+  const newCfg={feirao_nome:$('cfg-nome').value,popup_titulo:$('cfg-popup-titulo').value,popup_data:$('cfg-data').value,popup_horario:$('cfg-horario').value,popup_local:$('cfg-local').value,popup_pagamento:$('cfg-pagamento').value,popup_texto:$('cfg-texto').value,popup_ativo:$('cfg-popup-ativo').value};
+  const senha=$('cfg-senha').value,senha2=$('cfg-senha2').value;
+  if(senha){if(senha!==senha2){toast('As senhas não coincidem.','error');return}newCfg.admin_senha=senha}
+  const res=await apiPost({action:'updateConfig',config:newCfg});
+  if(res.ok){Object.assign(state.config,newCfg);saveCache('config',state.config);$('cfg-senha').value='';$('cfg-senha2').value='';renderCatalog();toast('Configurações salvas!','success')}
+  else toast('Erro ao salvar configurações.','error');
 }
 
-// ================================================================
-// TOAST
-// ================================================================
 let toastTimer;
-function toast(msg, type = 'success') {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'show ' + type;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { el.className = ''; }, 3000);
-}
+function toast(msg,type='success'){const el=$('toast');el.textContent=msg;el.className='show '+type;clearTimeout(toastTimer);toastTimer=setTimeout(()=>{el.className=''},3000)}
+function saveCache(key,data){try{localStorage.setItem('feirao_'+key,JSON.stringify(data))}catch(e){}}
+function loadCache(key){try{const d=localStorage.getItem('feirao_'+key);return d?JSON.parse(d):null}catch(e){return null}}
 
-// ================================================================
-// INIT
-// ================================================================
-// ================================================================
-// PASTE DE IMAGEM (Ctrl+V)
-// ================================================================
-document.addEventListener('paste', async (e) => {
-  // Só funciona quando o formulário de produto está visível
-  if (document.getElementById('admin-add-product').classList.contains('hidden')) return;
-
-  const items = e.clipboardData?.items;
-  if (!items) return;
-
-  for (const item of items) {
-    if (item.type.startsWith('image/')) {
-      e.preventDefault();
-      const file = item.getAsFile();
-      if (!file) return;
-
-      // Se foto principal ainda não tem imagem, cola lá. Senão, adiciona nas extras.
-      if (!state.productFormPhotos.main) {
-        toast('Colando foto principal...', 'success');
-        const url = await uploadFile(file, 'progress-main');
-        if (url) {
-          state.productFormPhotos.main = url;
-          document.getElementById('preview-main').innerHTML =
-            `<div class="photo-preview-item"><img src="${url}"/><button class="photo-remove" onclick="state.productFormPhotos.main=null;document.getElementById('preview-main').innerHTML=''">✕</button></div>`;
-          toast('Foto principal colada!', 'success');
-        }
-      } else if (state.productFormPhotos.extras.length < 5) {
-        toast('Colando foto extra...', 'success');
-        const url = await uploadFile(file, 'progress-extras');
-        if (url) {
-          state.productFormPhotos.extras.push(url);
-          document.getElementById('preview-extras').innerHTML = state.productFormPhotos.extras
-            .map((u,i) => `<div class="photo-preview-item"><img src="${u}"/><button class="photo-remove" onclick="removeExtra(${i})">✕</button></div>`)
-            .join('');
-          toast('Foto extra colada!', 'success');
-        }
-      } else {
-        toast('Limite de 5 fotos extras atingido.', 'error');
-      }
+document.addEventListener('paste',async e=>{
+  if($('admin-add-product').classList.contains('hidden'))return;
+  const items=e.clipboardData?.items;if(!items)return;
+  for(const item of items){
+    if(item.type.startsWith('image/')){
+      e.preventDefault();const file=item.getAsFile();if(!file)return;
+      if(!state.productFormPhotos.main){
+        toast('Enviando foto principal...','success');
+        const url=await uploadFile(file,'progress-main');
+        if(url){state.productFormPhotos.main=url;$('preview-main').innerHTML=`<div class="photo-preview-item"><img src="${esc(url)}"/><button class="photo-remove" onclick="removeMainPhoto()">✕</button></div>`;toast('Foto principal enviada!','success')}
+      }else if(state.productFormPhotos.extras.length<5){
+        toast('Enviando foto extra...','success');
+        const url=await uploadFile(file,'progress-extras');
+        if(url){state.productFormPhotos.extras.push(url);renderExtrasPreview();toast('Foto extra enviada!','success')}
+      }else toast('Limite de 5 fotos extras atingido.','error');
       break;
     }
   }
 });
 
-// ================================================================
-// CACHE LOCAL
-// ================================================================
-function saveCache(key, data) {
-  try { localStorage.setItem('feirao_' + key, JSON.stringify(data)); } catch(e) {}
+function setupDragAndDrop(){
+  const bind=(areaId,inputId)=>{
+    const area=$(areaId);const input=$(inputId);if(!area||!input)return;
+    area.addEventListener('dragover',e=>{e.preventDefault();area.classList.add('drag-over')});
+    area.addEventListener('dragleave',()=>area.classList.remove('drag-over'));
+    area.addEventListener('drop',e=>{
+      e.preventDefault();area.classList.remove('drag-over');
+      const files=e.dataTransfer.files;if(!files||!files.length)return;
+      input.files=files;
+      if(inputId==='input-main-photo')handleMainPhoto({target:input});
+      else handleExtrasPhotos({target:input});
+    });
+  };
+  bind('upload-main-area','input-main-photo');
+  bind('upload-extras-area','input-extras-photos');
 }
-function loadCache(key) {
-  try { const d = localStorage.getItem('feirao_' + key); return d ? JSON.parse(d) : null; } catch(e) { return null; }
-}
 
-// ================================================================
-// INIT
-// ================================================================
-async function init() {
-  if (!API_URL || API_URL === 'COLE_AQUI_A_URL_DO_APPS_SCRIPT') {
-    document.body.innerHTML = `
-      <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:16px;padding:20px;text-align:center;">
-        <div style="font-size:40px;">⚠️</div>
-        <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;">Configure o Apps Script</h2>
-        <p style="color:var(--text-muted);font-size:14px;max-width:400px;">Substitua <strong>COLE_AQUI_A_URL_DO_APPS_SCRIPT</strong> pela URL do Apps Script.</p>
-      </div>`;
-    return;
-  }
-
-  // Carrega do cache imediatamente — site abre instantâneo
-  const cachedProducts   = loadCache('products');
-  const cachedCategories = loadCache('categories');
-  const cachedConfig     = loadCache('config');
-
-  if (cachedProducts)   state.products   = cachedProducts;
-  if (cachedCategories) state.categories = cachedCategories;
-  if (cachedConfig)     state.config     = cachedConfig;
-
-  showView('catalog');
-  renderCatalog();
-
-  // Popup só uma vez por sessão
-  const popupVisto = sessionStorage.getItem('popup_visto');
-  if (!popupVisto && cachedConfig && cachedConfig.popup_ativo !== 'false') {
-    showPopup(cachedConfig);
-    sessionStorage.setItem('popup_visto', '1');
-  }
-
-  // Atualiza dados em background
-  try {
-    const setup = await apiGet('checkSetup');
-    if (!setup.ready) await apiGet('setup');
-
-    const [pRes, cRes, cfgRes] = await Promise.all([
-      apiGet('getProducts'),
-      apiGet('getCategories'),
-      apiGet('getConfig'),
-    ]);
-
-    state.products   = pRes.products   || [];
-    state.categories = cRes.categories || [];
-    state.config     = cfgRes.config   || {};
-
-    // Salva no cache para próxima visita ser instantânea
-    saveCache('products',   state.products);
-    saveCache('categories', state.categories);
-    saveCache('config',     state.config);
-
+async function init(){
+  const cachedProducts=loadCache('products'),cachedCategories=loadCache('categories'),cachedConfig=loadCache('config');
+  if(cachedProducts)state.products=cachedProducts;
+  if(cachedCategories)state.categories=cachedCategories;
+  if(cachedConfig)state.config=cachedConfig;
+  showView('catalog');renderCatalog();setupDragAndDrop();
+  const popupVisto=sessionStorage.getItem('popup_visto');
+  if(!popupVisto&&cachedConfig&&cachedConfig.popup_ativo!=='false'){showPopup(cachedConfig);sessionStorage.setItem('popup_visto','1')}
+  try{
+    const setup=await apiGet('checkSetup');
+    if(!setup.ready)await apiGet('setup');
+    const[pRes,cRes,cfgRes]=await Promise.all([apiGet('getProducts'),apiGet('getCategories'),apiGet('getConfig')]);
+    state.products=pRes.products||[];state.categories=cRes.categories||[];state.config=cfgRes.config||{};
+    saveCache('products',state.products);saveCache('categories',state.categories);saveCache('config',state.config);
     renderCatalog();
-
-    // Popup na primeira visita (sem cache ainda)
-    if (!popupVisto && !cachedConfig && state.config.popup_ativo !== 'false') {
-      showPopup(state.config);
-      sessionStorage.setItem('popup_visto', '1');
-    }
-  } catch(err) {
-    console.error('Erro ao carregar dados:', err);
-  }
+    if(!popupVisto&&!cachedConfig&&state.config.popup_ativo!=='false'){showPopup(state.config);sessionStorage.setItem('popup_visto','1')}
+  }catch(err){console.error('Erro ao carregar dados:',err)}
 }
-
 init();
 </script>
 </body>
