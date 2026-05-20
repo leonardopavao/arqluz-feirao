@@ -913,16 +913,30 @@ async function doLogin() {
   const pass = document.getElementById('login-input').value;
   document.getElementById('login-error').textContent = '';
   if (!pass) { document.getElementById('login-error').textContent = 'Digite a senha.'; return; }
-  const res = await apiPost({ action: 'verifyPassword', password: pass });
-  if (res.ok) {
-    state.isAdmin = true;
-    document.getElementById('login-input').value = '';
-    showView('admin');
-    adminNav('products');
-    await loadAdminData();
-  } else {
-    document.getElementById('login-error').textContent = 'Senha incorreta.';
+
+  // Verifica senha local do cache primeiro (instantâneo)
+  const cfg = state.config;
+  const senhaLocal = cfg && cfg.admin_senha;
+  if (senhaLocal && pass === senhaLocal) {
+    entrarAdmin(); return;
   }
+
+  // Verifica via API
+  try {
+    const res = await apiPost({ action: 'verifyPassword', password: pass });
+    if (res.ok) { entrarAdmin(); }
+    else { document.getElementById('login-error').textContent = 'Senha incorreta.'; }
+  } catch(e) {
+    document.getElementById('login-error').textContent = 'Erro de conexão. Tente novamente.';
+  }
+}
+
+function entrarAdmin() {
+  state.isAdmin = true;
+  document.getElementById('login-input').value = '';
+  showView('admin');
+  adminNav('products');
+  loadAdminData();
 }
 
 function doLogout() {
