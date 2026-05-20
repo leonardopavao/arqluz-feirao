@@ -278,6 +278,7 @@ textarea.form-input{resize:vertical;min-height:80px;}
 }
 .upload-area:hover,.upload-area.drag-over{border-color:var(--gold);background:rgba(160,114,42,0.05);}
 .upload-area p{font-size:13px;color:var(--text-muted);margin-top:6px;}
+.paste-hint{font-size:11px;color:var(--gold);margin-top:4px;opacity:.8;}
 .photos-preview{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;}
 .photo-preview-item{position:relative;}
 .photo-preview-item img{width:80px;height:80px;object-fit:cover;border-radius:8px;}
@@ -557,7 +558,8 @@ textarea.form-input{resize:vertical;min-height:80px;}
               <label class="form-label">Foto Principal *</label>
               <div class="upload-area" id="upload-main-area" onclick="document.getElementById('input-main-photo').click()">
                 <div style="font-size:28px;">📷</div>
-                <p>Clique ou arraste a foto principal aqui</p>
+                <p>Clique para escolher ou arraste aqui</p>
+                <p class="paste-hint">📋 Ou copie a imagem e pressione Ctrl+V</p>
               </div>
               <input type="file" id="input-main-photo" accept="image/*" style="display:none" onchange="handleMainPhoto(event)"/>
               <div class="upload-progress"><div class="upload-progress-bar" id="progress-main"></div></div>
@@ -568,6 +570,7 @@ textarea.form-input{resize:vertical;min-height:80px;}
               <div class="upload-area" id="upload-extras-area" onclick="document.getElementById('input-extras-photos').click()">
                 <div style="font-size:28px;">🖼️</div>
                 <p>Clique para adicionar fotos extras (até 5)</p>
+                <p class="paste-hint">📋 Ou copie e pressione Ctrl+V para adicionar</p>
               </div>
               <input type="file" id="input-extras-photos" accept="image/*" multiple style="display:none" onchange="handleExtrasPhotos(event)"/>
               <div class="upload-progress"><div class="upload-progress-bar" id="progress-extras"></div></div>
@@ -1365,38 +1368,120 @@ function toast(msg, type = 'success') {
 // ================================================================
 // INIT
 // ================================================================
+// ================================================================
+// PASTE DE IMAGEM (Ctrl+V)
+// ================================================================
+document.addEventListener('paste', async (e) => {
+  // Só funciona quando o formulário de produto está visível
+  if (document.getElementById('admin-add-product').classList.contains('hidden')) return;
+
+  const items = e.clipboardData?.items;
+  if (!items) return;
+
+  for (const item of items) {
+    if (item.type.startsWith('image/')) {
+      e.preventDefault();
+      const file = item.getAsFile();
+      if (!file) return;
+
+      // Se foto principal ainda não tem imagem, cola lá. Senão, adiciona nas extras.
+      if (!state.productFormPhotos.main) {
+        toast('Colando foto principal...', 'success');
+        const url = await uploadFile(file, 'progress-main');
+        if (url) {
+          state.productFormPhotos.main = url;
+          document.getElementById('preview-main').innerHTML =
+            `<div class="photo-preview-item"><img src="${url}"/><button class="photo-remove" onclick="state.productFormPhotos.main=null;document.getElementById('preview-main').innerHTML=''">✕</button></div>`;
+          toast('Foto principal colada!', 'success');
+        }
+      } else if (state.productFormPhotos.extras.length < 5) {
+        toast('Colando foto extra...', 'success');
+        const url = await uploadFile(file, 'progress-extras');
+        if (url) {
+          state.productFormPhotos.extras.push(url);
+          document.getElementById('preview-extras').innerHTML = state.productFormPhotos.extras
+            .map((u,i) => `<div class="photo-preview-item"><img src="${u}"/><button class="photo-remove" onclick="removeExtra(${i})">✕</button></div>`)
+            .join('');
+          toast('Foto extra colada!', 'success');
+        }
+      } else {
+        toast('Limite de 5 fotos extras atingido.', 'error');
+      }
+      break;
+    }
+  }
+});
+
+// ================================================================
+// CACHE LOCAL
+// ================================================================
+function saveCache(key, data) {
+  try { localStorage.setItem('feirao_' + key, JSON.stringify(data)); } catch(e) {}
+}
+function loadCache(key) {
+  try { const d = localStorage.getItem('feirao_' + key); return d ? JSON.parse(d) : null; } catch(e) { return null; }
+}
+
+// ================================================================
+// INIT
+// ================================================================
 async function init() {
   if (!API_URL || API_URL === 'COLE_AQUI_A_URL_DO_APPS_SCRIPT') {
     document.body.innerHTML = `
       <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:16px;padding:20px;text-align:center;">
         <div style="font-size:40px;">⚠️</div>
         <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;">Configure o Apps Script</h2>
-        <p style="color:var(--text-muted);font-size:14px;max-width:400px;">Abra o arquivo HTML e substitua <strong>COLE_AQUI_A_URL_DO_APPS_SCRIPT</strong> pela URL gerada no Google Apps Script.</p>
+        <p style="color:var(--text-muted);font-size:14px;max-width:400px;">Substitua <strong>COLE_AQUI_A_URL_DO_APPS_SCRIPT</strong> pela URL do Apps Script.</p>
       </div>`;
     return;
   }
 
-  // Mostra o catálogo imediatamente — não espera a API
+  // Carrega do cache imediatamente — site abre instantâneo
+  const cachedProducts   = loadCache('products');
+  const cachedCategories = loadCache('categories');
+  const cachedConfig     = loadCache('config');
+
+  if (cachedProducts)   state.products   = cachedProducts;
+  if (cachedCategories) state.categories = cachedCategories;
+  if (cachedConfig)     state.config     = cachedConfig;
+
   showView('catalog');
   renderCatalog();
 
+  // Popup só uma vez por sessão
+  const popupVisto = sessionStorage.getItem('popup_visto');
+  if (!popupVisto && cachedConfig && cachedConfig.popup_ativo !== 'false') {
+    showPopup(cachedConfig);
+    sessionStorage.setItem('popup_visto', '1');
+  }
+
+  // Atualiza dados em background
   try {
-    // Verifica setup em background
     const setup = await apiGet('checkSetup');
     if (!setup.ready) await apiGet('setup');
 
-    // Carrega dados em background
     const [pRes, cRes, cfgRes] = await Promise.all([
       apiGet('getProducts'),
       apiGet('getCategories'),
       apiGet('getConfig'),
     ]);
+
     state.products   = pRes.products   || [];
     state.categories = cRes.categories || [];
     state.config     = cfgRes.config   || {};
 
+    // Salva no cache para próxima visita ser instantânea
+    saveCache('products',   state.products);
+    saveCache('categories', state.categories);
+    saveCache('config',     state.config);
+
     renderCatalog();
-    if (state.config.popup_ativo !== 'false') showPopup(state.config);
+
+    // Popup na primeira visita (sem cache ainda)
+    if (!popupVisto && !cachedConfig && state.config.popup_ativo !== 'false') {
+      showPopup(state.config);
+      sessionStorage.setItem('popup_visto', '1');
+    }
   } catch(err) {
     console.error('Erro ao carregar dados:', err);
   }
