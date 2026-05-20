@@ -131,7 +131,7 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 .product-card-cat{font-size:11px;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px;}
 .product-card-prices{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
 .price-de{font-size:11px;color:var(--text-muted);text-decoration:line-through;}
-.price-por{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold2);}
+.price-por{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:#c0392b;}
 .empty-msg{grid-column:1/-1;text-align:center;padding:60px;color:var(--text-muted);font-size:14px;}
 
 /* ========== PRODUCT MODAL ========== */
@@ -158,7 +158,7 @@ input,textarea,select{font-family:'DM Sans',sans-serif;}
 #product-modal-info{padding:0 24px 24px;display:flex;flex-direction:column;gap:14px;}
 #product-modal-prices{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
 #product-modal-price-de{font-size:14px;color:var(--text-muted);text-decoration:line-through;}
-#product-modal-price-por{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:var(--gold2);}
+#product-modal-price-por{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:#c0392b;}
 #product-modal-obs{font-size:14px;color:var(--text-muted);line-height:1.6;background:var(--surface2);padding:14px;border-radius:8px;}
 #product-modal-cat{font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;}
 #product-modal-sold{display:inline-block;background:var(--red);color:#fff;font-size:13px;font-weight:600;padding:6px 14px;border-radius:50px;letter-spacing:.5px;}
@@ -1159,23 +1159,36 @@ async function handleExtrasPhotos(event) {
     .join('');
 }
 
-async function uploadFile(file, progressId) {
+// ================================================================
+// COMPRESSÃO E UPLOAD DE FOTO (local — sem servidor externo)
+// ================================================================
+async function compressImage(file, maxSize = 480, quality = 0.72) {
   return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      const base64 = e.target.result.split(',')[1];
-      const mimeType = file.type;
-      const filename = file.name;
-      if (progressId) document.getElementById(progressId).style.width = '50%';
-      const res = await apiPost({ action: 'uploadPhoto', base64, filename, mimeType });
-      if (progressId) {
-        document.getElementById(progressId).style.width = '100%';
-        setTimeout(() => { document.getElementById(progressId).style.width = '0%'; }, 800);
-      }
-      resolve(res.url || null);
+    const img = new Image();
+    const objUrl = URL.createObjectURL(file);
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let w = img.width, h = img.height;
+      const ratio = Math.min(maxSize / w, maxSize / h, 1);
+      w = Math.round(w * ratio); h = Math.round(h * ratio);
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      URL.revokeObjectURL(objUrl);
+      resolve(canvas.toDataURL('image/jpeg', quality));
     };
-    reader.readAsDataURL(file);
+    img.onerror = () => { URL.revokeObjectURL(objUrl); resolve(null); };
+    img.src = objUrl;
   });
+}
+
+async function uploadFile(file, progressId) {
+  if (progressId) document.getElementById(progressId).style.width = '40%';
+  const dataUrl = await compressImage(file);
+  if (progressId) {
+    document.getElementById(progressId).style.width = '100%';
+    setTimeout(() => { document.getElementById(progressId).style.width = '0%'; }, 600);
+  }
+  return dataUrl; // salva direto como data URL — sem upload externo
 }
 
 async function saveProduct() {
