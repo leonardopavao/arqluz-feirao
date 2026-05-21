@@ -531,6 +531,16 @@ function renderProductsGrid(){
   let products=[...state.products];
   if(state.filterCat!=='all')products=products.filter(p=>p.Categoria===state.filterCat);
   if(state.filterSubcat!=='all')products=products.filter(p=>p.Subcategoria===state.filterSubcat);
+
+  // Ordena: categoria → subcategoria → nome
+  products.sort((a,b)=>{
+    const ca=(a.Categoria||'').localeCompare(b.Categoria||'','pt-BR');
+    if(ca!==0)return ca;
+    const cs=(a.Subcategoria||'').localeCompare(b.Subcategoria||'','pt-BR');
+    if(cs!==0)return cs;
+    return(a.Nome||'').localeCompare(b.Nome||'','pt-BR');
+  });
+
   const disp=state.products.filter(p=>p.Status!=='vendido').length;
   $('catalog-stats').textContent=`${disp} disponíveis`;
   if(!products.length){grid.innerHTML='<div class="empty-msg">Nenhum produto nesta categoria ainda.</div>';return}
