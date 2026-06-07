@@ -3,23 +3,14 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Feirão Arq Luz</title>
+<title>Outlet Arq Luz</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#f5f0e8;
-  --surface:#fffdf8;
-  --surface2:#f0ebe0;
-  --border:#ddd5c4;
-  --gold:#a0722a;
-  --gold2:#c4923e;
-  --text:#2c2416;
-  --muted:#8a7a62;
-  --red:#b03030;
-  --green:#3a7d5a;
-  --radius:12px;
-  --shadow:0 8px 32px rgba(100,80,40,.12);
+  --bg:#f5f0e8;--surface:#fffdf8;--surface2:#f0ebe0;--border:#ddd5c4;
+  --gold:#a0722a;--gold2:#c4923e;--text:#2c2416;--muted:#8a7a62;
+  --red:#b03030;--green:#3a7d5a;--radius:12px;--shadow:0 8px 32px rgba(100,80,40,.12);
 }
 html,body{min-height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text)}
 .hidden{display:none!important}
@@ -47,10 +38,22 @@ img{max-width:100%}
 #btn-admin-access{background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:50px;font-size:12px}
 #catalog-stats{font-size:12px;color:var(--muted)}
 
-#cat-filters{padding:20px 28px;border-bottom:1px solid var(--border);background:var(--surface)}
+#cat-filters{padding:16px 28px;border-bottom:1px solid var(--border);background:var(--surface)}
 .filter-scroll{display:flex;gap:8px;overflow-x:auto;flex-wrap:wrap}
 .filter-btn{padding:8px 16px;border-radius:50px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:13px;white-space:nowrap}
 .filter-btn.active{background:var(--gold);border-color:var(--gold);color:#fff;font-weight:600}
+.price-filter-btn{padding:7px 14px;border-radius:50px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:12px;white-space:nowrap;transition:.2s}
+.price-filter-btn:hover{border-color:var(--gold);color:var(--gold)}
+.price-filter-btn.active{background:var(--gold2);border-color:var(--gold2);color:#fff;font-weight:600}
+
+/* SKELETON */
+.skeleton-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.skeleton-img{width:100%;height:260px;background:linear-gradient(90deg,var(--surface2) 25%,var(--border) 50%,var(--surface2) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite}
+.skeleton-body{padding:14px;display:flex;flex-direction:column;gap:8px}
+.skeleton-line{height:12px;border-radius:4px;background:linear-gradient(90deg,var(--surface2) 25%,var(--border) 50%,var(--surface2) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite}
+.skeleton-line.short{width:55%}
+.skeleton-line.price{width:40%;height:18px;margin-top:4px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
 #cat-content{padding:28px}
 #products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
@@ -67,7 +70,6 @@ img{max-width:100%}
 .price-por{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:#e8000d}
 .empty-msg,.page-loader{text-align:center;padding:60px;color:var(--muted);font-size:14px;grid-column:1/-1}
 
-/* ===== MODAL PRODUTO ===== */
 #product-modal-overlay{position:fixed;inset:0;background:rgba(60,45,20,.58);z-index:9999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
 #product-modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;max-width:760px;width:95%;max-height:90vh;overflow:auto;animation:slideUp .25s ease}
 #product-modal-header{display:flex;justify-content:space-between;gap:15px;padding:24px 24px 0}
@@ -217,7 +219,7 @@ textarea.form-input{resize:vertical;min-height:80px}
 <div id="popup-overlay" class="hidden">
   <div id="popup-modal">
     <div id="popup-logo">ARQ LUZ ILUMINAÇÃO</div>
-    <h2 id="popup-titulo">Bem-vindo ao Feirão!</h2>
+    <h2 id="popup-titulo">Bem-vindo ao Outlet!</h2>
     <div class="popup-info">
       <div class="popup-row" id="popup-row-data"><span>📅</span><span id="popup-data-txt"></span></div>
       <div class="popup-row" id="popup-row-horario"><span>⏰</span><span id="popup-horario-txt"></span></div>
@@ -258,7 +260,7 @@ textarea.form-input{resize:vertical;min-height:80px}
   <header id="cat-header">
     <div>
       <span id="cat-header-brand">ARQ LUZ ILUMINAÇÃO</span>
-      <span id="cat-header-title">Feirão</span>
+      <span id="cat-header-title">Outlet Arq Luz</span>
     </div>
     <div id="cat-header-right">
       <span id="catalog-stats"></span>
@@ -267,7 +269,14 @@ textarea.form-input{resize:vertical;min-height:80px}
   </header>
   <div id="cat-filters">
     <div class="filter-scroll" id="cat-filter-row"></div>
-    <div class="filter-scroll hidden" id="subcat-filters" style="margin-top:10px"></div>
+    <div class="filter-scroll hidden" id="subcat-filters" style="margin-top:8px"></div>
+    <div class="filter-scroll" id="price-filter-row" style="margin-top:8px">
+      <button class="price-filter-btn active" onclick="filterPrice('all',this)">💰 Todos os preços</button>
+      <button class="price-filter-btn" onclick="filterPrice('0-100',this)">Até R$ 100</button>
+      <button class="price-filter-btn" onclick="filterPrice('100-200',this)">R$ 100 – R$ 200</button>
+      <button class="price-filter-btn" onclick="filterPrice('200-400',this)">R$ 200 – R$ 400</button>
+      <button class="price-filter-btn" onclick="filterPrice('400-2000',this)">R$ 400 – R$ 2.000</button>
+    </div>
   </div>
   <div id="cat-content">
     <div id="products-grid">
@@ -340,38 +349,14 @@ textarea.form-input{resize:vertical;min-height:80px}
         </div>
         <div class="card">
           <div class="form-grid">
-            <div class="form-group full">
-              <label class="form-label">Nome do Produto *</label>
-              <input class="form-input" type="text" id="pf-nome" placeholder="Ex: Pendente Dourado Athens"/>
-            </div>
-            <div class="form-group">
-              <label class="form-label">COD Interno</label>
-              <input class="form-input" type="text" id="pf-cod-interno" placeholder="Ex: ABJ-023"/>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Quantidade em Estoque</label>
-              <input class="form-input" type="number" id="pf-estoque" placeholder="0" min="0" step="1"/>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Categoria *</label>
-              <select class="form-select" id="pf-cat" onchange="onCatChange()"><option value="">Selecione...</option></select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Subcategoria</label>
-              <select class="form-select" id="pf-subcat"><option value="">Selecione...</option></select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Preço De (R$)</label>
-              <input class="form-input" type="number" id="pf-price-de" placeholder="0,00" step="0.01"/>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Preço Por - Feirão (R$) *</label>
-              <input class="form-input" type="number" id="pf-price-por" placeholder="0,00" step="0.01"/>
-            </div>
-            <div class="form-group full">
-              <label class="form-label">Observações</label>
-              <textarea class="form-input" id="pf-obs" placeholder="Dimensões, cor, material, voltagem..."></textarea>
-            </div>
+            <div class="form-group full"><label class="form-label">Nome do Produto *</label><input class="form-input" type="text" id="pf-nome" placeholder="Ex: Pendente Dourado Athens"/></div>
+            <div class="form-group"><label class="form-label">COD Interno</label><input class="form-input" type="text" id="pf-cod-interno" placeholder="Ex: ABJ-023"/></div>
+            <div class="form-group"><label class="form-label">Quantidade em Estoque</label><input class="form-input" type="number" id="pf-estoque" placeholder="0" min="0" step="1"/></div>
+            <div class="form-group"><label class="form-label">Categoria *</label><select class="form-select" id="pf-cat" onchange="onCatChange()"><option value="">Selecione...</option></select></div>
+            <div class="form-group"><label class="form-label">Subcategoria</label><select class="form-select" id="pf-subcat"><option value="">Selecione...</option></select></div>
+            <div class="form-group"><label class="form-label">Preço De (R$)</label><input class="form-input" type="number" id="pf-price-de" placeholder="0,00" step="0.01"/></div>
+            <div class="form-group"><label class="form-label">Preço Por - Outlet (R$) *</label><input class="form-input" type="number" id="pf-price-por" placeholder="0,00" step="0.01"/></div>
+            <div class="form-group full"><label class="form-label">Observações</label><textarea class="form-input" id="pf-obs" placeholder="Dimensões, cor, material, voltagem..."></textarea></div>
             <div class="form-group full">
               <label class="form-label">Foto Principal *</label>
               <div class="upload-area" id="upload-main-area" onclick="document.getElementById('input-main-photo').click()">
@@ -413,13 +398,13 @@ textarea.form-input{resize:vertical;min-height:80px}
       </div>
 
       <div id="admin-settings" class="hidden">
-        <div class="admin-page-title">Configurações do Feirão</div>
+        <div class="admin-page-title">Configurações do Outlet</div>
         <div class="admin-page-sub">Texto e informações do pop-up de boas-vindas</div>
         <div class="card" style="max-width:560px">
           <div class="settings-section">
             <div class="settings-section-title">Informações do Evento</div>
             <div class="form-grid">
-              <div class="form-group full"><label class="form-label">Nome do Feirão</label><input class="form-input" type="text" id="cfg-nome"/></div>
+              <div class="form-group full"><label class="form-label">Nome do Outlet</label><input class="form-input" type="text" id="cfg-nome"/></div>
               <div class="form-group full"><label class="form-label">Título do Pop-up</label><input class="form-input" type="text" id="cfg-popup-titulo"/></div>
               <div class="form-group"><label class="form-label">Data</label><input class="form-input" type="text" id="cfg-data"/></div>
               <div class="form-group"><label class="form-label">Horário</label><input class="form-input" type="text" id="cfg-horario"/></div>
@@ -430,8 +415,7 @@ textarea.form-input{resize:vertical;min-height:80px}
           </div>
           <div class="settings-section">
             <div class="settings-section-title">Pop-up</div>
-            <div class="form-group">
-              <label class="form-label">Exibir pop-up ao abrir o site?</label>
+            <div class="form-group"><label class="form-label">Exibir pop-up ao abrir o site?</label>
               <select class="form-select" id="cfg-popup-ativo"><option value="true">Sim - exibir</option><option value="false">Não - ocultar</option></select>
             </div>
           </div>
@@ -468,15 +452,16 @@ textarea.form-input{resize:vertical;min-height:80px}
 <div id="toast"></div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbwi9fJFeaQ0BZnvhmQo-omRrBp2cGqEhAwnPQUexWsV1w9IcuRkhqdGB5uxflZ3tNrs/exec';
+const API_URL='https://script.google.com/macros/s/AKfycbwi9fJFeaQ0BZnvhmQo-omRrBp2cGqEhAwnPQUexWsV1w9IcuRkhqdGB5uxflZ3tNrs/exec';
 
-let state = {
+let state={
   products:[],categories:[],config:{},isAdmin:false,
   editingProductId:null,productFormPhotos:{main:null,extras:[]},
-  activeView:'catalog',activeAdminTab:'products',filterCat:'all',filterSubcat:'all'
+  activeView:'catalog',activeAdminTab:'products',
+  filterCat:'all',filterSubcat:'all',filterPrice:'all'
 };
 
-const $ = id => document.getElementById(id);
+const $=id=>document.getElementById(id);
 function esc(v){return String(v??'').replace(/[&<>"']/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[s]))}
 
 async function apiGet(action){const r=await fetch(`${API_URL}?action=${encodeURIComponent(action)}&t=${Date.now()}`);return r.json()}
@@ -487,8 +472,8 @@ function showView(v){allViews.forEach(id=>{const el=$('view-'+id);if(el)el.class
 
 function showPopup(cfg){
   if(cfg.popup_ativo==='false')return;
-  $('popup-titulo').textContent=cfg.popup_titulo||'Bem-vindo ao Feirão!';
-  const setRow=(rowId,txtId,val)=>{if(val){$(rowId).classList.remove('hidden');$(txtId).textContent=val}else{$(rowId).classList.add('hidden')}};
+  $('popup-titulo').textContent=cfg.popup_titulo||'Bem-vindo ao Outlet Arq Luz!';
+  const setRow=(rowId,txtId,val)=>{if(val){$(rowId).classList.remove('hidden');$(txtId).textContent=val}else $(rowId).classList.add('hidden')};
   setRow('popup-row-data','popup-data-txt',cfg.popup_data);
   setRow('popup-row-horario','popup-horario-txt',cfg.popup_horario);
   setRow('popup-row-local','popup-local-txt',cfg.popup_local);
@@ -500,8 +485,12 @@ function closePopup(){$('popup-overlay').classList.add('hidden')}
 
 function renderCatalog(){
   renderCatFilters();renderProductsGrid();
-  const title=state.config.feirao_nome||'Feirão';
+  const title=state.config.feirao_nome||'Outlet Arq Luz';
   $('cat-header-title').textContent=title;document.title=title+' - Arq Luz';
+}
+
+function showSkeletons(){
+  $('products-grid').innerHTML=Array(8).fill(`<div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-line price"></div></div></div>`).join('');
 }
 
 function renderCatFilters(){
@@ -524,6 +513,13 @@ function renderSubcatFilters(){
 
 function filterCat(cat){state.filterCat=cat;state.filterSubcat='all';renderCatFilters();renderProductsGrid()}
 function filterSubcat(sub){state.filterSubcat=sub;renderSubcatFilters();renderProductsGrid()}
+function filterPrice(range,btn){
+  state.filterPrice=range;
+  document.querySelectorAll('.price-filter-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  renderProductsGrid();
+}
+
 function formatMoney(v){if(v===undefined||v===null||v==='')return'';const n=parseFloat(String(v).replace(',','.'));if(Number.isNaN(n))return'';return'R$ '+n.toFixed(2).replace('.',',')}
 
 function renderProductsGrid(){
@@ -531,19 +527,18 @@ function renderProductsGrid(){
   let products=[...state.products];
   if(state.filterCat!=='all')products=products.filter(p=>p.Categoria===state.filterCat);
   if(state.filterSubcat!=='all')products=products.filter(p=>p.Subcategoria===state.filterSubcat);
-
-  // Ordena: categoria → subcategoria → nome
+  if(state.filterPrice!=='all'){
+    const[min,max]=state.filterPrice.split('-').map(Number);
+    products=products.filter(p=>{const price=parseFloat(String(p.Preco_Por||'0').replace(',','.'));return!isNaN(price)&&price>=min&&price<=max});
+  }
   products.sort((a,b)=>{
-    const ca=(a.Categoria||'').localeCompare(b.Categoria||'','pt-BR');
-    if(ca!==0)return ca;
-    const cs=(a.Subcategoria||'').localeCompare(b.Subcategoria||'','pt-BR');
-    if(cs!==0)return cs;
+    const ca=(a.Categoria||'').localeCompare(b.Categoria||'','pt-BR');if(ca!==0)return ca;
+    const cs=(a.Subcategoria||'').localeCompare(b.Subcategoria||'','pt-BR');if(cs!==0)return cs;
     return(a.Nome||'').localeCompare(b.Nome||'','pt-BR');
   });
-
   const disp=state.products.filter(p=>p.Status!=='vendido').length;
   $('catalog-stats').textContent=`${disp} disponíveis`;
-  if(!products.length){grid.innerHTML='<div class="empty-msg">Nenhum produto nesta categoria ainda.</div>';return}
+  if(!products.length){grid.innerHTML='<div class="empty-msg">Nenhum produto encontrado.</div>';return}
   grid.innerHTML='';
   products.forEach(p=>{
     const card=document.createElement('div');
@@ -563,34 +558,16 @@ function openProductModal(p){
   $('product-modal-obs').textContent=p.Observacoes||'';
   $('product-modal-obs').style.display=p.Observacoes?'block':'none';
   $('product-modal-sold-wrap').innerHTML=p.Status==='vendido'?'<span>Vendido</span>':'';
-
-  // COD e Estoque
   const meta=$('product-modal-meta');meta.innerHTML='';
   if(p.Codigo_Interno)meta.innerHTML+=`<div class="product-modal-meta-item"><span class="product-modal-meta-label">Código</span><span class="product-modal-meta-value">${esc(p.Codigo_Interno)}</span></div>`;
   if(p.Estoque&&p.Estoque!=='0')meta.innerHTML+=`<div class="product-modal-meta-item"><span class="product-modal-meta-label">Estoque</span><span class="product-modal-meta-value">${esc(p.Estoque)} un.</span></div>`;
-
-  // Galeria
   const allImgs=[p.Foto_Principal,...(p.Fotos_Extras?String(p.Fotos_Extras).split(',').map(u=>u.trim()):[])].filter(Boolean);
-  const mainWrap=$('product-modal-main-wrap');
-  const thumbsDiv=$('product-modal-thumbs');
+  const mainWrap=$('product-modal-main-wrap'),thumbsDiv=$('product-modal-thumbs');
   mainWrap.innerHTML='';thumbsDiv.innerHTML='';
-
   if(allImgs.length){
-    const mainImg=document.createElement('img');
-    mainImg.id='product-modal-main-img';mainImg.src=allImgs[0];mainImg.alt=p.Nome||'';
-    mainWrap.appendChild(mainImg);
-    if(allImgs.length>1){
-      allImgs.forEach((url,i)=>{
-        const thumb=document.createElement('img');
-        thumb.className='modal-thumb'+(i===0?' active':'');
-        thumb.src=url;thumb.alt=`Foto ${i+1}`;
-        thumb.onclick=()=>{mainImg.src=url;document.querySelectorAll('.modal-thumb').forEach(t=>t.classList.remove('active'));thumb.classList.add('active')};
-        thumbsDiv.appendChild(thumb);
-      });
-    }
-  }else{
-    mainWrap.innerHTML='<div id="product-modal-main-placeholder">💡</div>';
-  }
+    const mainImg=document.createElement('img');mainImg.id='product-modal-main-img';mainImg.src=allImgs[0];mainImg.alt=p.Nome||'';mainWrap.appendChild(mainImg);
+    if(allImgs.length>1){allImgs.forEach((url,i)=>{const thumb=document.createElement('img');thumb.className='modal-thumb'+(i===0?' active':'');thumb.src=url;thumb.alt=`Foto ${i+1}`;thumb.onclick=()=>{mainImg.src=url;document.querySelectorAll('.modal-thumb').forEach(t=>t.classList.remove('active'));thumb.classList.add('active')};thumbsDiv.appendChild(thumb)})}
+  }else mainWrap.innerHTML='<div id="product-modal-main-placeholder">💡</div>';
   $('product-modal-overlay').classList.remove('hidden');
 }
 
@@ -600,27 +577,19 @@ function closeProductModal(event){
 }
 
 async function doLogin(){
-  const pass=$('login-input').value.trim();
-  $('login-error').textContent='';
+  const pass=$('login-input').value.trim();$('login-error').textContent='';
   if(!pass){$('login-error').textContent='Digite a senha.';return}
-  const SENHA_LOCAL='081120';
-  const senhaConfig=state.config&&state.config.admin_senha;
+  const SENHA_LOCAL='081120';const senhaConfig=state.config&&state.config.admin_senha;
   if(pass===SENHA_LOCAL||(senhaConfig&&pass===senhaConfig)){entrarAdmin();return}
   try{const res=await apiPost({action:'verifyPassword',password:pass});if(res&&res.ok){entrarAdmin();return}}catch(e){}
   $('login-error').textContent='Senha incorreta.';
 }
-
 function entrarAdmin(){state.isAdmin=true;$('login-input').value='';showView('admin');adminNav('products');loadAdminData()}
 function doLogout(){state.isAdmin=false;showView('catalog')}
 
 function adminNav(tab){
-  ['products','add-product','categories','settings'].forEach(t=>{
-    const page=$('admin-'+t);if(page)page.classList.add('hidden');
-    const nav=$('nav-'+t);if(nav)nav.classList.remove('active');
-  });
-  $('admin-'+tab).classList.remove('hidden');
-  const nb=$('nav-'+tab);if(nb)nb.classList.add('active');
-  state.activeAdminTab=tab;
+  ['products','add-product','categories','settings'].forEach(t=>{const page=$('admin-'+t);if(page)page.classList.add('hidden');const nav=$('nav-'+t);if(nav)nav.classList.remove('active')});
+  $('admin-'+tab).classList.remove('hidden');const nb=$('nav-'+tab);if(nb)nb.classList.add('active');state.activeAdminTab=tab;
   if(tab==='add-product'){clearProductForm();$('product-form-title').textContent='Novo Produto';state.editingProductId=null}
   if(tab==='categories')renderCategoriesAdmin();
   if(tab==='settings')fillSettingsForm();
@@ -644,8 +613,7 @@ function renderProductsTable(){
 }
 
 function filterProducts(){
-  const q=($('search-products')?.value||'').toLowerCase();
-  const tbody=$('products-tbody');tbody.innerHTML='';
+  const q=($('search-products')?.value||'').toLowerCase();const tbody=$('products-tbody');tbody.innerHTML='';
   const filtered=state.products.filter(p=>String(p.Nome||'').toLowerCase().includes(q)||String(p.Codigo_Interno||'').toLowerCase().includes(q)||String(p.Categoria||'').toLowerCase().includes(q));
   if(!filtered.length){tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--muted)">Nenhum produto encontrado.</td></tr>`;return}
   filtered.forEach(p=>{
@@ -681,20 +649,8 @@ function clearProductForm(){
   $('progress-main').style.width='0%';$('progress-extras').style.width='0%';
   state.productFormPhotos={main:null,extras:[]};fillCatSelect();
 }
-
-function fillCatSelect(){
-  const sel=$('pf-cat');const current=sel.value;
-  sel.innerHTML='<option value="">Selecione...</option>';
-  state.categories.forEach(c=>{const opt=document.createElement('option');opt.value=c.Nome;opt.textContent=c.Nome;sel.appendChild(opt)});
-  if(current)sel.value=current;
-}
-
-function onCatChange(){
-  const cat=$('pf-cat').value;const subcatSel=$('pf-subcat');
-  subcatSel.innerHTML='<option value="">Sem subcategoria</option>';
-  const catObj=state.categories.find(c=>c.Nome===cat);
-  if(catObj&&catObj.Subcategorias)catObj.Subcategorias.forEach(sc=>{const opt=document.createElement('option');opt.value=sc;opt.textContent=sc;subcatSel.appendChild(opt)});
-}
+function fillCatSelect(){const sel=$('pf-cat');const current=sel.value;sel.innerHTML='<option value="">Selecione...</option>';state.categories.forEach(c=>{const opt=document.createElement('option');opt.value=c.Nome;opt.textContent=c.Nome;sel.appendChild(opt)});if(current)sel.value=current}
+function onCatChange(){const cat=$('pf-cat').value;const subcatSel=$('pf-subcat');subcatSel.innerHTML='<option value="">Sem subcategoria</option>';const catObj=state.categories.find(c=>c.Nome===cat);if(catObj&&catObj.Subcategorias)catObj.Subcategorias.forEach(sc=>{const opt=document.createElement('option');opt.value=sc;opt.textContent=sc;subcatSel.appendChild(opt)})}
 
 function editProduct(id){
   const p=state.products.find(p=>p.ID===id);if(!p)return;
@@ -706,7 +662,6 @@ function editProduct(id){
   if(p.Foto_Principal){state.productFormPhotos.main=p.Foto_Principal;$('preview-main').innerHTML=`<div class="photo-preview-item"><img src="${esc(p.Foto_Principal)}"/><button class="photo-remove" onclick="removeMainPhoto()">✕</button></div>`}
   if(p.Fotos_Extras){const urls=String(p.Fotos_Extras).split(',').map(u=>u.trim()).filter(Boolean);state.productFormPhotos.extras=urls;renderExtrasPreview()}
 }
-
 function removeMainPhoto(){state.productFormPhotos.main=null;$('preview-main').innerHTML=''}
 function removeExtra(idx){state.productFormPhotos.extras.splice(idx,1);renderExtrasPreview()}
 function renderExtrasPreview(){$('preview-extras').innerHTML=state.productFormPhotos.extras.map((u,i)=>`<div class="photo-preview-item"><img src="${esc(u)}"/><button class="photo-remove" onclick="removeExtra(${i})">✕</button></div>`).join('')}
@@ -717,7 +672,6 @@ async function handleMainPhoto(event){
   const url=await uploadFile(file,'progress-main');
   if(url){state.productFormPhotos.main=url;$('preview-main').innerHTML=`<div class="photo-preview-item"><img src="${esc(url)}"/><button class="photo-remove" onclick="removeMainPhoto()">✕</button></div>`;toast('Foto principal enviada!','success')}
 }
-
 async function handleExtrasPhotos(event){
   const files=Array.from(event.target.files).slice(0,5-state.productFormPhotos.extras.length);event.target.value='';if(!files.length)return;
   const progressBar=$('progress-extras');let done=0;
@@ -729,14 +683,12 @@ function compressImage(file,maxSize=1400,quality=0.88){
   return new Promise(resolve=>{
     const img=new Image();const objUrl=URL.createObjectURL(file);
     img.onload=()=>{
-      const canvas=document.createElement('canvas');
-      let w=img.width,h=img.height;const ratio=Math.min(maxSize/w,maxSize/h,1);
-      w=Math.round(w*ratio);h=Math.round(h*ratio);canvas.width=w;canvas.height=h;
-      canvas.getContext('2d').drawImage(img,0,0,w,h);URL.revokeObjectURL(objUrl);
+      const canvas=document.createElement('canvas');let w=img.width,h=img.height;
+      const ratio=Math.min(maxSize/w,maxSize/h,1);w=Math.round(w*ratio);h=Math.round(h*ratio);
+      canvas.width=w;canvas.height=h;canvas.getContext('2d').drawImage(img,0,0,w,h);URL.revokeObjectURL(objUrl);
       resolve(canvas.toDataURL('image/jpeg',quality));
     };
-    img.onerror=()=>{URL.revokeObjectURL(objUrl);resolve(null)};
-    img.src=objUrl;
+    img.onerror=()=>{URL.revokeObjectURL(objUrl);resolve(null)};img.src=objUrl;
   });
 }
 
@@ -762,7 +714,7 @@ async function saveProduct(){
   const nome=$('pf-nome').value.trim(),cat=$('pf-cat').value,por=$('pf-price-por').value;
   if(!nome){toast('Informe o nome do produto.','error');return}
   if(!cat){toast('Selecione uma categoria.','error');return}
-  if(!por){toast('Informe o preço do feirão.','error');return}
+  if(!por){toast('Informe o preço do outlet.','error');return}
   const btn=$('btn-save-product');btn.disabled=true;btn.textContent='Salvando...';
   try{
     const product={Nome:nome,Codigo_Interno:$('pf-cod-interno').value.trim(),Estoque:$('pf-estoque').value,Categoria:cat,Subcategoria:$('pf-subcat').value,Preco_De:$('pf-price-de').value,Preco_Por:por,Observacoes:$('pf-obs').value.trim(),Foto_Principal:state.productFormPhotos.main||'',Fotos_Extras:state.productFormPhotos.extras.join(',')};
@@ -804,14 +756,12 @@ async function addCategory(){
   if(res.ok){state.categories.push({ID:res.id,Nome:nome,Subcategorias:[]});input.value='';saveCache('categories',state.categories);renderCategoriesAdmin();fillCatSelect();renderCatFilters();toast('Categoria criada!','success')}
   else toast('Erro ao criar categoria.','error');
 }
-
 async function deleteCategoryAdmin(id){
   if(!confirm('Excluir esta categoria?'))return;
   const res=await apiPost({action:'deleteCategory',id});
   if(res.ok){state.categories=state.categories.filter(c=>c.ID!==id);saveCache('categories',state.categories);renderCategoriesAdmin();fillCatSelect();renderCatFilters();toast('Categoria excluída.','success')}
   else toast('Erro ao excluir categoria.','error');
 }
-
 async function addSubcat(catId){
   const input=$('subcat-input-'+catId);const nome=input.value.trim();if(!nome)return;
   const cat=state.categories.find(c=>c.ID===catId);if(!cat)return;
@@ -820,7 +770,6 @@ async function addSubcat(catId){
   if(res.ok){input.value='';saveCache('categories',state.categories);renderCategoriesAdmin();renderCatFilters();toast('Subcategoria adicionada!','success')}
   else toast('Erro ao adicionar subcategoria.','error');
 }
-
 async function removeSubcat(catId,idx){
   const cat=state.categories.find(c=>c.ID===catId);if(!cat)return;
   cat.Subcategorias.splice(idx,1);
@@ -837,7 +786,6 @@ function fillSettingsForm(){
   $('cfg-texto').value=cfg.popup_texto||'';$('cfg-popup-ativo').value=cfg.popup_ativo||'true';
   $('cfg-senha').value='';$('cfg-senha2').value='';
 }
-
 async function saveSettings(){
   const newCfg={feirao_nome:$('cfg-nome').value,popup_titulo:$('cfg-popup-titulo').value,popup_data:$('cfg-data').value,popup_horario:$('cfg-horario').value,popup_local:$('cfg-local').value,popup_pagamento:$('cfg-pagamento').value,popup_texto:$('cfg-texto').value,popup_ativo:$('cfg-popup-ativo').value};
   const senha=$('cfg-senha').value,senha2=$('cfg-senha2').value;
@@ -849,8 +797,8 @@ async function saveSettings(){
 
 let toastTimer;
 function toast(msg,type='success'){const el=$('toast');el.textContent=msg;el.className='show '+type;clearTimeout(toastTimer);toastTimer=setTimeout(()=>{el.className=''},3000)}
-function saveCache(key,data){try{localStorage.setItem('feirao_'+key,JSON.stringify(data))}catch(e){}}
-function loadCache(key){try{const d=localStorage.getItem('feirao_'+key);return d?JSON.parse(d):null}catch(e){return null}}
+function saveCache(key,data){try{localStorage.setItem('outlet_'+key,JSON.stringify(data))}catch(e){}}
+function loadCache(key){try{const d=localStorage.getItem('outlet_'+key)||localStorage.getItem('feirao_'+key);return d?JSON.parse(d):null}catch(e){return null}}
 
 document.addEventListener('paste',async e=>{
   if($('admin-add-product').classList.contains('hidden'))return;
@@ -877,16 +825,9 @@ function setupDragAndDrop(){
     const area=$(areaId);const input=$(inputId);if(!area||!input)return;
     area.addEventListener('dragover',e=>{e.preventDefault();area.classList.add('drag-over')});
     area.addEventListener('dragleave',()=>area.classList.remove('drag-over'));
-    area.addEventListener('drop',e=>{
-      e.preventDefault();area.classList.remove('drag-over');
-      const files=e.dataTransfer.files;if(!files||!files.length)return;
-      input.files=files;
-      if(inputId==='input-main-photo')handleMainPhoto({target:input});
-      else handleExtrasPhotos({target:input});
-    });
+    area.addEventListener('drop',e=>{e.preventDefault();area.classList.remove('drag-over');const files=e.dataTransfer.files;if(!files||!files.length)return;input.files=files;if(inputId==='input-main-photo')handleMainPhoto({target:input});else handleExtrasPhotos({target:input})});
   };
-  bind('upload-main-area','input-main-photo');
-  bind('upload-extras-area','input-extras-photos');
+  bind('upload-main-area','input-main-photo');bind('upload-extras-area','input-extras-photos');
 }
 
 async function init(){
@@ -894,18 +835,30 @@ async function init(){
   if(cachedProducts)state.products=cachedProducts;
   if(cachedCategories)state.categories=cachedCategories;
   if(cachedConfig)state.config=cachedConfig;
-  showView('catalog');renderCatalog();setupDragAndDrop();
+  showView('catalog');
+  if(!cachedProducts||!cachedProducts.length)showSkeletons();
+  else renderCatalog();
+  setupDragAndDrop();
   const popupVisto=sessionStorage.getItem('popup_visto');
   if(!popupVisto&&cachedConfig&&cachedConfig.popup_ativo!=='false'){showPopup(cachedConfig);sessionStorage.setItem('popup_visto','1')}
   try{
-    const setup=await apiGet('checkSetup');
-    if(!setup.ready)await apiGet('setup');
     const[pRes,cRes,cfgRes]=await Promise.all([apiGet('getProducts'),apiGet('getCategories'),apiGet('getConfig')]);
     state.products=pRes.products||[];state.categories=cRes.categories||[];state.config=cfgRes.config||{};
     saveCache('products',state.products);saveCache('categories',state.categories);saveCache('config',state.config);
     renderCatalog();
     if(!popupVisto&&!cachedConfig&&state.config.popup_ativo!=='false'){showPopup(state.config);sessionStorage.setItem('popup_visto','1')}
   }catch(err){console.error('Erro ao carregar dados:',err)}
+
+  // Atualização automática a cada 20 segundos
+  setInterval(async()=>{
+    try{
+      const[pRes,cRes]=await Promise.all([apiGet('getProducts'),apiGet('getCategories')]);
+      state.products=pRes.products||[];state.categories=cRes.categories||[];
+      saveCache('products',state.products);saveCache('categories',state.categories);
+      renderCatalog();
+      if(state.isAdmin&&state.activeAdminTab==='products')renderProductsTable();
+    }catch(e){}
+  },20000);
 }
 init();
 </script>
