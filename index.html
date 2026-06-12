@@ -68,6 +68,8 @@ img{max-width:100%}
 .product-card-cat{font-size:11px;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
 .price-de{font-size:11px;color:var(--muted);text-decoration:line-through;margin-right:8px}
 .price-por{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:#e8000d}
+.card-stock{font-size:12px;color:var(--text);margin-top:6px;font-weight:500}
+.card-stock-num{color:#e8000d;font-weight:700}
 .empty-msg,.page-loader{text-align:center;padding:60px;color:var(--muted);font-size:14px;grid-column:1/-1}
 
 #product-modal-overlay{position:fixed;inset:0;background:rgba(60,45,20,.58);z-index:9999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
@@ -275,7 +277,11 @@ textarea.form-input{resize:vertical;min-height:80px}
       <button class="price-filter-btn" onclick="filterPrice('0-100',this)">Até R$ 100</button>
       <button class="price-filter-btn" onclick="filterPrice('100-200',this)">R$ 100 – R$ 200</button>
       <button class="price-filter-btn" onclick="filterPrice('200-400',this)">R$ 200 – R$ 400</button>
-      <button class="price-filter-btn" onclick="filterPrice('400-2000',this)">R$ 400 – R$ 2.000</button>
+      <button class="price-filter-btn" onclick="filterPrice('400-600',this)">R$ 400 – R$ 600</button>
+      <button class="price-filter-btn" onclick="filterPrice('600-800',this)">R$ 600 – R$ 800</button>
+      <button class="price-filter-btn" onclick="filterPrice('800-1200',this)">R$ 800 – R$ 1.200</button>
+      <button class="price-filter-btn" onclick="filterPrice('1200-2000',this)">R$ 1.200 – R$ 2.000</button>
+      <button class="price-filter-btn" onclick="filterPrice('2000-5000',this)">R$ 2.000 – R$ 5.000</button>
     </div>
   </div>
   <div id="cat-content">
@@ -545,7 +551,9 @@ function renderProductsGrid(){
     card.className='product-card'+(p.Status==='vendido'?' sold':'');
     card.onclick=()=>openProductModal(p);
     const imgHtml=p.Foto_Principal?`<img class="product-card-img" src="${esc(p.Foto_Principal)}" alt="${esc(p.Nome)}" loading="lazy"/>`:`<div class="product-card-img-placeholder">💡</div>`;
-    card.innerHTML=`${imgHtml}${p.Status==='vendido'?'<div class="sold-badge">Vendido</div>':''}<div class="product-card-body"><div class="product-card-name">${esc(p.Nome)}</div><div class="product-card-cat">${esc([p.Categoria,p.Subcategoria].filter(Boolean).join(' · '))}</div><div class="product-card-prices">${p.Preco_De?`<span class="price-de">${formatMoney(p.Preco_De)}</span>`:''}${p.Preco_Por?`<span class="price-por">${formatMoney(p.Preco_Por)}</span>`:''}</div></div>`;
+    const estoqueNum=parseInt(p.Estoque)||0;
+    const estoqueHtml=p.Status!=='vendido'&&estoqueNum>0?`<div class="card-stock">Estoque: <span class="card-stock-num">${estoqueNum} un.</span></div>`:'';
+    card.innerHTML=`${imgHtml}${p.Status==='vendido'?'<div class="sold-badge">Vendido</div>':''}<div class="product-card-body"><div class="product-card-name">${esc(p.Nome)}</div><div class="product-card-cat">${esc([p.Categoria,p.Subcategoria].filter(Boolean).join(' · '))}</div><div class="product-card-prices">${p.Preco_De?`<span class="price-de">${formatMoney(p.Preco_De)}</span>`:''}${p.Preco_Por?`<span class="price-por">${formatMoney(p.Preco_Por)}</span>`:''}</div>${estoqueHtml}</div>`;
     grid.appendChild(card);
   });
 }
@@ -560,7 +568,7 @@ function openProductModal(p){
   $('product-modal-sold-wrap').innerHTML=p.Status==='vendido'?'<span>Vendido</span>':'';
   const meta=$('product-modal-meta');meta.innerHTML='';
   if(p.Codigo_Interno)meta.innerHTML+=`<div class="product-modal-meta-item"><span class="product-modal-meta-label">Código</span><span class="product-modal-meta-value">${esc(p.Codigo_Interno)}</span></div>`;
-  if(p.Estoque&&p.Estoque!=='0')meta.innerHTML+=`<div class="product-modal-meta-item"><span class="product-modal-meta-label">Estoque</span><span class="product-modal-meta-value">${esc(p.Estoque)} un.</span></div>`;
+  if(p.Estoque&&p.Estoque!=='0')meta.innerHTML+=`<div class="product-modal-meta-item"><span class="product-modal-meta-label" style="color:var(--text);font-weight:700;font-size:12px">Estoque</span><span class="product-modal-meta-value" style="color:#e8000d;font-size:18px">${esc(p.Estoque)} un.</span></div>`;
   const allImgs=[p.Foto_Principal,...(p.Fotos_Extras?String(p.Fotos_Extras).split(',').map(u=>u.trim()):[])].filter(Boolean);
   const mainWrap=$('product-modal-main-wrap'),thumbsDiv=$('product-modal-thumbs');
   mainWrap.innerHTML='';thumbsDiv.innerHTML='';
