@@ -540,7 +540,9 @@ function renderProductsGrid(){
   products.sort((a,b)=>{
     const ca=(a.Categoria||'').localeCompare(b.Categoria||'','pt-BR');if(ca!==0)return ca;
     const cs=(a.Subcategoria||'').localeCompare(b.Subcategoria||'','pt-BR');if(cs!==0)return cs;
-    return(a.Nome||'').localeCompare(b.Nome||'','pt-BR');
+    const pa=parseFloat(String(a.Preco_Por||'0').replace(',','.'));
+    const pb=parseFloat(String(b.Preco_Por||'0').replace(',','.'));
+    return pa-pb;
   });
   const disp=state.products.filter(p=>p.Status!=='vendido').length;
   $('catalog-stats').textContent=`${disp} disponíveis`;
