@@ -535,19 +535,17 @@ function renderProductsGrid(){
   if(state.filterSubcat!=='all')products=products.filter(p=>p.Subcategoria===state.filterSubcat);
   if(state.filterPrice!=='all'){
     const[min,max]=state.filterPrice.split('-').map(Number);
-    products=products.filter(p=>{const price=parseFloat(String(p.Preco_Por||'0').replace(',','.'));return!isNaN(price)&&price>=min&&price<=max});
+    products=products.filter(p=>{const s=String(p.Preco_Por||'0').replace(/R\$\s*/g,'').trim();const price=s.includes(',')?parseFloat(s.replace(/\./g,'').replace(',','.'))||0:parseFloat(s)||0;return!isNaN(price)&&price>=min&&price<=max});
   }
   const parseBRL=v=>{
-    const s=String(v||'0').replace(/R\$\s*/g,'').replace(/\./g,'').replace(',','.').trim();
-    const n=parseFloat(s);
-    return isNaN(n)?0:n;
+    const s=String(v||'0').replace(/R\$\s*/g,'').trim();
+    if(s.includes(','))return parseFloat(s.replace(/\./g,'').replace(',','.'))||0;
+    return parseFloat(s)||0;
   };
-  console.log('ANTES do sort:',products.filter(p=>p.Categoria==='ABAJUR').slice(0,10).map(p=>p.Nome+' | Preco_Por='+JSON.stringify(p.Preco_Por)+' | parsed='+parseBRL(p.Preco_Por)));
   products.sort((a,b)=>{
     const ca=(a.Categoria||'').localeCompare(b.Categoria||'','pt-BR');if(ca!==0)return ca;
     return parseBRL(a.Preco_Por)-parseBRL(b.Preco_Por);
   });
-  console.log('DEPOIS do sort:',products.filter(p=>p.Categoria==='ABAJUR').slice(0,10).map(p=>p.Nome+' | '+parseBRL(p.Preco_Por)));
   const disp=state.products.filter(p=>p.Status!=='vendido').length;
   $('catalog-stats').textContent=`${disp} disponíveis`;
   if(!products.length){grid.innerHTML='<div class="empty-msg">Nenhum produto encontrado.</div>';return}
