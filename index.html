@@ -540,7 +540,6 @@ function renderProductsGrid(){
   const parseBRL=v=>parseFloat(String(v||'0').replace(/\./g,'').replace(',','.'));
   products.sort((a,b)=>{
     const ca=(a.Categoria||'').localeCompare(b.Categoria||'','pt-BR');if(ca!==0)return ca;
-    const cs=(a.Subcategoria||'').localeCompare(b.Subcategoria||'','pt-BR');if(cs!==0)return cs;
     return parseBRL(a.Preco_Por)-parseBRL(b.Preco_Por);
   });
   const disp=state.products.filter(p=>p.Status!=='vendido').length;
