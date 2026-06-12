@@ -537,7 +537,11 @@ function renderProductsGrid(){
     const[min,max]=state.filterPrice.split('-').map(Number);
     products=products.filter(p=>{const price=parseFloat(String(p.Preco_Por||'0').replace(',','.'));return!isNaN(price)&&price>=min&&price<=max});
   }
-  const parseBRL=v=>parseFloat(String(v||'0').replace(/\./g,'').replace(',','.'));
+  const parseBRL=v=>{
+    const s=String(v||'0').replace(/R\$\s*/g,'').replace(/\./g,'').replace(',','.').trim();
+    const n=parseFloat(s);
+    return isNaN(n)?0:n;
+  };
   products.sort((a,b)=>{
     const ca=(a.Categoria||'').localeCompare(b.Categoria||'','pt-BR');if(ca!==0)return ca;
     return parseBRL(a.Preco_Por)-parseBRL(b.Preco_Por);
