@@ -749,18 +749,17 @@ async function renderSalesReport(){
   try{
     const res=await apiGet('getVendas');
     const vendas=res.vendas||[];
-    // Calcular totais
+    const parseBRL=v=>{const s=String(v||'0').replace(/R\$\s*/g,'').trim();if(s.includes(','))return parseFloat(s.replace(/\./g,'').replace(',','.'))||0;return parseFloat(s)||0;};
     let totalQtd=0,totalValor=0;
     vendas.forEach(v=>{
-      totalQtd+=parseInt(v.Quantidade)||0;
-      const preco=parseFloat(String(v.Preco||'0').replace(/\./g,'').replace(',','.'))||0;
-      totalValor+=preco*(parseInt(v.Quantidade)||1);
+      const qtd=parseInt(v.Quantidade)||0;
+      totalQtd+=qtd;
+      totalValor+=parseBRL(v.Preco)*qtd;
     });
     $('sales-report-sub').textContent=`${vendas.length} venda(s) — ${totalQtd} peça(s) — Total: ${formatMoney(totalValor)}`;
     if(!vendas.length){tbody.innerHTML=`<tr><td colspan="6" class="sales-empty">Nenhuma venda registrada ainda.</td></tr>`;return}
-    tbody.innerHTML=vendas.map(v=>`<tr><td style="white-space:nowrap">${esc(v.Data)}</td><td><strong>${esc(v.Nome)}</strong></td><td style="color:var(--gold);font-weight:600">${esc(v.Codigo)}</td><td>${esc(v.Categoria)}</td><td style="text-align:center">${esc(v.Quantidade)}</td><td style="color:var(--red);font-weight:700">${v.Preco?formatMoney(v.Preco):'-'}</td></tr>`).join('');
+    tbody.innerHTML=vendas.map(v=>`<tr><td style="white-space:nowrap">${esc(v.Data)}</td><td><strong>${esc(v.Nome)}</strong></td><td style="color:var(--gold);font-weight:600">${esc(v.Codigo)}</td><td>${esc(v.Categoria)}</td><td style="text-align:center">${esc(v.Quantidade)}</td><td style="color:var(--red);font-weight:700">${v.Preco?formatMoney(parseBRL(v.Preco)):'-'}</td></tr>`).join('');
     tfoot.innerHTML=`<tr><td colspan="4" style="text-align:right;font-weight:700;padding:12px">TOTAL</td><td style="text-align:center;font-weight:700;padding:12px">${totalQtd}</td><td style="font-weight:700;color:var(--red);font-size:16px;padding:12px">${formatMoney(totalValor)}</td></tr>`;
-    // Guardar dados para impressão
     state.vendasParaImprimir={vendas,totalQtd,totalValor};
   }catch(e){tbody.innerHTML=`<tr><td colspan="6" class="sales-empty">Erro ao carregar vendas.</td></tr>`}
 }
@@ -768,29 +767,40 @@ async function renderSalesReport(){
 function imprimirRelatorio(){
   if(!state.vendasParaImprimir||!state.vendasParaImprimir.vendas.length){toast('Nenhuma venda para imprimir.','error');return}
   const {vendas,totalQtd,totalValor}=state.vendasParaImprimir;
+  const parseBRL=v=>{const s=String(v||'0').replace(/R\$\s*/g,'').trim();if(s.includes(','))return parseFloat(s.replace(/\./g,'').replace(',','.'))||0;return parseFloat(s)||0;};
   const agora=new Date().toLocaleString('pt-BR');
-  // Criar área de impressão temporária
-  let div=document.getElementById('print-area');
-  if(div)div.remove();
-  div=document.createElement('div');
-  div.id='print-area';
-  div.innerHTML=`
-    <div class="print-header">
-      <div class="print-title">ARQ LUZ ILUMINAÇÃO — Relatório de Vendas</div>
-      <div class="print-sub">Gerado em ${agora} · ${vendas.length} venda(s) registrada(s)</div>
-    </div>
-    <table>
-      <thead><tr><th>Data</th><th>Produto</th><th>Código</th><th>Categoria</th><th>Qtd</th><th>Preço Outlet</th></tr></thead>
-      <tbody>${vendas.map(v=>`<tr><td>${esc(v.Data)}</td><td>${esc(v.Nome)}</td><td>${esc(v.Codigo)}</td><td>${esc(v.Categoria)}</td><td style="text-align:center">${esc(v.Quantidade)}</td><td>${v.Preco?formatMoney(v.Preco):'-'}</td></tr>`).join('')}</tbody>
-      <tfoot><tr><td colspan="4" style="text-align:right">TOTAL GERAL</td><td style="text-align:center">${totalQtd} peças</td><td>${formatMoney(totalValor)}</td></tr></tfoot>
-    </table>
-    <div class="print-total-box">
-      <div><div class="print-total-label">Total de peças vendidas</div><div class="print-total-value">${totalQtd} un.</div></div>
-      <div><div class="print-total-label">Valor total arrecadado</div><div class="print-total-value">${formatMoney(totalValor)}</div></div>
-    </div>`;
-  document.body.appendChild(div);
-  window.print();
-  setTimeout(()=>{if(div)div.remove();},1000);
+  const linhas=vendas.map(v=>`<tr><td>${esc(v.Data)}</td><td>${esc(v.Nome)}</td><td>${esc(v.Codigo)}</td><td>${esc(v.Categoria)}</td><td style="text-align:center">${esc(v.Quantidade)}</td><td style="text-align:right">${v.Preco?formatMoney(parseBRL(v.Preco)):'-'}</td></tr>`).join('');
+  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Relatório de Vendas — Arq Luz</title>
+  <style>
+    body{font-family:Arial,sans-serif;font-size:12px;color:#222;padding:24px;margin:0}
+    h1{font-size:18px;margin:0 0 4px}
+    .sub{font-size:12px;color:#666;margin-bottom:20px}
+    table{width:100%;border-collapse:collapse;margin-top:8px}
+    th{background:#f0e8d8;padding:8px;text-align:left;font-size:11px;border:1px solid #ccc;text-transform:uppercase;letter-spacing:.5px}
+    td{padding:7px 8px;border:1px solid #eee;vertical-align:middle}
+    tr:nth-child(even){background:#fafafa}
+    tfoot td{font-weight:700;background:#f9f5ef;border-top:2px solid #b8976a;font-size:13px}
+    .totais{margin-top:20px;padding:14px 20px;background:#f9f5ef;border-radius:8px;display:flex;gap:40px}
+    .totais .label{font-size:11px;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+    .totais .valor{font-size:20px;font-weight:700;color:#b8000d}
+    @media print{body{padding:16px}.totais{break-inside:avoid}}
+  </style></head><body>
+  <h1>ARQ LUZ ILUMINAÇÃO — Relatório de Vendas</h1>
+  <div class="sub">Gerado em ${agora} &nbsp;·&nbsp; ${vendas.length} venda(s) registrada(s)</div>
+  <table>
+    <thead><tr><th>Data</th><th>Produto</th><th>Código</th><th>Categoria</th><th>Qtd</th><th>Preço Outlet</th></tr></thead>
+    <tbody>${linhas}</tbody>
+    <tfoot><tr><td colspan="4" style="text-align:right">TOTAL GERAL</td><td style="text-align:center">${totalQtd} peças</td><td style="text-align:right">${formatMoney(totalValor)}</td></tr></tfoot>
+  </table>
+  <div class="totais">
+    <div><div class="label">Total de peças vendidas</div><div class="valor">${totalQtd} un.</div></div>
+    <div><div class="label">Valor total arrecadado</div><div class="valor">${formatMoney(totalValor)}</div></div>
+  </div>
+  <script>window.onload=function(){window.print()}<\/script>
+  </body></html>`;
+  const win=window.open('','_blank');
+  win.document.write(html);
+  win.document.close();
 }
 
 async function deleteProduct(id){
