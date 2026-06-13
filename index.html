@@ -133,6 +133,19 @@ img{max-width:100%}
 .status-vendido{background:rgba(176,48,48,.12);color:var(--red)}
 .actions-cell{display:flex;gap:6px;flex-wrap:wrap}
 .admin-code-cell{font-weight:600;color:var(--gold)}
+.btn-sell{background:#1a6b3a;color:#fff;border:none;padding:5px 10px;border-radius:6px;font-size:12px;cursor:pointer;white-space:nowrap}
+.btn-sell:hover{background:#145530}
+.modal-venda-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center}
+.modal-venda-box{background:var(--surface);border-radius:16px;padding:32px;width:360px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal-venda-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;margin-bottom:6px}
+.modal-venda-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+.modal-venda-info{background:var(--surface2);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px}
+.modal-venda-info strong{display:block;font-size:15px;margin-bottom:4px}
+.modal-venda-actions{display:flex;gap:10px;margin-top:24px}
+.sales-table{width:100%;border-collapse:collapse}
+.sales-table th{text-align:left;font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--border);font-weight:500}
+.sales-table td{padding:12px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+.sales-empty{text-align:center;padding:40px;color:var(--muted)}
 .stock-cell{font-weight:600}
 
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -315,6 +328,7 @@ textarea.form-input{resize:vertical;min-height:80px}
         <button class="admin-nav-btn active" id="nav-products" onclick="adminNav('products')">📦 Produtos</button>
         <button class="admin-nav-btn" id="nav-add-product" onclick="adminNav('add-product')">➕ Novo Produto</button>
         <button class="admin-nav-btn" id="nav-categories" onclick="adminNav('categories')">🏷️ Categorias</button>
+        <button class="admin-nav-btn" id="nav-sales-report" onclick="adminNav('sales-report')">📊 Vendas</button>
         <button class="admin-nav-btn" id="nav-settings" onclick="adminNav('settings')">⚙️ Configurações</button>
       </nav>
       <div class="admin-logout">
@@ -435,7 +449,21 @@ textarea.form-input{resize:vertical;min-height:80px}
           <button class="btn btn-gold" onclick="saveSettings()">Salvar Configurações</button>
         </div>
       </div>
-    </main>
+
+      <div id="admin-sales-report" class="hidden">
+        <div class="toolbar">
+          <div>
+            <div class="admin-page-title">Relatório de Vendas</div>
+            <div class="admin-page-sub" id="sales-report-sub">Histórico de peças vendidas</div>
+          </div>
+        </div>
+        <div class="card" style="overflow:auto">
+          <table class="sales-table">
+            <thead><tr><th>Data</th><th>Produto</th><th>Código</th><th>Categoria</th><th>Qtd</th><th>Preço Outlet</th></tr></thead>
+            <tbody id="sales-report-tbody"></tbody>
+          </table>
+        </div>
+      </div>
   </div>
 </div>
 
@@ -600,12 +628,13 @@ function entrarAdmin(){state.isAdmin=true;$('login-input').value='';showView('ad
 function doLogout(){state.isAdmin=false;showView('catalog')}
 
 function adminNav(tab){
-  ['products','add-product','categories','settings'].forEach(t=>{const page=$('admin-'+t);if(page)page.classList.add('hidden');const nav=$('nav-'+t);if(nav)nav.classList.remove('active')});
+  ['products','add-product','categories','settings','sales-report'].forEach(t=>{const page=$('admin-'+t);if(page)page.classList.add('hidden');const nav=$('nav-'+t);if(nav)nav.classList.remove('active')});
   $('admin-'+tab).classList.remove('hidden');const nb=$('nav-'+tab);if(nb)nb.classList.add('active');state.activeAdminTab=tab;
   if(tab==='add-product'){clearProductForm();$('product-form-title').textContent='Novo Produto';state.editingProductId=null}
   if(tab==='categories')renderCategoriesAdmin();
   if(tab==='settings')fillSettingsForm();
   if(tab==='products')renderProductsTable();
+  if(tab==='sales-report')renderSalesReport();
 }
 
 async function loadAdminData(){
@@ -632,7 +661,7 @@ function filterProducts(){
     const tr=document.createElement('tr');
     const imgHtml=p.Foto_Principal?`<img class="product-img-thumb" src="${esc(p.Foto_Principal)}" alt=""/>`:`<div class="product-img-thumb" style="display:flex;align-items:center;justify-content:center;color:var(--muted)">💡</div>`;
     const soldLabel=p.Status==='vendido'?'vendido':'disponivel';
-    const soldBtn=p.Status==='vendido'?`<button class="btn btn-outline btn-sm" onclick="toggleSold('${esc(p.ID)}','disponivel')">↩ Disponível</button>`:`<button class="btn btn-danger btn-sm" onclick="toggleSold('${esc(p.ID)}','vendido')">✓ Vendido</button>`;
+    const soldBtn=p.Status==='vendido'?`<button class="btn btn-outline btn-sm" onclick="toggleSold('${esc(p.ID)}','disponivel')">↩ Disponível</button>`:`<button class="btn btn-danger btn-sm" onclick="abrirModalVenda('${esc(p.ID)}')">✓ Vendido</button>`;
     tr.innerHTML=`<td style="padding-left:16px">${imgHtml}</td><td><strong>${esc(p.Nome)}</strong></td><td class="admin-code-cell">${esc(p.Codigo_Interno||'-')}</td><td class="stock-cell">${esc(p.Estoque||'0')}</td><td>${esc([p.Categoria,p.Subcategoria].filter(Boolean).join(' › '))}</td><td>${p.Preco_Por?formatMoney(p.Preco_Por):'-'}</td><td><span class="status-badge status-${soldLabel}">${soldLabel==='vendido'?'Vendido':'Disponível'}</span></td><td><div class="actions-cell">${soldBtn}<button class="btn btn-outline btn-sm" onclick="editProduct('${esc(p.ID)}')">✏️ Editar</button><button class="btn btn-outline btn-sm" onclick="printLabel('${esc(p.ID)}')">🖨️ Etiqueta</button><button class="btn btn-danger btn-sm" onclick="deleteProduct('${esc(p.ID)}')">🗑️</button></div></td>`;
     tbody.appendChild(tr);
   });
@@ -644,6 +673,67 @@ async function toggleSold(id,status){
   const p=state.products.find(p=>p.ID===id);if(p)p.Status=status;
   saveCache('products',state.products);filterProducts();renderProductsGrid();
   toast(`Produto marcado como ${status==='vendido'?'vendido':'disponível'}!`,'success');
+}
+
+function abrirModalVenda(id){
+  const p=state.products.find(p=>p.ID===id);
+  if(!p)return;
+  const estoque=parseInt(p.Estoque)||0;
+  if(estoque<=0){
+    if(!confirm(`"${p.Nome}" está com estoque zerado.\nMarcar como Vendido mesmo assim?`))return;
+    confirmarVenda(id,0);return;
+  }
+  if(estoque===1){
+    if(!confirm(`Registrar venda de 1 unidade de:\n"${p.Nome}"\nEstoque ficará zerado e o produto será marcado como Vendido.`))return;
+    confirmarVenda(id,1);return;
+  }
+  // Estoque > 1: mostrar modal para digitar quantidade
+  state.vendaModalId=id;
+  const modal=$('modal-venda-qty');
+  $('modal-venda-nome').textContent=p.Nome;
+  $('modal-venda-estoque').textContent=estoque;
+  $('modal-venda-qty-input').value=1;
+  $('modal-venda-qty-input').max=estoque;
+  modal.classList.remove('hidden');
+  $('modal-venda-qty-input').focus();
+}
+
+function fecharModalVenda(){$('modal-venda-qty').classList.add('hidden');state.vendaModalId=null}
+
+async function confirmarVendaModal(){
+  const id=state.vendaModalId;
+  const p=state.products.find(p=>p.ID===id);
+  if(!p){fecharModalVenda();return}
+  const estoque=parseInt(p.Estoque)||0;
+  const qtd=parseInt($('modal-venda-qty-input').value)||0;
+  if(qtd<=0||qtd>estoque){toast('Quantidade inválida.','error');return}
+  fecharModalVenda();
+  confirmarVenda(id,qtd);
+}
+
+async function confirmarVenda(id,qtd){
+  const p=state.products.find(p=>p.ID===id);
+  if(!p)return;
+  const estoqueAtual=parseInt(p.Estoque)||0;
+  const novoEstoque=Math.max(0,estoqueAtual-qtd);
+  const novoStatus=novoEstoque===0?'vendido':p.Status;
+  const res=await apiPost({action:'registrarVenda',id,qtd,novoEstoque,novoStatus,nome:p.Nome,codigo:p.Codigo_Interno||'',categoria:[p.Categoria,p.Subcategoria].filter(Boolean).join(' › '),preco:p.Preco_Por||''});
+  if(!res.ok){toast('Erro ao registrar venda.','error');return}
+  p.Estoque=String(novoEstoque);p.Status=novoStatus;
+  saveCache('products',state.products);filterProducts();renderProductsGrid();renderProductsTable();
+  toast(novoEstoque===0?`Venda registrada! Produto marcado como Vendido.`:`Venda registrada! Novo estoque: ${novoEstoque} un.`,'success');
+}
+
+async function renderSalesReport(){
+  const tbody=$('sales-report-tbody');
+  tbody.innerHTML=`<tr><td colspan="6" class="sales-empty">Carregando...</td></tr>`;
+  try{
+    const res=await apiGet('getVendas');
+    const vendas=res.vendas||[];
+    $('sales-report-sub').textContent=`${vendas.length} venda(s) registrada(s)`;
+    if(!vendas.length){tbody.innerHTML=`<tr><td colspan="6" class="sales-empty">Nenhuma venda registrada ainda.</td></tr>`;return}
+    tbody.innerHTML=vendas.map(v=>`<tr><td style="white-space:nowrap">${esc(v.Data)}</td><td><strong>${esc(v.Nome)}</strong></td><td style="color:var(--gold);font-weight:600">${esc(v.Codigo)}</td><td>${esc(v.Categoria)}</td><td style="text-align:center">${esc(v.Quantidade)}</td><td style="color:var(--red);font-weight:700">${v.Preco?formatMoney(v.Preco):'-'}</td></tr>`).join('');
+  }catch(e){tbody.innerHTML=`<tr><td colspan="6" class="sales-empty">Erro ao carregar vendas.</td></tr>`}
 }
 
 async function deleteProduct(id){
@@ -874,5 +964,24 @@ async function init(){
 }
 init();
 </script>
+<!-- Modal Registrar Venda -->
+<div id="modal-venda-qty" class="modal-venda-overlay hidden">
+  <div class="modal-venda-box">
+    <div class="modal-venda-title">Registrar Venda</div>
+    <div class="modal-venda-sub">Informe quantas unidades foram vendidas</div>
+    <div class="modal-venda-info">
+      <strong id="modal-venda-nome"></strong>
+      Estoque atual: <span id="modal-venda-estoque" style="font-weight:700;color:var(--red)"></span> un.
+    </div>
+    <div class="form-group">
+      <label class="form-label">Quantidade vendida</label>
+      <input class="form-input" type="number" id="modal-venda-qty-input" min="1" value="1" style="font-size:20px;text-align:center" onkeydown="if(event.key==='Enter')confirmarVendaModal()"/>
+    </div>
+    <div class="modal-venda-actions">
+      <button class="btn btn-outline" style="flex:1" onclick="fecharModalVenda()">Cancelar</button>
+      <button class="btn btn-danger" style="flex:1" onclick="confirmarVendaModal()">✓ Confirmar Venda</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
