@@ -343,6 +343,7 @@ textarea.form-input{resize:vertical;min-height:80px}
         <button class="admin-nav-btn active" id="nav-products" onclick="adminNav('products')">📦 Produtos</button>
         <button class="admin-nav-btn" id="nav-add-product" onclick="adminNav('add-product')">➕ Novo Produto</button>
         <button class="admin-nav-btn" id="nav-categories" onclick="adminNav('categories')">🏷️ Categorias</button>
+        <button class="admin-nav-btn" id="nav-archived" onclick="adminNav('archived')">🗄️ Arquivados</button>
         <button class="admin-nav-btn" id="nav-sales-report" onclick="adminNav('sales-report')">📊 Vendas</button>
         <button class="admin-nav-btn" id="nav-settings" onclick="adminNav('settings')">⚙️ Configurações</button>
       </nav>
@@ -465,6 +466,21 @@ textarea.form-input{resize:vertical;min-height:80px}
         </div>
       </div>
 
+      <div id="admin-archived" class="hidden">
+        <div class="toolbar">
+          <div>
+            <div class="admin-page-title">Arquivados</div>
+            <div class="admin-page-sub" id="archived-sub">Produtos vendidos — clique em Reativar para devolver ao catálogo</div>
+          </div>
+        </div>
+        <div class="card" style="overflow:auto">
+          <table class="products-table">
+            <thead><tr><th>Foto</th><th>Nome</th><th>COD</th><th>Categoria</th><th>Preço</th><th>Ações</th></tr></thead>
+            <tbody id="archived-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
       <div id="admin-sales-report" class="hidden">
         <div class="toolbar">
           <div>
@@ -575,7 +591,7 @@ function formatMoney(v){if(v===undefined||v===null||v==='')return'';const n=pars
 
 function renderProductsGrid(){
   const grid=$('products-grid');
-  let products=[...state.products];
+  let products=[...state.products].filter(p=>p.Status!=='vendido');
   if(state.filterCat!=='all')products=products.filter(p=>p.Categoria===state.filterCat);
   if(state.filterSubcat!=='all')products=products.filter(p=>p.Subcategoria===state.filterSubcat);
   if(state.filterPrice!=='all'){
@@ -597,12 +613,12 @@ function renderProductsGrid(){
   grid.innerHTML='';
   products.forEach(p=>{
     const card=document.createElement('div');
-    card.className='product-card'+(p.Status==='vendido'?' sold':'');
+    card.className='product-card';
     card.onclick=()=>openProductModal(p);
     const imgHtml=p.Foto_Principal?`<img class="product-card-img" src="${esc(p.Foto_Principal)}" alt="${esc(p.Nome)}" loading="lazy"/>`:`<div class="product-card-img-placeholder">💡</div>`;
     const estoqueNum=parseInt(p.Estoque)||0;
-    const estoqueHtml=p.Status!=='vendido'&&estoqueNum>0?`<div class="card-stock">Estoque: <span class="card-stock-num">${estoqueNum} un.</span></div>`:'';
-    card.innerHTML=`${imgHtml}${p.Status==='vendido'?'<div class="sold-badge">Vendido</div>':''}<div class="product-card-body"><div class="product-card-name">${esc(p.Nome)}</div><div class="product-card-cat">${esc([p.Categoria,p.Subcategoria].filter(Boolean).join(' · '))}</div><div class="product-card-prices">${p.Preco_De?`<span class="price-de">${formatMoney(p.Preco_De)}</span>`:''}${p.Preco_Por?`<span class="price-por">${formatMoney(p.Preco_Por)}</span>`:''}</div>${estoqueHtml}</div>`;
+    const estoqueHtml=estoqueNum>0?`<div class="card-stock">Estoque: <span class="card-stock-num">${estoqueNum} un.</span></div>`:'';
+    card.innerHTML=`${imgHtml}<div class="product-card-body"><div class="product-card-name">${esc(p.Nome)}</div><div class="product-card-cat">${esc([p.Categoria,p.Subcategoria].filter(Boolean).join(' · '))}</div><div class="product-card-prices">${p.Preco_De?`<span class="price-de">${formatMoney(p.Preco_De)}</span>`:''}${p.Preco_Por?`<span class="price-por">${formatMoney(p.Preco_Por)}</span>`:''}</div>${estoqueHtml}</div>`;
     grid.appendChild(card);
   });
 }
@@ -645,12 +661,13 @@ function entrarAdmin(){state.isAdmin=true;$('login-input').value='';showView('ad
 function doLogout(){state.isAdmin=false;showView('catalog')}
 
 function adminNav(tab){
-  ['products','add-product','categories','settings','sales-report'].forEach(t=>{const page=$('admin-'+t);if(page)page.classList.add('hidden');const nav=$('nav-'+t);if(nav)nav.classList.remove('active')});
+  ['products','add-product','categories','settings','sales-report','archived'].forEach(t=>{const page=$('admin-'+t);if(page)page.classList.add('hidden');const nav=$('nav-'+t);if(nav)nav.classList.remove('active')});
   $('admin-'+tab).classList.remove('hidden');const nb=$('nav-'+tab);if(nb)nb.classList.add('active');state.activeAdminTab=tab;
   if(tab==='add-product'){clearProductForm();$('product-form-title').textContent='Novo Produto';state.editingProductId=null}
   if(tab==='categories')renderCategoriesAdmin();
   if(tab==='settings')fillSettingsForm();
   if(tab==='products')renderProductsTable();
+  if(tab==='archived')renderArchived();
   if(tab==='sales-report')renderSalesReport();
 }
 
@@ -665,21 +682,34 @@ async function loadAdminData(){
 
 function renderProductsTable(){
   const tbody=$('products-tbody');
-  $('products-count').textContent=`${state.products.length} produto(s) - ${state.products.filter(p=>p.Status==='vendido').length} vendido(s)`;
+  const disponiveis=state.products.filter(p=>p.Status!=='vendido').length;
+  const vendidos=state.products.filter(p=>p.Status==='vendido').length;
+  $('products-count').textContent=`${disponiveis} disponível(is) · ${vendidos} arquivado(s)`;
   if(!state.products.length){tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--muted)">Nenhum produto cadastrado ainda.</td></tr>`;return}
   filterProducts();
 }
 
 function filterProducts(){
   const q=($('search-products')?.value||'').toLowerCase();const tbody=$('products-tbody');tbody.innerHTML='';
-  const filtered=state.products.filter(p=>String(p.Nome||'').toLowerCase().includes(q)||String(p.Codigo_Interno||'').toLowerCase().includes(q)||String(p.Categoria||'').toLowerCase().includes(q));
+  const filtered=state.products.filter(p=>p.Status!=='vendido').filter(p=>String(p.Nome||'').toLowerCase().includes(q)||String(p.Codigo_Interno||'').toLowerCase().includes(q)||String(p.Categoria||'').toLowerCase().includes(q));
   if(!filtered.length){tbody.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--muted)">Nenhum produto encontrado.</td></tr>`;return}
   filtered.forEach(p=>{
     const tr=document.createElement('tr');
     const imgHtml=p.Foto_Principal?`<img class="product-img-thumb" src="${esc(p.Foto_Principal)}" alt=""/>`:`<div class="product-img-thumb" style="display:flex;align-items:center;justify-content:center;color:var(--muted)">💡</div>`;
-    const soldLabel=p.Status==='vendido'?'vendido':'disponivel';
-    const soldBtn=p.Status==='vendido'?`<button class="btn btn-outline btn-sm" onclick="toggleSold('${esc(p.ID)}','disponivel')">↩ Disponível</button>`:`<button class="btn btn-danger btn-sm" onclick="abrirModalVenda('${esc(p.ID)}')">✓ Vendido</button>`;
-    tr.innerHTML=`<td style="padding-left:16px">${imgHtml}</td><td><strong>${esc(p.Nome)}</strong></td><td class="admin-code-cell">${esc(p.Codigo_Interno||'-')}</td><td class="stock-cell">${esc(p.Estoque||'0')}</td><td>${esc([p.Categoria,p.Subcategoria].filter(Boolean).join(' › '))}</td><td>${p.Preco_Por?formatMoney(p.Preco_Por):'-'}</td><td><span class="status-badge status-${soldLabel}">${soldLabel==='vendido'?'Vendido':'Disponível'}</span></td><td><div class="actions-cell">${soldBtn}<button class="btn btn-outline btn-sm" onclick="editProduct('${esc(p.ID)}')">✏️ Editar</button><button class="btn btn-outline btn-sm" onclick="printLabel('${esc(p.ID)}')">🖨️ Etiqueta</button><button class="btn btn-danger btn-sm" onclick="deleteProduct('${esc(p.ID)}')">🗑️</button></div></td>`;
+    tr.innerHTML=`<td style="padding-left:16px">${imgHtml}</td><td><strong>${esc(p.Nome)}</strong></td><td class="admin-code-cell">${esc(p.Codigo_Interno||'-')}</td><td class="stock-cell">${esc(p.Estoque||'0')}</td><td>${esc([p.Categoria,p.Subcategoria].filter(Boolean).join(' › '))}</td><td>${p.Preco_Por?formatMoney(p.Preco_Por):'-'}</td><td><span class="status-badge status-disponivel">Disponível</span></td><td><div class="actions-cell"><button class="btn btn-danger btn-sm" onclick="abrirModalVenda('${esc(p.ID)}')">✓ Vendido</button><button class="btn btn-outline btn-sm" onclick="editProduct('${esc(p.ID)}')">✏️ Editar</button><button class="btn btn-outline btn-sm" onclick="printLabel('${esc(p.ID)}')">🖨️ Etiqueta</button><button class="btn btn-danger btn-sm" onclick="deleteProduct('${esc(p.ID)}')">🗑️</button></div></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function renderArchived(){
+  const tbody=$('archived-tbody');tbody.innerHTML='';
+  const vendidos=state.products.filter(p=>p.Status==='vendido');
+  $('archived-sub').textContent=`${vendidos.length} produto(s) arquivado(s) — clique em Reativar para devolver ao catálogo`;
+  if(!vendidos.length){tbody.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--muted)">Nenhum produto arquivado.</td></tr>`;return}
+  vendidos.forEach(p=>{
+    const tr=document.createElement('tr');
+    const imgHtml=p.Foto_Principal?`<img class="product-img-thumb" src="${esc(p.Foto_Principal)}" alt=""/>`:`<div class="product-img-thumb" style="display:flex;align-items:center;justify-content:center;color:var(--muted)">💡</div>`;
+    tr.innerHTML=`<td style="padding-left:16px">${imgHtml}</td><td><strong>${esc(p.Nome)}</strong></td><td class="admin-code-cell">${esc(p.Codigo_Interno||'-')}</td><td>${esc([p.Categoria,p.Subcategoria].filter(Boolean).join(' › '))}</td><td>${p.Preco_Por?formatMoney(p.Preco_Por):'-'}</td><td><div class="actions-cell"><button class="btn btn-outline btn-sm" onclick="reativarProduto('${esc(p.ID)}')">↩ Reativar</button><button class="btn btn-outline btn-sm" onclick="editProduct('${esc(p.ID)}')">✏️ Editar</button></div></td>`;
     tbody.appendChild(tr);
   });
 }
@@ -690,6 +720,16 @@ async function toggleSold(id,status){
   const p=state.products.find(p=>p.ID===id);if(p)p.Status=status;
   saveCache('products',state.products);filterProducts();renderProductsGrid();
   toast(`Produto marcado como ${status==='vendido'?'vendido':'disponível'}!`,'success');
+}
+
+async function reativarProduto(id){
+  if(!confirm('Reativar este produto? Ele voltará a aparecer no catálogo.'))return;
+  const res=await apiPost({action:'markAsSold',id,status:'disponivel'});
+  if(!res.ok){toast('Erro ao reativar produto.','error');return}
+  const p=state.products.find(p=>p.ID===id);
+  if(p){p.Status='disponivel';}
+  saveCache('products',state.products);renderArchived();renderProductsGrid();renderProductsTable();
+  toast('Produto reativado e visível no catálogo!','success');
 }
 
 function abrirModalVenda(id){
