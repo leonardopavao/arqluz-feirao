@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Outlet Arq Luz</title>
+<title>Showroom Virtual Arq Luz</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -194,6 +194,9 @@ textarea.form-input{resize:vertical;min-height:80px}
 .settings-section{margin-bottom:28px}
 .settings-section-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
 
+/* Badge de preços ocultos */
+.badge-sem-preco{display:inline-block;background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:11px;padding:4px 10px;border-radius:50px;margin-top:6px;font-style:italic}
+
 #view-print-label{min-height:100vh;padding:24px;background:var(--bg)}
 #print-actions{margin-bottom:20px;display:flex;gap:10px}
 #print-content{background:#fff!important;color:#000!important;width:100%;max-width:720px!important;min-height:980px;padding:48px!important;border-radius:10px;font-family:'DM Sans',sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;margin:0 auto}
@@ -249,7 +252,7 @@ textarea.form-input{resize:vertical;min-height:80px}
 <div id="popup-overlay" class="hidden">
   <div id="popup-modal">
     <div id="popup-logo">ARQ LUZ ILUMINAÇÃO</div>
-    <h2 id="popup-titulo">Bem-vindo ao Outlet!</h2>
+    <h2 id="popup-titulo">Bem-vindo ao Showroom Virtual!</h2>
     <div class="popup-info">
       <div class="popup-row" id="popup-row-data"><span>📅</span><span id="popup-data-txt"></span></div>
       <div class="popup-row" id="popup-row-horario"><span>⏰</span><span id="popup-horario-txt"></span></div>
@@ -257,7 +260,7 @@ textarea.form-input{resize:vertical;min-height:80px}
       <div class="popup-row" id="popup-row-pagamento"><span>💳</span><span id="popup-pagamento-txt"></span></div>
     </div>
     <p id="popup-extra"></p>
-    <button id="popup-btn" onclick="closePopup()">Ver os produtos 🔦</button>
+    <button id="popup-btn" onclick="closePopup()">Explorar o catálogo ✨</button>
   </div>
 </div>
 
@@ -276,7 +279,7 @@ textarea.form-input{resize:vertical;min-height:80px}
     </div>
     <div id="product-modal-info">
       <div class="product-modal-meta" id="product-modal-meta"></div>
-      <div>
+      <div id="product-modal-price-wrap">
         <span id="product-modal-price-de"></span>
         <span id="product-modal-price-por"></span>
       </div>
@@ -290,7 +293,7 @@ textarea.form-input{resize:vertical;min-height:80px}
   <header id="cat-header">
     <div>
       <span id="cat-header-brand">ARQ LUZ ILUMINAÇÃO</span>
-      <span id="cat-header-title">Outlet Arq Luz</span>
+      <span id="cat-header-title">Showroom Virtual Arq Luz</span>
     </div>
     <div id="cat-header-right">
       <span id="catalog-stats"></span>
@@ -391,7 +394,7 @@ textarea.form-input{resize:vertical;min-height:80px}
             <div class="form-group"><label class="form-label">Categoria *</label><select class="form-select" id="pf-cat" onchange="onCatChange()"><option value="">Selecione...</option></select></div>
             <div class="form-group"><label class="form-label">Subcategoria</label><select class="form-select" id="pf-subcat"><option value="">Selecione...</option></select></div>
             <div class="form-group"><label class="form-label">Preço De (R$)</label><input class="form-input" type="number" id="pf-price-de" placeholder="0,00" step="0.01"/></div>
-            <div class="form-group"><label class="form-label">Preço Por - Outlet (R$) *</label><input class="form-input" type="number" id="pf-price-por" placeholder="0,00" step="0.01"/></div>
+            <div class="form-group"><label class="form-label">Preço Por (R$) *</label><input class="form-input" type="number" id="pf-price-por" placeholder="0,00" step="0.01"/></div>
             <div class="form-group full"><label class="form-label">Observações</label><textarea class="form-input" id="pf-obs" placeholder="Dimensões, cor, material, voltagem..."></textarea></div>
             <div class="form-group full">
               <label class="form-label">Foto Principal *</label>
@@ -434,13 +437,28 @@ textarea.form-input{resize:vertical;min-height:80px}
       </div>
 
       <div id="admin-settings" class="hidden">
-        <div class="admin-page-title">Configurações do Outlet</div>
-        <div class="admin-page-sub">Texto e informações do pop-up de boas-vindas</div>
+        <div class="admin-page-title">Configurações do Showroom</div>
+        <div class="admin-page-sub">Personalize o catálogo e o pop-up de boas-vindas</div>
         <div class="card" style="max-width:560px">
+
           <div class="settings-section">
-            <div class="settings-section-title">Informações do Evento</div>
+            <div class="settings-section-title">🖼️ Catálogo</div>
             <div class="form-grid">
-              <div class="form-group full"><label class="form-label">Nome do Outlet</label><input class="form-input" type="text" id="cfg-nome"/></div>
+              <div class="form-group full"><label class="form-label">Nome do Showroom</label><input class="form-input" type="text" id="cfg-nome"/></div>
+              <div class="form-group full">
+                <label class="form-label">Exibir preços no catálogo?</label>
+                <select class="form-select" id="cfg-mostrar-precos">
+                  <option value="true">✅ Sim — mostrar preços</option>
+                  <option value="false">🙈 Não — ocultar preços (apenas fotos)</option>
+                </select>
+                <span style="font-size:11px;color:var(--muted);margin-top:4px">Quando oculto, clientes veem só as fotos e o nome. Preços continuam salvos no sistema.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <div class="settings-section-title">💬 Pop-up de Boas-vindas</div>
+            <div class="form-grid">
               <div class="form-group full"><label class="form-label">Título do Pop-up</label><input class="form-input" type="text" id="cfg-popup-titulo"/></div>
               <div class="form-group"><label class="form-label">Data</label><input class="form-input" type="text" id="cfg-data"/></div>
               <div class="form-group"><label class="form-label">Horário</label><input class="form-input" type="text" id="cfg-horario"/></div>
@@ -448,20 +466,19 @@ textarea.form-input{resize:vertical;min-height:80px}
               <div class="form-group full"><label class="form-label">Formas de Pagamento</label><input class="form-input" type="text" id="cfg-pagamento"/></div>
               <div class="form-group full"><label class="form-label">Texto Extra</label><textarea class="form-input" id="cfg-texto"></textarea></div>
             </div>
-          </div>
-          <div class="settings-section">
-            <div class="settings-section-title">Pop-up</div>
-            <div class="form-group"><label class="form-label">Exibir pop-up ao abrir o site?</label>
+            <div class="form-group" style="margin-top:16px"><label class="form-label">Exibir pop-up ao abrir o site?</label>
               <select class="form-select" id="cfg-popup-ativo"><option value="true">Sim - exibir</option><option value="false">Não - ocultar</option></select>
             </div>
           </div>
+
           <div class="settings-section">
-            <div class="settings-section-title">Senha do Admin</div>
+            <div class="settings-section-title">🔑 Senha do Admin</div>
             <div class="form-grid">
               <div class="form-group"><label class="form-label">Nova Senha</label><input class="form-input" type="password" id="cfg-senha" placeholder="Deixe em branco para não alterar"/></div>
               <div class="form-group"><label class="form-label">Confirmar Nova Senha</label><input class="form-input" type="password" id="cfg-senha2"/></div>
             </div>
           </div>
+
           <button class="btn btn-gold" onclick="saveSettings()">Salvar Configurações</button>
         </div>
       </div>
@@ -491,7 +508,7 @@ textarea.form-input{resize:vertical;min-height:80px}
         </div>
         <div class="card" style="overflow:auto" id="sales-report-card">
           <table class="sales-table">
-            <thead><tr><th>Data</th><th>Produto</th><th>Código</th><th>Categoria</th><th>Qtd</th><th>Preço Outlet</th></tr></thead>
+            <thead><tr><th>Data</th><th>Produto</th><th>Código</th><th>Categoria</th><th>Qtd</th><th>Preço</th></tr></thead>
             <tbody id="sales-report-tbody"></tbody>
             <tfoot id="sales-report-tfoot"></tfoot>
           </table>
@@ -539,7 +556,7 @@ function showView(v){allViews.forEach(id=>{const el=$('view-'+id);if(el)el.class
 
 function showPopup(cfg){
   if(cfg.popup_ativo==='false')return;
-  $('popup-titulo').textContent=cfg.popup_titulo||'Bem-vindo ao Outlet Arq Luz!';
+  $('popup-titulo').textContent=cfg.popup_titulo||'Bem-vindo ao Showroom Virtual Arq Luz!';
   const setRow=(rowId,txtId,val)=>{if(val){$(rowId).classList.remove('hidden');$(txtId).textContent=val}else $(rowId).classList.add('hidden')};
   setRow('popup-row-data','popup-data-txt',cfg.popup_data);
   setRow('popup-row-horario','popup-horario-txt',cfg.popup_horario);
@@ -550,10 +567,18 @@ function showPopup(cfg){
 }
 function closePopup(){$('popup-overlay').classList.add('hidden')}
 
+function mostrarPrecos(){
+  return state.config.mostrar_precos !== 'false';
+}
+
 function renderCatalog(){
   renderCatFilters();renderProductsGrid();
-  const title=state.config.feirao_nome||'Outlet Arq Luz';
-  $('cat-header-title').textContent=title;document.title=title+' - Arq Luz';
+  const title=state.config.feirao_nome||'Showroom Virtual Arq Luz';
+  $('cat-header-title').textContent=title;document.title=title+' — Arq Luz';
+  // Mostrar/ocultar filtro de preços
+  const priceRow=$('price-filter-row');
+  if(mostrarPrecos())priceRow.classList.remove('hidden');
+  else priceRow.classList.add('hidden');
 }
 
 function showSkeletons(){
@@ -591,10 +616,11 @@ function formatMoney(v){if(v===undefined||v===null||v==='')return'';const n=pars
 
 function renderProductsGrid(){
   const grid=$('products-grid');
+  const exibirPrecos=mostrarPrecos();
   let products=[...state.products].filter(p=>p.Status!=='vendido');
   if(state.filterCat!=='all')products=products.filter(p=>p.Categoria===state.filterCat);
   if(state.filterSubcat!=='all')products=products.filter(p=>p.Subcategoria===state.filterSubcat);
-  if(state.filterPrice!=='all'){
+  if(exibirPrecos && state.filterPrice!=='all'){
     const[min,max]=state.filterPrice.split('-').map(Number);
     products=products.filter(p=>{const s=String(p.Preco_Por||'0').replace(/R\$\s*/g,'').trim();const price=s.includes(',')?parseFloat(s.replace(/\./g,'').replace(',','.'))||0:parseFloat(s)||0;return!isNaN(price)&&price>=min&&price<=max});
   }
@@ -618,7 +644,13 @@ function renderProductsGrid(){
     const imgHtml=p.Foto_Principal?`<img class="product-card-img" src="${esc(p.Foto_Principal)}" alt="${esc(p.Nome)}" loading="lazy"/>`:`<div class="product-card-img-placeholder">💡</div>`;
     const estoqueNum=parseInt(p.Estoque)||0;
     const estoqueHtml=estoqueNum>0?`<div class="card-stock">Estoque: <span class="card-stock-num">${estoqueNum} un.</span></div>`:'';
-    card.innerHTML=`${imgHtml}<div class="product-card-body"><div class="product-card-name">${esc(p.Nome)}</div><div class="product-card-cat">${esc([p.Categoria,p.Subcategoria].filter(Boolean).join(' · '))}</div><div class="product-card-prices">${p.Preco_De?`<span class="price-de">${formatMoney(p.Preco_De)}</span>`:''}${p.Preco_Por?`<span class="price-por">${formatMoney(p.Preco_Por)}</span>`:''}</div>${estoqueHtml}</div>`;
+    let priceHtml='';
+    if(exibirPrecos){
+      priceHtml=`<div class="product-card-prices">${p.Preco_De?`<span class="price-de">${formatMoney(p.Preco_De)}</span>`:''}${p.Preco_Por?`<span class="price-por">${formatMoney(p.Preco_Por)}</span>`:''}</div>`;
+    } else {
+      priceHtml='<div><span class="badge-sem-preco">Consulte o preço</span></div>';
+    }
+    card.innerHTML=`${imgHtml}<div class="product-card-body"><div class="product-card-name">${esc(p.Nome)}</div><div class="product-card-cat">${esc([p.Categoria,p.Subcategoria].filter(Boolean).join(' · '))}</div>${priceHtml}${estoqueHtml}</div>`;
     grid.appendChild(card);
   });
 }
@@ -626,8 +658,15 @@ function renderProductsGrid(){
 function openProductModal(p){
   $('product-modal-name').textContent=p.Nome||'';
   $('product-modal-cat').textContent=[p.Categoria,p.Subcategoria].filter(Boolean).join(' · ');
-  $('product-modal-price-de').textContent=p.Preco_De?formatMoney(p.Preco_De):'';
-  $('product-modal-price-por').textContent=p.Preco_Por?formatMoney(p.Preco_Por):'';
+  const exibirPrecos=mostrarPrecos();
+  const priceWrap=$('product-modal-price-wrap');
+  if(exibirPrecos){
+    $('product-modal-price-de').textContent=p.Preco_De?formatMoney(p.Preco_De):'';
+    $('product-modal-price-por').textContent=p.Preco_Por?formatMoney(p.Preco_Por):'';
+    priceWrap.style.display='';
+  } else {
+    priceWrap.style.display='none';
+  }
   $('product-modal-obs').textContent=p.Observacoes||'';
   $('product-modal-obs').style.display=p.Observacoes?'block':'none';
   $('product-modal-sold-wrap').innerHTML=p.Status==='vendido'?'<span>Vendido</span>':'';
@@ -714,14 +753,6 @@ function renderArchived(){
   });
 }
 
-async function toggleSold(id,status){
-  const res=await apiPost({action:'markAsSold',id,status});
-  if(!res.ok){toast('Erro ao atualizar status.','error');return}
-  const p=state.products.find(p=>p.ID===id);if(p)p.Status=status;
-  saveCache('products',state.products);filterProducts();renderProductsGrid();
-  toast(`Produto marcado como ${status==='vendido'?'vendido':'disponível'}!`,'success');
-}
-
 async function reativarProduto(id){
   if(!confirm('Reativar este produto? Ele voltará a aparecer no catálogo.'))return;
   const res=await apiPost({action:'markAsSold',id,status:'disponivel'});
@@ -744,7 +775,6 @@ function abrirModalVenda(id){
     if(!confirm(`Registrar venda de 1 unidade de:\n"${p.Nome}"\nEstoque ficará zerado e o produto será marcado como Vendido.`))return;
     confirmarVenda(id,1);return;
   }
-  // Estoque > 1: mostrar modal para digitar quantidade
   state.vendaModalId=id;
   const modal=$('modal-venda-qty');
   $('modal-venda-nome').textContent=p.Nome;
@@ -791,11 +821,7 @@ async function renderSalesReport(){
     const vendas=res.vendas||[];
     const parseBRL=v=>{const s=String(v||'0').replace(/R\$\s*/g,'').trim();if(s.includes(','))return parseFloat(s.replace(/\./g,'').replace(',','.'))||0;return parseFloat(s)||0;};
     let totalQtd=0,totalValor=0;
-    vendas.forEach(v=>{
-      const qtd=parseInt(v.Quantidade)||0;
-      totalQtd+=qtd;
-      totalValor+=parseBRL(v.Preco)*qtd;
-    });
+    vendas.forEach(v=>{const qtd=parseInt(v.Quantidade)||0;totalQtd+=qtd;totalValor+=parseBRL(v.Preco)*qtd;});
     $('sales-report-sub').textContent=`${vendas.length} venda(s) — ${totalQtd} peça(s) — Total: ${formatMoney(totalValor)}`;
     if(!vendas.length){tbody.innerHTML=`<tr><td colspan="6" class="sales-empty">Nenhuma venda registrada ainda.</td></tr>`;return}
     tbody.innerHTML=vendas.map((v,idx)=>{
@@ -823,7 +849,6 @@ async function editarQtdVenda(idx,preco){
   if(isNaN(qtd)||qtd<=0){toast('Quantidade inválida.','error');return}
   const res=await apiPost({action:'atualizarQtdVenda',idx,qtd});
   if(!res.ok){toast('Erro ao salvar quantidade.','error');return}
-  // Atualizar localmente e re-renderizar a linha
   v.Quantidade=String(qtd);
   const subtotal=preco*qtd;
   const precoCell=preco?(qtd>1?`${formatMoney(preco)} × ${qtd} = <strong>${formatMoney(subtotal)}</strong>`:formatMoney(preco)):'-';
@@ -832,9 +857,9 @@ async function editarQtdVenda(idx,preco){
     row.cells[4].innerHTML=`${qtd}<button onclick="editarQtdVenda(${idx},${preco})" style="background:none;border:1px solid var(--border);border-radius:6px;padding:2px 8px;font-size:11px;cursor:pointer;margin-left:6px;color:var(--muted)">✏️</button>`;
     $('venda-preco-'+idx).innerHTML=precoCell;
   }
-  // Recalcular totais
   let totalQtd=0,totalValor=0;
-  vendas.forEach(v2=>{const q=parseInt(v2.Quantidade)||1;const p=parseBRL(v2.Preco);totalQtd+=q;totalValor+=p*q;});
+  const parseBRL2=v=>{const s=String(v||'0').replace(/R\$\s*/g,'').trim();if(s.includes(','))return parseFloat(s.replace(/\./g,'').replace(',','.'))||0;return parseFloat(s)||0;};
+  vendas.forEach(v2=>{const q=parseInt(v2.Quantidade)||1;const p=parseBRL2(v2.Preco);totalQtd+=q;totalValor+=p*q;});
   state.vendasParaImprimir.totalQtd=totalQtd;state.vendasParaImprimir.totalValor=totalValor;
   $('sales-report-sub').textContent=`${vendas.length} venda(s) — ${totalQtd} peça(s) — Total: ${formatMoney(totalValor)}`;
   $('sales-report-tfoot').innerHTML=`<tr><td colspan="4" style="text-align:right;font-weight:700;padding:12px">TOTAL</td><td style="text-align:center;font-weight:700;padding:12px">${totalQtd}</td><td style="font-weight:700;color:var(--red);font-size:16px;padding:12px">${formatMoney(totalValor)}</td></tr>`;
@@ -871,7 +896,7 @@ function imprimirRelatorio(){
   <h1>ARQ LUZ ILUMINAÇÃO — Relatório de Vendas</h1>
   <div class="sub">Gerado em ${agora} &nbsp;·&nbsp; ${vendas.length} venda(s) registrada(s)</div>
   <table>
-    <thead><tr><th>Data</th><th>Produto</th><th>Código</th><th>Categoria</th><th>Qtd</th><th>Preço Outlet</th></tr></thead>
+    <thead><tr><th>Data</th><th>Produto</th><th>Código</th><th>Categoria</th><th>Qtd</th><th>Preço</th></tr></thead>
     <tbody>${linhas}</tbody>
     <tfoot><tr><td colspan="4" style="text-align:right">TOTAL GERAL</td><td style="text-align:center">${totalQtd} peças</td><td style="text-align:right">${formatMoney(totalValor)}</td></tr></tfoot>
   </table>
@@ -966,7 +991,7 @@ async function saveProduct(){
   const nome=$('pf-nome').value.trim(),cat=$('pf-cat').value,por=$('pf-price-por').value;
   if(!nome){toast('Informe o nome do produto.','error');return}
   if(!cat){toast('Selecione uma categoria.','error');return}
-  if(!por){toast('Informe o preço do outlet.','error');return}
+  if(!por){toast('Informe o preço do produto.','error');return}
   const btn=$('btn-save-product');btn.disabled=true;btn.textContent='Salvando...';
   try{
     const product={Nome:nome,Codigo_Interno:$('pf-cod-interno').value.trim(),Estoque:$('pf-estoque').value,Categoria:cat,Subcategoria:$('pf-subcat').value,Preco_De:$('pf-price-de').value,Preco_Por:por,Observacoes:$('pf-obs').value.trim(),Foto_Principal:state.productFormPhotos.main||'',Fotos_Extras:state.productFormPhotos.extras.join(',')};
@@ -1032,18 +1057,36 @@ async function removeSubcat(catId,idx){
 
 function fillSettingsForm(){
   const cfg=state.config||{};
-  $('cfg-nome').value=cfg.feirao_nome||'';$('cfg-popup-titulo').value=cfg.popup_titulo||'';
+  $('cfg-nome').value=cfg.feirao_nome||'';
+  $('cfg-mostrar-precos').value=cfg.mostrar_precos||'true';
+  $('cfg-popup-titulo').value=cfg.popup_titulo||'';
   $('cfg-data').value=cfg.popup_data||'';$('cfg-horario').value=cfg.popup_horario||'';
   $('cfg-local').value=cfg.popup_local||'';$('cfg-pagamento').value=cfg.popup_pagamento||'';
   $('cfg-texto').value=cfg.popup_texto||'';$('cfg-popup-ativo').value=cfg.popup_ativo||'true';
   $('cfg-senha').value='';$('cfg-senha2').value='';
 }
 async function saveSettings(){
-  const newCfg={feirao_nome:$('cfg-nome').value,popup_titulo:$('cfg-popup-titulo').value,popup_data:$('cfg-data').value,popup_horario:$('cfg-horario').value,popup_local:$('cfg-local').value,popup_pagamento:$('cfg-pagamento').value,popup_texto:$('cfg-texto').value,popup_ativo:$('cfg-popup-ativo').value};
+  const newCfg={
+    feirao_nome:$('cfg-nome').value,
+    mostrar_precos:$('cfg-mostrar-precos').value,
+    popup_titulo:$('cfg-popup-titulo').value,
+    popup_data:$('cfg-data').value,
+    popup_horario:$('cfg-horario').value,
+    popup_local:$('cfg-local').value,
+    popup_pagamento:$('cfg-pagamento').value,
+    popup_texto:$('cfg-texto').value,
+    popup_ativo:$('cfg-popup-ativo').value
+  };
   const senha=$('cfg-senha').value,senha2=$('cfg-senha2').value;
   if(senha){if(senha!==senha2){toast('As senhas não coincidem.','error');return}newCfg.admin_senha=senha}
   const res=await apiPost({action:'updateConfig',config:newCfg});
-  if(res.ok){Object.assign(state.config,newCfg);saveCache('config',state.config);$('cfg-senha').value='';$('cfg-senha2').value='';renderCatalog();toast('Configurações salvas!','success')}
+  if(res.ok){
+    Object.assign(state.config,newCfg);
+    saveCache('config',state.config);
+    $('cfg-senha').value='';$('cfg-senha2').value='';
+    renderCatalog();
+    toast('Configurações salvas!','success');
+  }
   else toast('Erro ao salvar configurações.','error');
 }
 
@@ -1101,7 +1144,6 @@ async function init(){
     if(!popupVisto&&!cachedConfig&&state.config.popup_ativo!=='false'){showPopup(state.config);sessionStorage.setItem('popup_visto','1')}
   }catch(err){console.error('Erro ao carregar dados:',err)}
 
-  // Atualização automática a cada 20 segundos
   setInterval(async()=>{
     try{
       const[pRes,cRes]=await Promise.all([apiGet('getProducts'),apiGet('getCategories')]);
@@ -1114,6 +1156,7 @@ async function init(){
 }
 init();
 </script>
+
 <!-- Modal Registrar Venda -->
 <div id="modal-venda-qty" class="modal-venda-overlay hidden">
   <div class="modal-venda-box">
