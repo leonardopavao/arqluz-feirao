@@ -246,66 +246,74 @@ textarea.form-input{resize:vertical;min-height:80px}
   .product-card-img,.product-card-img-placeholder{height:220px}
 }
 
-/* ===== Showroom Virtual: catálogo (opção Sumário) ===== */
+/* ===== Showroom Virtual: catálogo (seções por categoria) ===== */
 #view-catalog{background:#F7F7F4;color:#1B1B1B;font-family:'Karla',system-ui,sans-serif}
-.sm-wrap{max-width:1360px;margin:0 auto;padding:32px 40px 72px;display:flex;flex-direction:column;gap:22px}
+.sm-wrap{max-width:1360px;margin:0 auto;padding:32px 40px 72px;display:flex;flex-direction:column;gap:28px}
 .sm-top{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px}
 .sm-brand{font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
 .sm-brand-sub{font-weight:400;color:#6A6A64}
 .sm-top-right{display:flex;flex-wrap:wrap;align-items:baseline;gap:18px}
 #sm-search{width:280px;max-width:100%;border:none;border-bottom:1px solid #1B1B1B;border-radius:0;background:transparent;padding:6px 0;font-family:'Karla',sans-serif;font-size:16px;color:#1B1B1B;outline:none}
 #view-catalog #btn-admin-access{border:none;background:transparent;color:#6A6A64;font-size:13px;padding:0;border-radius:0;text-decoration:underline}
-.sm-tabs{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;padding-bottom:14px;border-bottom:1.5px solid #1B1B1B}
-.sm-tab-wrap{display:inline-flex;align-items:baseline;gap:12px}
-.sm-tab{padding:0;border:none;background:transparent;font-family:'Newsreader',Georgia,serif;font-size:clamp(17px,1.7vw,23px);line-height:1.3;letter-spacing:.01em;color:#75756D;cursor:pointer}
-.sm-tab:hover{color:#1B1B1B}
-.sm-tab.active{color:#1F4D3A;font-style:italic;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:6px}
-.sm-sep{font-family:'Newsreader',Georgia,serif;font-size:16px;color:#C4C4BC}
-.sm-subtabs{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:-6px}
+.sm-layout{display:flex;flex-wrap:wrap;align-items:flex-start;gap:56px}
+.sm-index{flex:0 0 210px;max-width:100%;position:sticky;top:24px;border-top:1.5px solid #1B1B1B}
+.sm-ix{display:flex;align-items:baseline;justify-content:space-between;gap:12px;width:100%;box-sizing:border-box;padding:9px 0;margin:0;border:none;border-bottom:1px solid #D6D6CF;border-radius:0;background:transparent;text-align:left;font-family:'Karla',sans-serif;font-size:14px;font-weight:500;color:#4A4A45;letter-spacing:.04em;text-transform:uppercase;cursor:pointer}
+.sm-ix:hover{color:#1B1B1B}
+.sm-ix.on{color:#1F4D3A;font-weight:700}
+.sm-ix .n{font-size:12px;font-weight:400;color:#6A6A64;font-variant-numeric:tabular-nums}
+.sm-ix-all{font-weight:700;color:#1B1B1B}
+.sm-main{flex:1 1 760px;min-width:0;display:flex;flex-direction:column;gap:28px}
+.sm-subtabs{display:flex;flex-wrap:wrap;gap:6px 20px}
 .sm-subtab{padding:4px 0;border:none;border-bottom:2px solid transparent;border-radius:0;background:transparent;font-family:'Karla',sans-serif;font-size:15px;font-weight:500;color:#6A6A64;cursor:pointer}
 .sm-subtab.active{color:#1F4D3A;border-bottom-color:#1F4D3A;font-weight:700}
-.sm-body{display:flex;flex-wrap:wrap;align-items:flex-start;gap:48px}
-.sm-list-col{flex:1 1 560px;min-width:0}
-.sm-list-head{display:grid;grid-template-columns:minmax(0,1fr) 84px 170px;align-items:baseline;column-gap:14px;padding:0 10px 10px;border-bottom:1.5px solid #1B1B1B;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
-#catalog-stats{font-size:12px;color:#1B1B1B}
-.sm-list{display:flex;flex-direction:column}
-.sm-row{display:grid;grid-template-columns:minmax(0,1fr) 84px 170px;align-items:baseline;column-gap:14px;width:100%;box-sizing:border-box;padding:12px 10px;margin:0;text-align:left;border:none;border-bottom:1px solid #D6D6CF;border-radius:0;background:transparent;color:#1B1B1B;font-family:'Karla',sans-serif;cursor:pointer}
-.sm-row:hover{background:#F0F0EB}
-.sm-row.sel{background:#ECECE6}
-.sm-row:focus-visible,.sm-tab:focus-visible,.sm-subtab:focus-visible,.sm-thumb:focus-visible{outline:2px solid #1F4D3A;outline-offset:2px}
-.sm-row-name{font-family:'Newsreader',Georgia,serif;font-size:19px;line-height:1.25;overflow-wrap:anywhere}
-.sm-row.sel .sm-row-name{color:#1F4D3A}
-.sm-leader{display:none}
-.sm-row-cod{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
-.sm-row-loc{font-size:14px;color:#4A4A45}
-.sm-empty{padding:48px 10px;font-family:'Newsreader',Georgia,serif;font-size:22px;font-style:italic;color:#6A6A64}
-.sm-detail{flex:1 1 420px;max-width:480px;position:sticky;top:24px;align-self:flex-start;display:flex;flex-direction:column;gap:22px}
-.sm-photo{position:relative;height:380px;background:#E4E4DE;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.sm-photo img{width:100%;height:100%;object-fit:contain;background:#fff}
-.sm-photo-ph{font-family:'Newsreader',Georgia,serif;font-size:200px;line-height:1;letter-spacing:-.04em;color:#D1D1C9}
+#sm-sections{display:flex;flex-direction:column;gap:56px}
+.sm-sh{display:flex;align-items:baseline;justify-content:space-between;gap:20px;border-bottom:1.5px solid #1B1B1B;padding-bottom:10px;margin-bottom:22px}
+.sm-sh h2{margin:0;font-family:'Newsreader',Georgia,serif;font-style:italic;font-weight:400;font-size:44px;line-height:1.1;color:#1F4D3A}
+.sm-sh span{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.sm-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:34px 24px}
+.sm-card{display:flex;flex-direction:column;gap:10px;padding:0;margin:0;border:none;border-radius:0;background:transparent;text-align:left;color:#1B1B1B;font-family:'Karla',sans-serif;cursor:pointer}
+.sm-card:focus-visible,.sm-ix:focus-visible,.sm-subtab:focus-visible,.sm-more:focus-visible,.sm-close:focus-visible,.sm-thumb:focus-visible{outline:2px solid #1F4D3A;outline-offset:3px}
+.sm-pic{position:relative;aspect-ratio:3/4;background:#fff;overflow:hidden}
+.sm-pic img{width:100%;height:100%;object-fit:contain;display:block}
+.sm-ph{background:repeating-linear-gradient(135deg,#E6E3DB 0 10px,#E0DDD4 10px 11px)}
+.sm-ph::after{content:'sem foto';position:absolute;left:12px;bottom:10px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#5A5A54}
+.sm-nm{margin:0;font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:17px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.sm-card:hover .sm-nm{color:#1F4D3A}
+.sm-meta{display:flex;flex-direction:column;gap:2px;margin-top:-4px}
+.sm-cod{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}
+.sm-loc{font-size:13px;color:#1F4D3A;font-weight:500}
+.sm-more{margin-top:26px;padding:0;border:none;border-radius:0;background:transparent;font-family:'Karla',sans-serif;font-size:14px;font-weight:700;color:#1F4D3A;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+.sm-empty{padding:48px 0;font-family:'Newsreader',Georgia,serif;font-size:22px;font-style:italic;color:#6A6A64}
+#catalog-stats{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#1B1B1B}
+/* ficha da peça (janela) */
+#sm-modal{position:fixed;inset:0;z-index:300;background:rgba(27,27,27,.55);display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:40px 20px}
+#sm-modal.hidden{display:none}
+.sm-sheet{position:relative;width:100%;max-width:960px;box-sizing:border-box;background:#F7F7F4;padding:36px;display:flex;flex-wrap:wrap;gap:36px;color:#1B1B1B;font-family:'Karla',sans-serif}
+.sm-close{position:absolute;top:14px;right:18px;padding:4px 0;border:none;border-radius:0;background:transparent;font-family:'Karla',sans-serif;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#1B1B1B;cursor:pointer}
+.sm-s-pic{flex:1 1 360px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.sm-s-pic .sm-pic{aspect-ratio:auto;height:460px}
 .sm-thumbs{display:flex;gap:8px;overflow-x:auto}
-.sm-thumb{flex:none;width:64px;height:64px;padding:0;border:2px solid transparent;background:#fff;cursor:pointer}
+.sm-thumb{flex:none;width:64px;height:64px;padding:0;border:2px solid transparent;border-radius:0;background:#fff;cursor:pointer}
 .sm-thumb.active{border-color:#1F4D3A}
 .sm-thumb img{width:100%;height:100%;object-fit:contain;display:block}
-.sm-d-name{margin:0;font-family:'Newsreader',Georgia,serif;font-size:30px;line-height:1.1;font-weight:400;letter-spacing:0}
-.sm-dl{margin:0;display:grid;grid-template-columns:150px 1fr;border-top:1.5px solid #1B1B1B}
+.sm-s-info{flex:1 1 320px;min-width:0;display:flex;flex-direction:column;gap:20px;padding-top:22px}
+.sm-d-name{margin:0;font-family:'Newsreader',Georgia,serif;font-size:30px;line-height:1.1;font-weight:400}
+.sm-dl{margin:0;display:grid;grid-template-columns:140px 1fr;border-top:1.5px solid #1B1B1B}
 .sm-dl dt{padding:12px 0;border-bottom:1px solid #D6D6CF;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6A6A64}
 .sm-dl dd{margin:0;padding:10px 0;border-bottom:1px solid #D6D6CF;font-size:18px}
 .sm-dl dd.loc{font-weight:700;color:#1F4D3A}
 .sm-d-obs{margin:0;font-family:'Newsreader',Georgia,serif;font-size:19px;line-height:1.5;font-style:italic;color:#4A4A45}
 @media(max-width:900px){
-  .sm-wrap{padding:24px 18px 56px;gap:24px}
-  .sm-body{gap:28px}
-  .sm-detail{order:-1;position:static;max-width:none;flex-basis:100%}
-  .sm-photo{height:300px}
-  .sm-photo-ph{font-size:140px}
+  .sm-wrap{padding:22px 18px 56px;gap:20px}
+  .sm-layout{gap:24px}
+  .sm-index{position:static;flex:1 1 100%;display:flex;overflow-x:auto;gap:18px;border-top:none;border-bottom:1.5px solid #1B1B1B;padding-bottom:4px}
+  .sm-ix{width:auto;flex:none;border-bottom:none;white-space:nowrap;gap:6px}
+  .sm-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 14px}
+  .sm-sh h2{font-size:32px}
+  .sm-sheet{padding:22px 18px;gap:22px}
+  .sm-s-pic .sm-pic{height:340px}
   .sm-d-name{font-size:26px}
-  .sm-tab{font-size:18px}
-  .sm-h-cod,.sm-h-loc{display:none}
-  .sm-row{grid-template-columns:auto minmax(0,1fr);row-gap:2px}
-  .sm-row-name{grid-column:1/-1;font-size:18px}
-  .sm-row-cod{margin-right:8px}
-  .sm-dl{grid-template-columns:130px 1fr}
+  .sm-dl{grid-template-columns:120px 1fr}
 }
 </style>
 </head>
@@ -335,16 +343,16 @@ textarea.form-input{resize:vertical;min-height:80px}
         <button id="btn-admin-access" onclick="showView('admin-login')">Admin</button>
       </div>
     </header>
-    <nav id="cat-filter-row" class="sm-tabs" aria-label="Categorias"></nav>
-    <div id="subcat-filters" class="sm-subtabs hidden"></div>
-    <div class="sm-body">
-      <section class="sm-list-col" aria-label="Lista de peças">
-        <div class="sm-list-head"><span id="catalog-stats"></span><span class="sm-h-cod">COD</span><span class="sm-h-loc">Lugar de estoque</span></div>
-        <div id="sm-list" class="sm-list"><div class="sm-empty">Carregando peças…</div></div>
-      </section>
-      <aside id="sm-detail" class="sm-detail" aria-label="Peça selecionada"></aside>
+    <div class="sm-layout">
+      <nav id="cat-filter-row" class="sm-index" aria-label="Categorias"></nav>
+      <main class="sm-main">
+        <span id="catalog-stats"></span>
+        <div id="subcat-filters" class="sm-subtabs hidden"></div>
+        <div id="sm-sections"><div class="sm-empty">Carregando peças…</div></div>
+      </main>
     </div>
   </div>
+  <div id="sm-modal" class="hidden" role="dialog" aria-modal="true" aria-label="Ficha da peça" onclick="if(event.target===this)closeFicha()"></div>
 </div>
 
 <div id="view-admin-login" class="hidden">
@@ -585,104 +593,116 @@ function showPopup(cfg){
 }
 function closePopup(){$('popup-overlay').classList.add('hidden')}
 
+const nk=v=>String(v||'').trim().toUpperCase();
+function uniqCats(){const seen=new Set(),out=[];state.categories.forEach(c=>{const k=nk(c.Nome);if(k&&!seen.has(k)){seen.add(k);out.push(String(c.Nome).trim())}});return out}
+
 function renderCatalog(){
   document.title='Showroom Virtual — Arq Luz';
   renderCatFilters();renderProductsGrid();
 }
 
 function showSkeletons(){
-  $('sm-list').innerHTML='<div class="sm-empty">Carregando peças…</div>';
-  $('sm-detail').innerHTML='';
+  $('sm-sections').innerHTML='<div class="sm-empty">Carregando peças…</div>';
 }
 
-const nk=v=>String(v||'').trim().toUpperCase();
-function uniqCats(){const seen=new Set(),out=[];state.categories.forEach(c=>{const k=nk(c.Nome);if(k&&!seen.has(k)){seen.add(k);out.push(String(c.Nome).trim())}});return out}
-function renderCatFilters(){
-  const row=$('cat-filter-row');row.innerHTML='';
-  const items=[{nome:'all',label:'Todos'},...uniqCats().map(n=>({nome:n,label:n}))];
-  items.forEach((it,i)=>{
-    const wrap=document.createElement('span');wrap.className='sm-tab-wrap';
-    const btn=document.createElement('button');btn.type='button';
-    btn.className='sm-tab'+(state.filterCat===it.nome?' active':'');
-    btn.textContent=it.label;btn.onclick=()=>filterCat(it.nome);
-    wrap.appendChild(btn);
-    if(i<items.length-1){const sep=document.createElement('span');sep.className='sm-sep';sep.setAttribute('aria-hidden','true');sep.textContent='/';wrap.appendChild(sep)}
-    row.appendChild(wrap);
-  });
-  renderSubcatFilters();
+// peças visíveis (sem vendidas) respeitando a busca
+function smBase(){
+  const q=(state.q||'').trim().toLowerCase();
+  let list=state.products.filter(p=>p.Status!=='vendido');
+  if(q)list=list.filter(p=>[p.Nome,p.Codigo_Interno,p.Local_Estoque].some(v=>String(v||'').toLowerCase().includes(q)));
+  return list;
 }
+function smSorted(list){
+  return list.slice().sort((a,b)=>String(a.Nome||'').localeCompare(String(b.Nome||''),'pt-BR',{numeric:true}));
+}
+
+function renderIndex(){
+  const nav=$('cat-filter-row');nav.innerHTML='';
+  const base=smBase();
+  const counts={};base.forEach(p=>{const k=nk(p.Categoria);counts[k]=(counts[k]||0)+1});
+  const mk=(label,val,n,extra)=>{
+    const b=document.createElement('button');b.type='button';
+    b.className='sm-ix'+(extra?' '+extra:'')+(nk(state.filterCat)===nk(val)||(val==='all'&&state.filterCat==='all')?' on':'');
+    b.innerHTML='<span>'+esc(label)+'</span><span class="n">'+n+'</span>';
+    b.onclick=()=>filterCat(val);nav.appendChild(b);
+  };
+  mk('Todas as categorias','all',base.length,'sm-ix-all');
+  uniqCats().forEach(n=>{const c=counts[nk(n)]||0;if(c||nk(state.filterCat)===nk(n))mk(n,n,c)});
+}
+
+function renderCatFilters(){renderIndex();renderSubcatFilters()}
 
 function renderSubcatFilters(){
-  const subcatRow=$('subcat-filters');
-  if(state.filterCat==='all'){subcatRow.classList.add('hidden');subcatRow.innerHTML='';return}
+  const row=$('subcat-filters');
+  if(state.filterCat==='all'){row.classList.add('hidden');row.innerHTML='';return}
   const subs=[...new Set(state.categories.filter(c=>nk(c.Nome)===nk(state.filterCat)).flatMap(c=>c.Subcategorias||[]))];
-  const catObj={Subcategorias:subs};
-  if(!subs.length){subcatRow.classList.add('hidden');subcatRow.innerHTML='';return}
-  subcatRow.innerHTML='';
-  const mk=(label,val)=>{const b=document.createElement('button');b.type='button';b.className='sm-subtab'+(state.filterSubcat===val?' active':'');b.textContent=label;b.onclick=()=>filterSubcat(val);subcatRow.appendChild(b)};
-  mk('Todos','all');
-  catObj.Subcategorias.forEach(sc=>mk(sc,sc));
-  subcatRow.classList.remove('hidden');
+  if(!subs.length){row.classList.add('hidden');row.innerHTML='';return}
+  row.innerHTML='';
+  const mk=(label,val)=>{const b=document.createElement('button');b.type='button';b.className='sm-subtab'+(state.filterSubcat===val?' active':'');b.textContent=label;b.onclick=()=>filterSubcat(val);row.appendChild(b)};
+  mk('Todos','all');subs.forEach(sc=>mk(sc,sc));
+  row.classList.remove('hidden');
 }
 
-function filterCat(cat){state.filterCat=cat;state.filterSubcat='all';renderCatFilters();renderProductsGrid()}
+function filterCat(cat){state.filterCat=cat;state.filterSubcat='all';renderCatFilters();renderProductsGrid();window.scrollTo({top:0,behavior:'smooth'})}
 function filterSubcat(sub){state.filterSubcat=sub;renderSubcatFilters();renderProductsGrid()}
-function smSearch(v){state.q=v;renderProductsGrid()}
+function smSearch(v){state.q=v;renderIndex();renderProductsGrid()}
 
 function formatMoney(v){if(v===undefined||v===null||v==='')return'';const n=parseFloat(String(v).replace(',','.'));if(Number.isNaN(n))return'';return'R$ '+n.toFixed(2).replace('.',',')}
 
-function smVisible(){
-  const q=(state.q||'').trim().toLowerCase();
-  let list=state.products.filter(p=>p.Status!=='vendido');
-  if(state.filterCat!=='all')list=list.filter(p=>nk(p.Categoria)===nk(state.filterCat));
-  if(state.filterSubcat!=='all')list=list.filter(p=>p.Subcategoria===state.filterSubcat);
-  if(q)list=list.filter(p=>[p.Nome,p.Codigo_Interno,p.Local_Estoque].some(v=>String(v||'').toLowerCase().includes(q)));
-  const order=uniqCats().map(nk);
-  list.sort((a,b)=>{
-    const ia=order.indexOf(nk(a.Categoria)),ib=order.indexOf(nk(b.Categoria));
-    const d=(ia<0?999:ia)-(ib<0?999:ib);
-    return d||String(a.Nome||'').localeCompare(String(b.Nome||''),'pt-BR');
-  });
-  return list;
+const SM_PREVIEW=8;
+function smCard(p){
+  const img=p.Foto_Principal?'<img loading="lazy" src="'+esc(p.Foto_Principal)+'" alt="'+esc(p.Nome)+'"/>':'';
+  return '<button type="button" class="sm-card" data-id="'+esc(p.ID)+'"><div class="sm-pic'+(img?'':' sm-ph')+'">'+img+'</div><h3 class="sm-nm">'+esc(p.Nome)+'</h3><div class="sm-meta"><span class="sm-cod">'+esc(p.Codigo_Interno||'—')+'</span><span class="sm-loc">'+esc(p.Local_Estoque||'—')+'</span></div></button>';
+}
+function smSection(titulo,list,catKey,preview){
+  const shown=preview?list.slice(0,SM_PREVIEW):list;
+  const n=list.length;
+  const more=preview&&n>SM_PREVIEW?'<button type="button" class="sm-more" data-cat="'+esc(catKey)+'">Ver as '+n+' peças de '+esc(titulo)+'</button>':'';
+  return '<section><div class="sm-sh"><h2>'+esc(titulo)+'</h2><span>'+n+(n===1?' peça':' peças')+'</span></div><div class="sm-grid">'+shown.map(smCard).join('')+'</div>'+more+'</section>';
 }
 
 function renderProductsGrid(){
-  const list=smVisible();
-  $('catalog-stats').textContent=list.length===1?'1 peça':list.length+' peças';
-  const box=$('sm-list');
-  if(!list.length){box.innerHTML='<div class="sm-empty">Nenhuma peça encontrada.</div>';state.sel=null;renderDetail(null);return}
-  if(!list.some(p=>p.ID===state.sel))state.sel=list[0].ID;
-  box.innerHTML='';
-  list.forEach(p=>{
-    const row=document.createElement('button');row.type='button';
-    row.className='sm-row'+(p.ID===state.sel?' sel':'');
-    row.onclick=()=>selectProduct(p.ID);
-    row.innerHTML=`<span class="sm-row-name">${esc(p.Nome)}</span><span class="sm-leader" aria-hidden="true"></span><span class="sm-row-cod">${esc(p.Codigo_Interno||'—')}</span><span class="sm-row-loc">${esc(p.Local_Estoque||'—')}</span>`;
-    box.appendChild(row);
-  });
-  renderDetail(list.find(p=>p.ID===state.sel));
+  const base=smBase();
+  const box=$('sm-sections');
+  let html='',total=0;
+  if(state.filterCat==='all'){
+    const known=new Set();
+    uniqCats().forEach(n=>{
+      known.add(nk(n));
+      const l=smSorted(base.filter(p=>nk(p.Categoria)===nk(n)));
+      if(l.length){total+=l.length;html+=smSection(n,l,n,true)}
+    });
+    const rest=smSorted(base.filter(p=>!known.has(nk(p.Categoria))));
+    if(rest.length){total+=rest.length;html+=smSection('Outras peças',rest,'',false)}
+  }else{
+    let l=base.filter(p=>nk(p.Categoria)===nk(state.filterCat));
+    if(state.filterSubcat!=='all')l=l.filter(p=>p.Subcategoria===state.filterSubcat);
+    l=smSorted(l);total=l.length;
+    if(l.length)html=smSection(state.filterCat,l,state.filterCat,false);
+  }
+  $('catalog-stats').textContent=total===1?'1 peça':total+' peças';
+  box.innerHTML=html||'<div class="sm-empty">Nenhuma peça encontrada.</div>';
+  box.onclick=e=>{
+    const m=e.target.closest('.sm-more');if(m){filterCat(m.dataset.cat);return}
+    const c=e.target.closest('.sm-card');if(c)openFicha(c.dataset.id);
+  };
 }
 
-function selectProduct(id){
-  state.sel=id;renderProductsGrid();
-  if(window.innerWidth<=900){const d=$('sm-detail');if(d&&d.scrollIntoView)d.scrollIntoView({behavior:'smooth',block:'start'})}
-}
-
-function renderDetail(p){
-  const el=$('sm-detail');
-  if(!p){el.innerHTML='';return}
+function openFicha(id){
+  const p=state.products.find(x=>String(x.ID)===String(id));if(!p)return;
   const imgs=[p.Foto_Principal,...(p.Fotos_Extras?String(p.Fotos_Extras).split(',').map(u=>u.trim()):[])].filter(Boolean);
   const cat=[p.Categoria,p.Subcategoria].filter(Boolean).join(' · ');
   const est=parseInt(p.Estoque);
-  const photo=imgs.length
-    ?`<img id="sm-photo" src="${esc(imgs[0])}" alt="${esc(p.Nome)}"/>`
-    :`<span class="sm-photo-ph" aria-hidden="true">${esc(String(p.Nome||'').slice(0,3).toUpperCase())}</span>`;
-  const thumbs=imgs.length>1
-    ?`<div class="sm-thumbs">${imgs.map((u,i)=>`<button type="button" class="sm-thumb${i===0?' active':''}" data-i="${i}" aria-label="Foto ${i+1}"><img src="${esc(u)}" alt=""/></button>`).join('')}</div>`
-    :'';
-  el.innerHTML=`<div class="sm-photo">${photo}</div>${thumbs}<h2 class="sm-d-name">${esc(p.Nome)}</h2><dl class="sm-dl"><dt>Código</dt><dd>${esc(p.Codigo_Interno||'—')}</dd><dt>Lugar de estoque</dt><dd class="loc">${esc(p.Local_Estoque||'—')}</dd><dt>Estoque</dt><dd>${Number.isNaN(est)?'—':est+' un.'}</dd><dt>Categoria</dt><dd>${esc(cat||'—')}</dd></dl>${p.Observacoes?`<p class="sm-d-obs">${esc(p.Observacoes)}</p>`:''}`;
-  el.querySelectorAll('.sm-thumb').forEach(b=>{b.onclick=()=>{const i=Number(b.dataset.i);const main=$('sm-photo');if(main)main.src=imgs[i];el.querySelectorAll('.sm-thumb').forEach(t=>t.classList.remove('active'));b.classList.add('active')}});
+  const pic=imgs.length?'<img id="sm-photo" src="'+esc(imgs[0])+'" alt="'+esc(p.Nome)+'"/>':'';
+  const thumbs=imgs.length>1?'<div class="sm-thumbs">'+imgs.map((u,i)=>'<button type="button" class="sm-thumb'+(i===0?' active':'')+'" data-i="'+i+'" aria-label="Foto '+(i+1)+'"><img src="'+esc(u)+'" alt=""/></button>').join('')+'</div>':'';
+  const m=$('sm-modal');
+  m.innerHTML='<div class="sm-sheet"><button type="button" class="sm-close" onclick="closeFicha()">Fechar</button><div class="sm-s-pic"><div class="sm-pic'+(imgs.length?'':' sm-ph')+'">'+pic+'</div>'+thumbs+'</div><div class="sm-s-info"><h2 class="sm-d-name">'+esc(p.Nome)+'</h2><dl class="sm-dl"><dt>Código</dt><dd>'+esc(p.Codigo_Interno||'—')+'</dd><dt>Lugar de estoque</dt><dd class="loc">'+esc(p.Local_Estoque||'—')+'</dd><dt>Estoque</dt><dd>'+(Number.isNaN(est)?'—':est+' un.')+'</dd><dt>Categoria</dt><dd>'+esc(cat||'—')+'</dd></dl>'+(p.Observacoes?'<p class="sm-d-obs">'+esc(p.Observacoes)+'</p>':'')+'</div></div>';
+  m.querySelectorAll('.sm-thumb').forEach(b=>{b.onclick=()=>{const i=Number(b.dataset.i);const main=$('sm-photo');if(main)main.src=imgs[i];m.querySelectorAll('.sm-thumb').forEach(t=>t.classList.remove('active'));b.classList.add('active')}});
+  m.classList.remove('hidden');document.body.style.overflow='hidden';
+  const cb=m.querySelector('.sm-close');if(cb&&cb.focus)cb.focus();
 }
+function closeFicha(){const m=$('sm-modal');if(!m)return;m.classList.add('hidden');m.innerHTML='';document.body.style.overflow=''}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeFicha()});
 
 async function doLogin(){
   const pass=$('login-input').value.trim();$('login-error').textContent='';
