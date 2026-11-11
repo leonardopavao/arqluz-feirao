@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Showroom Virtual Arq Luz</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&family=Karla:wght@400;500;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -245,6 +245,70 @@ textarea.form-input{resize:vertical;min-height:80px}
   .products-table th:nth-child(6),.products-table td:nth-child(6){display:none}
   .product-card-img,.product-card-img-placeholder{height:220px}
 }
+
+/* ===== Showroom Virtual: catálogo (opção Sumário) ===== */
+#view-catalog{background:#F7F7F4;color:#1B1B1B;font-family:'Karla',system-ui,sans-serif}
+.sm-wrap{max-width:1360px;margin:0 auto;padding:36px 40px 72px;display:flex;flex-direction:column;gap:36px}
+.sm-top{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px}
+.sm-brand{font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.sm-brand-sub{font-weight:400;color:#6A6A64}
+.sm-top-right{display:flex;flex-wrap:wrap;align-items:baseline;gap:18px}
+#sm-search{width:280px;max-width:100%;border:none;border-bottom:1px solid #1B1B1B;border-radius:0;background:transparent;padding:6px 0;font-family:'Karla',sans-serif;font-size:16px;color:#1B1B1B;outline:none}
+#view-catalog #btn-admin-access{border:none;background:transparent;color:#6A6A64;font-size:13px;padding:0;border-radius:0;text-decoration:underline}
+.sm-tabs{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 18px}
+.sm-tab-wrap{display:inline-flex;align-items:baseline;gap:18px}
+.sm-tab{padding:0;border:none;background:transparent;font-family:'Newsreader',Georgia,serif;font-size:clamp(30px,5vw,56px);line-height:1.15;letter-spacing:-.01em;color:#75756D;cursor:pointer}
+.sm-tab.active{color:#1F4D3A;font-style:italic}
+.sm-sep{font-family:'Newsreader',Georgia,serif;font-size:clamp(24px,3.4vw,40px);color:#B8B8B0}
+.sm-subtabs{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:-20px}
+.sm-subtab{padding:4px 0;border:none;border-bottom:2px solid transparent;border-radius:0;background:transparent;font-family:'Karla',sans-serif;font-size:15px;font-weight:500;color:#6A6A64;cursor:pointer}
+.sm-subtab.active{color:#1F4D3A;border-bottom-color:#1F4D3A;font-weight:700}
+.sm-body{display:flex;flex-wrap:wrap;align-items:flex-start;gap:56px}
+.sm-list-col{flex:1 1 560px;min-width:0}
+.sm-list-head{display:flex;align-items:baseline;gap:12px;padding-bottom:10px;border-bottom:1.5px solid #1B1B1B;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+#catalog-stats{flex:1;font-size:12px;color:#1B1B1B}
+.sm-h-cod{width:90px}
+.sm-h-loc{width:190px}
+.sm-list{display:flex;flex-direction:column}
+.sm-row{display:flex;align-items:baseline;gap:12px;width:100%;box-sizing:border-box;padding:15px 10px;margin:0;text-align:left;border:none;border-bottom:1px solid #D6D6CF;border-radius:0;background:transparent;color:#1B1B1B;font-family:'Karla',sans-serif;cursor:pointer}
+.sm-row:hover{background:#F0F0EB}
+.sm-row.sel{background:#ECECE6}
+.sm-row:focus-visible,.sm-tab:focus-visible,.sm-subtab:focus-visible,.sm-thumb:focus-visible{outline:2px solid #1F4D3A;outline-offset:2px}
+.sm-row-name{font-family:'Newsreader',Georgia,serif;font-size:25px;line-height:1.2}
+.sm-row.sel .sm-row-name{color:#1F4D3A}
+.sm-leader{flex:1;min-width:12px;align-self:flex-end;margin-bottom:7px;border-bottom:1px dotted #9A9A92}
+.sm-row-cod{width:90px;font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+.sm-row-loc{width:190px;font-size:15px;color:#4A4A45}
+.sm-empty{padding:48px 10px;font-family:'Newsreader',Georgia,serif;font-size:22px;font-style:italic;color:#6A6A64}
+.sm-detail{flex:1 1 420px;max-width:480px;position:sticky;top:24px;align-self:flex-start;display:flex;flex-direction:column;gap:22px}
+.sm-photo{position:relative;height:420px;background:#E4E4DE;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.sm-photo img{width:100%;height:100%;object-fit:contain;background:#fff}
+.sm-photo-ph{font-family:'Newsreader',Georgia,serif;font-size:200px;line-height:1;letter-spacing:-.04em;color:#D1D1C9}
+.sm-thumbs{display:flex;gap:8px;overflow-x:auto}
+.sm-thumb{flex:none;width:64px;height:64px;padding:0;border:2px solid transparent;background:#fff;cursor:pointer}
+.sm-thumb.active{border-color:#1F4D3A}
+.sm-thumb img{width:100%;height:100%;object-fit:contain;display:block}
+.sm-d-name{margin:0;font-family:'Newsreader',Georgia,serif;font-size:42px;line-height:1.05;font-weight:400;letter-spacing:-.01em}
+.sm-dl{margin:0;display:grid;grid-template-columns:150px 1fr;border-top:1.5px solid #1B1B1B}
+.sm-dl dt{padding:12px 0;border-bottom:1px solid #D6D6CF;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6A6A64}
+.sm-dl dd{margin:0;padding:10px 0;border-bottom:1px solid #D6D6CF;font-size:18px}
+.sm-dl dd.loc{font-weight:700;color:#1F4D3A}
+.sm-d-obs{margin:0;font-family:'Newsreader',Georgia,serif;font-size:19px;line-height:1.5;font-style:italic;color:#4A4A45}
+@media(max-width:900px){
+  .sm-wrap{padding:24px 18px 56px;gap:24px}
+  .sm-body{gap:28px}
+  .sm-detail{order:-1;position:static;max-width:none;flex-basis:100%}
+  .sm-photo{height:300px}
+  .sm-photo-ph{font-size:140px}
+  .sm-d-name{font-size:32px}
+  .sm-h-cod,.sm-h-loc{display:none}
+  .sm-row{flex-wrap:wrap;row-gap:2px}
+  .sm-row-name{flex:1 1 100%;font-size:22px}
+  .sm-leader{display:none}
+  .sm-row-cod,.sm-row-loc{width:auto}
+  .sm-row-cod{margin-right:16px}
+  .sm-dl{grid-template-columns:130px 1fr}
+}
 </style>
 </head>
 <body>
@@ -264,60 +328,23 @@ textarea.form-input{resize:vertical;min-height:80px}
   </div>
 </div>
 
-<div id="product-modal-overlay" class="hidden" onclick="closeProductModal(event)">
-  <div id="product-modal">
-    <div id="product-modal-header">
-      <div>
-        <div id="product-modal-cat"></div>
-        <h2 id="product-modal-name"></h2>
-      </div>
-      <button class="modal-close" onclick="closeProductModal()">✕</button>
-    </div>
-    <div id="product-modal-imgs">
-      <div id="product-modal-main-wrap"></div>
-      <div id="product-modal-thumbs"></div>
-    </div>
-    <div id="product-modal-info">
-      <div class="product-modal-meta" id="product-modal-meta"></div>
-      <div id="product-modal-price-wrap">
-        <span id="product-modal-price-de"></span>
-        <span id="product-modal-price-por"></span>
-      </div>
-      <div id="product-modal-obs"></div>
-      <div id="product-modal-sold-wrap"></div>
-    </div>
-  </div>
-</div>
-
 <div id="view-catalog" class="hidden">
-  <header id="cat-header">
-    <div>
-      <span id="cat-header-brand">ARQ LUZ ILUMINAÇÃO</span>
-      <span id="cat-header-title">Showroom Virtual Arq Luz</span>
-    </div>
-    <div id="cat-header-right">
-      <span id="catalog-stats"></span>
-      <button id="btn-admin-access" onclick="showView('admin-login')">Admin</button>
-    </div>
-  </header>
-  <div id="cat-filters">
-    <div class="filter-scroll" id="cat-filter-row"></div>
-    <div class="filter-scroll hidden" id="subcat-filters" style="margin-top:8px"></div>
-    <div class="filter-scroll" id="price-filter-row" style="margin-top:8px">
-      <button class="price-filter-btn active" onclick="filterPrice('all',this)">💰 Todos os preços</button>
-      <button class="price-filter-btn" onclick="filterPrice('0-100',this)">Até R$ 100</button>
-      <button class="price-filter-btn" onclick="filterPrice('100-200',this)">R$ 100 – R$ 200</button>
-      <button class="price-filter-btn" onclick="filterPrice('200-400',this)">R$ 200 – R$ 400</button>
-      <button class="price-filter-btn" onclick="filterPrice('400-600',this)">R$ 400 – R$ 600</button>
-      <button class="price-filter-btn" onclick="filterPrice('600-800',this)">R$ 600 – R$ 800</button>
-      <button class="price-filter-btn" onclick="filterPrice('800-1200',this)">R$ 800 – R$ 1.200</button>
-      <button class="price-filter-btn" onclick="filterPrice('1200-2000',this)">R$ 1.200 – R$ 2.000</button>
-      <button class="price-filter-btn" onclick="filterPrice('2000-5000',this)">R$ 2.000 – R$ 5.000</button>
-    </div>
-  </div>
-  <div id="cat-content">
-    <div id="products-grid">
-      <div class="page-loader"><span class="loader"></span> Carregando produtos...</div>
+  <div class="sm-wrap">
+    <header class="sm-top">
+      <span class="sm-brand">Arq Luz Iluminação <span class="sm-brand-sub">· Showroom Virtual · decorativos em estoque</span></span>
+      <div class="sm-top-right">
+        <input id="sm-search" type="search" aria-label="Buscar por nome, código ou lugar" placeholder="Buscar por nome, código ou lugar" oninput="smSearch(this.value)"/>
+        <button id="btn-admin-access" onclick="showView('admin-login')">Admin</button>
+      </div>
+    </header>
+    <nav id="cat-filter-row" class="sm-tabs" aria-label="Categorias"></nav>
+    <div id="subcat-filters" class="sm-subtabs hidden"></div>
+    <div class="sm-body">
+      <section class="sm-list-col" aria-label="Lista de peças">
+        <div class="sm-list-head"><span id="catalog-stats"></span><span class="sm-h-cod">COD</span><span class="sm-h-loc">Lugar de estoque</span></div>
+        <div id="sm-list" class="sm-list"><div class="sm-empty">Carregando peças…</div></div>
+      </section>
+      <aside id="sm-detail" class="sm-detail" aria-label="Peça selecionada"></aside>
     </div>
   </div>
 </div>
@@ -371,7 +398,7 @@ textarea.form-input{resize:vertical;min-height:80px}
           <table class="products-table">
             <thead><tr>
               <th style="padding-left:16px">Foto</th>
-              <th>Nome</th><th>COD</th><th>Estoque</th><th>Categoria</th><th>Preço</th><th>Status</th><th>Ações</th>
+              <th>Nome</th><th>COD</th><th>Estoque</th><th>Categoria</th><th>Lugar</th><th>Status</th><th>Ações</th>
             </tr></thead>
             <tbody id="products-tbody"></tbody>
           </table>
@@ -391,10 +418,11 @@ textarea.form-input{resize:vertical;min-height:80px}
             <div class="form-group full"><label class="form-label">Nome do Produto *</label><input class="form-input" type="text" id="pf-nome" placeholder="Ex: Pendente Dourado Athens"/></div>
             <div class="form-group"><label class="form-label">COD Interno</label><input class="form-input" type="text" id="pf-cod-interno" placeholder="Ex: ABJ-023"/></div>
             <div class="form-group"><label class="form-label">Quantidade em Estoque</label><input class="form-input" type="number" id="pf-estoque" placeholder="0" min="0" step="1"/></div>
+            <div class="form-group full"><label class="form-label">Lugar de Estoque</label><input class="form-input" type="text" id="pf-local" placeholder="Ex: Corredor B · Prateleira 2"/></div>
             <div class="form-group"><label class="form-label">Categoria *</label><select class="form-select" id="pf-cat" onchange="onCatChange()"><option value="">Selecione...</option></select></div>
             <div class="form-group"><label class="form-label">Subcategoria</label><select class="form-select" id="pf-subcat"><option value="">Selecione...</option></select></div>
-            <div class="form-group"><label class="form-label">Preço De (R$)</label><input class="form-input" type="number" id="pf-price-de" placeholder="0,00" step="0.01"/></div>
-            <div class="form-group"><label class="form-label">Preço Por (R$) *</label><input class="form-input" type="number" id="pf-price-por" placeholder="0,00" step="0.01"/></div>
+            <div class="form-group"><label class="form-label">Preço De (R$) — uso interno</label><input class="form-input" type="number" id="pf-price-de" placeholder="0,00" step="0.01"/></div>
+            <div class="form-group"><label class="form-label">Preço Por (R$) — uso interno</label><input class="form-input" type="number" id="pf-price-por" placeholder="0,00" step="0.01"/></div>
             <div class="form-group full"><label class="form-label">Observações</label><textarea class="form-input" id="pf-obs" placeholder="Dimensões, cor, material, voltagem..."></textarea></div>
             <div class="form-group full">
               <label class="form-label">Foto Principal *</label>
@@ -445,14 +473,6 @@ textarea.form-input{resize:vertical;min-height:80px}
             <div class="settings-section-title">🖼️ Catálogo</div>
             <div class="form-grid">
               <div class="form-group full"><label class="form-label">Nome do Showroom</label><input class="form-input" type="text" id="cfg-nome"/></div>
-              <div class="form-group full">
-                <label class="form-label">Exibir preços no catálogo?</label>
-                <select class="form-select" id="cfg-mostrar-precos">
-                  <option value="true">✅ Sim — mostrar preços</option>
-                  <option value="false">🙈 Não — ocultar preços (apenas fotos)</option>
-                </select>
-                <span style="font-size:11px;color:var(--muted);margin-top:4px">Quando oculto, clientes veem só as fotos e o nome. Preços continuam salvos no sistema.</span>
-              </div>
             </div>
           </div>
 
@@ -542,7 +562,7 @@ let state={
   products:[],categories:[],config:{},isAdmin:false,
   editingProductId:null,productFormPhotos:{main:null,extras:[]},
   activeView:'catalog',activeAdminTab:'products',
-  filterCat:'all',filterSubcat:'all',filterPrice:'all'
+  filterCat:'all',filterSubcat:'all',q:'',sel:null
 };
 
 const $=id=>document.getElementById(id);
@@ -567,28 +587,28 @@ function showPopup(cfg){
 }
 function closePopup(){$('popup-overlay').classList.add('hidden')}
 
-function mostrarPrecos(){
-  return state.config.mostrar_precos !== 'false';
-}
-
 function renderCatalog(){
+  document.title='Showroom Virtual — Arq Luz';
   renderCatFilters();renderProductsGrid();
-  const title=state.config.feirao_nome||'Showroom Virtual Arq Luz';
-  $('cat-header-title').textContent=title;document.title=title+' — Arq Luz';
-  // Mostrar/ocultar filtro de preços
-  const priceRow=$('price-filter-row');
-  if(mostrarPrecos())priceRow.classList.remove('hidden');
-  else priceRow.classList.add('hidden');
 }
 
 function showSkeletons(){
-  $('products-grid').innerHTML=Array(8).fill(`<div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-line price"></div></div></div>`).join('');
+  $('sm-list').innerHTML='<div class="sm-empty">Carregando peças…</div>';
+  $('sm-detail').innerHTML='';
 }
 
 function renderCatFilters(){
   const row=$('cat-filter-row');row.innerHTML='';
-  const all=document.createElement('button');all.className='filter-btn'+(state.filterCat==='all'?' active':'');all.textContent='Todos';all.onclick=()=>filterCat('all');row.appendChild(all);
-  state.categories.forEach(c=>{const btn=document.createElement('button');btn.className='filter-btn'+(state.filterCat===c.Nome?' active':'');btn.textContent=c.Nome;btn.onclick=()=>filterCat(c.Nome);row.appendChild(btn)});
+  const items=[{nome:'all',label:'Todos'},...state.categories.map(c=>({nome:c.Nome,label:c.Nome}))];
+  items.forEach((it,i)=>{
+    const wrap=document.createElement('span');wrap.className='sm-tab-wrap';
+    const btn=document.createElement('button');btn.type='button';
+    btn.className='sm-tab'+(state.filterCat===it.nome?' active':'');
+    btn.textContent=it.label;btn.onclick=()=>filterCat(it.nome);
+    wrap.appendChild(btn);
+    if(i<items.length-1){const sep=document.createElement('span');sep.className='sm-sep';sep.setAttribute('aria-hidden','true');sep.textContent='/';wrap.appendChild(sep)}
+    row.appendChild(wrap);
+  });
   renderSubcatFilters();
 }
 
@@ -598,94 +618,69 @@ function renderSubcatFilters(){
   const catObj=state.categories.find(c=>c.Nome===state.filterCat);
   if(!catObj||!catObj.Subcategorias||!catObj.Subcategorias.length){subcatRow.classList.add('hidden');subcatRow.innerHTML='';return}
   subcatRow.innerHTML='';
-  const all=document.createElement('button');all.className='filter-btn'+(state.filterSubcat==='all'?' active':'');all.textContent='Todos';all.onclick=()=>filterSubcat('all');subcatRow.appendChild(all);
-  catObj.Subcategorias.forEach(sc=>{const b=document.createElement('button');b.className='filter-btn'+(state.filterSubcat===sc?' active':'');b.textContent=sc;b.onclick=()=>filterSubcat(sc);subcatRow.appendChild(b)});
+  const mk=(label,val)=>{const b=document.createElement('button');b.type='button';b.className='sm-subtab'+(state.filterSubcat===val?' active':'');b.textContent=label;b.onclick=()=>filterSubcat(val);subcatRow.appendChild(b)};
+  mk('Todos','all');
+  catObj.Subcategorias.forEach(sc=>mk(sc,sc));
   subcatRow.classList.remove('hidden');
 }
 
 function filterCat(cat){state.filterCat=cat;state.filterSubcat='all';renderCatFilters();renderProductsGrid()}
 function filterSubcat(sub){state.filterSubcat=sub;renderSubcatFilters();renderProductsGrid()}
-function filterPrice(range,btn){
-  state.filterPrice=range;
-  document.querySelectorAll('.price-filter-btn').forEach(b=>b.classList.remove('active'));
-  if(btn)btn.classList.add('active');
-  renderProductsGrid();
-}
+function smSearch(v){state.q=v;renderProductsGrid()}
 
 function formatMoney(v){if(v===undefined||v===null||v==='')return'';const n=parseFloat(String(v).replace(',','.'));if(Number.isNaN(n))return'';return'R$ '+n.toFixed(2).replace('.',',')}
 
+function smVisible(){
+  const q=(state.q||'').trim().toLowerCase();
+  let list=state.products.filter(p=>p.Status!=='vendido');
+  if(state.filterCat!=='all')list=list.filter(p=>p.Categoria===state.filterCat);
+  if(state.filterSubcat!=='all')list=list.filter(p=>p.Subcategoria===state.filterSubcat);
+  if(q)list=list.filter(p=>[p.Nome,p.Codigo_Interno,p.Local_Estoque].some(v=>String(v||'').toLowerCase().includes(q)));
+  const order=state.categories.map(c=>c.Nome);
+  list.sort((a,b)=>{
+    const ia=order.indexOf(a.Categoria),ib=order.indexOf(b.Categoria);
+    const d=(ia<0?999:ia)-(ib<0?999:ib);
+    return d||String(a.Nome||'').localeCompare(String(b.Nome||''),'pt-BR');
+  });
+  return list;
+}
+
 function renderProductsGrid(){
-  const grid=$('products-grid');
-  const exibirPrecos=mostrarPrecos();
-  let products=[...state.products].filter(p=>p.Status!=='vendido');
-  if(state.filterCat!=='all')products=products.filter(p=>p.Categoria===state.filterCat);
-  if(state.filterSubcat!=='all')products=products.filter(p=>p.Subcategoria===state.filterSubcat);
-  if(exibirPrecos && state.filterPrice!=='all'){
-    const[min,max]=state.filterPrice.split('-').map(Number);
-    products=products.filter(p=>{const s=String(p.Preco_Por||'0').replace(/R\$\s*/g,'').trim();const price=s.includes(',')?parseFloat(s.replace(/\./g,'').replace(',','.'))||0:parseFloat(s)||0;return!isNaN(price)&&price>=min&&price<=max});
-  }
-  const parseBRL=v=>{
-    const s=String(v||'0').replace(/R\$\s*/g,'').trim();
-    if(s.includes(','))return parseFloat(s.replace(/\./g,'').replace(',','.'))||0;
-    return parseFloat(s)||0;
-  };
-  products.sort((a,b)=>{
-    const ca=(a.Categoria||'').localeCompare(b.Categoria||'','pt-BR');if(ca!==0)return ca;
-    return parseBRL(a.Preco_Por)-parseBRL(b.Preco_Por);
+  const list=smVisible();
+  $('catalog-stats').textContent=list.length===1?'1 peça':list.length+' peças';
+  const box=$('sm-list');
+  if(!list.length){box.innerHTML='<div class="sm-empty">Nenhuma peça encontrada.</div>';state.sel=null;renderDetail(null);return}
+  if(!list.some(p=>p.ID===state.sel))state.sel=list[0].ID;
+  box.innerHTML='';
+  list.forEach(p=>{
+    const row=document.createElement('button');row.type='button';
+    row.className='sm-row'+(p.ID===state.sel?' sel':'');
+    row.onclick=()=>selectProduct(p.ID);
+    row.innerHTML=`<span class="sm-row-name">${esc(p.Nome)}</span><span class="sm-leader" aria-hidden="true"></span><span class="sm-row-cod">${esc(p.Codigo_Interno||'—')}</span><span class="sm-row-loc">${esc(p.Local_Estoque||'—')}</span>`;
+    box.appendChild(row);
   });
-  const disp=state.products.filter(p=>p.Status!=='vendido').length;
-  $('catalog-stats').textContent=`${disp} disponíveis`;
-  if(!products.length){grid.innerHTML='<div class="empty-msg">Nenhum produto encontrado.</div>';return}
-  grid.innerHTML='';
-  products.forEach(p=>{
-    const card=document.createElement('div');
-    card.className='product-card';
-    card.onclick=()=>openProductModal(p);
-    const imgHtml=p.Foto_Principal?`<img class="product-card-img" src="${esc(p.Foto_Principal)}" alt="${esc(p.Nome)}" loading="lazy"/>`:`<div class="product-card-img-placeholder">💡</div>`;
-    const estoqueNum=parseInt(p.Estoque)||0;
-    const estoqueHtml=estoqueNum>0?`<div class="card-stock">Estoque: <span class="card-stock-num">${estoqueNum} un.</span></div>`:'';
-    let priceHtml='';
-    if(exibirPrecos){
-      priceHtml=`<div class="product-card-prices">${p.Preco_De?`<span class="price-de">${formatMoney(p.Preco_De)}</span>`:''}${p.Preco_Por?`<span class="price-por">${formatMoney(p.Preco_Por)}</span>`:''}</div>`;
-    } else {
-      priceHtml='<div><span class="badge-sem-preco">Consulte o preço</span></div>';
-    }
-    card.innerHTML=`${imgHtml}<div class="product-card-body"><div class="product-card-name">${esc(p.Nome)}</div><div class="product-card-cat">${esc([p.Categoria,p.Subcategoria].filter(Boolean).join(' · '))}</div>${priceHtml}${estoqueHtml}</div>`;
-    grid.appendChild(card);
-  });
+  renderDetail(list.find(p=>p.ID===state.sel));
 }
 
-function openProductModal(p){
-  $('product-modal-name').textContent=p.Nome||'';
-  $('product-modal-cat').textContent=[p.Categoria,p.Subcategoria].filter(Boolean).join(' · ');
-  const exibirPrecos=mostrarPrecos();
-  const priceWrap=$('product-modal-price-wrap');
-  if(exibirPrecos){
-    $('product-modal-price-de').textContent=p.Preco_De?formatMoney(p.Preco_De):'';
-    $('product-modal-price-por').textContent=p.Preco_Por?formatMoney(p.Preco_Por):'';
-    priceWrap.style.display='';
-  } else {
-    priceWrap.style.display='none';
-  }
-  $('product-modal-obs').textContent=p.Observacoes||'';
-  $('product-modal-obs').style.display=p.Observacoes?'block':'none';
-  $('product-modal-sold-wrap').innerHTML=p.Status==='vendido'?'<span>Vendido</span>':'';
-  const meta=$('product-modal-meta');meta.innerHTML='';
-  if(p.Codigo_Interno)meta.innerHTML+=`<div class="product-modal-meta-item"><span class="product-modal-meta-label">Código</span><span class="product-modal-meta-value">${esc(p.Codigo_Interno)}</span></div>`;
-  if(p.Estoque&&p.Estoque!=='0')meta.innerHTML+=`<div class="product-modal-meta-item"><span class="product-modal-meta-label" style="color:var(--text);font-weight:700;font-size:12px">Estoque</span><span class="product-modal-meta-value" style="color:#e8000d;font-size:18px">${esc(p.Estoque)} un.</span></div>`;
-  const allImgs=[p.Foto_Principal,...(p.Fotos_Extras?String(p.Fotos_Extras).split(',').map(u=>u.trim()):[])].filter(Boolean);
-  const mainWrap=$('product-modal-main-wrap'),thumbsDiv=$('product-modal-thumbs');
-  mainWrap.innerHTML='';thumbsDiv.innerHTML='';
-  if(allImgs.length){
-    const mainImg=document.createElement('img');mainImg.id='product-modal-main-img';mainImg.src=allImgs[0];mainImg.alt=p.Nome||'';mainWrap.appendChild(mainImg);
-    if(allImgs.length>1){allImgs.forEach((url,i)=>{const thumb=document.createElement('img');thumb.className='modal-thumb'+(i===0?' active':'');thumb.src=url;thumb.alt=`Foto ${i+1}`;thumb.onclick=()=>{mainImg.src=url;document.querySelectorAll('.modal-thumb').forEach(t=>t.classList.remove('active'));thumb.classList.add('active')};thumbsDiv.appendChild(thumb)})}
-  }else mainWrap.innerHTML='<div id="product-modal-main-placeholder">💡</div>';
-  $('product-modal-overlay').classList.remove('hidden');
+function selectProduct(id){
+  state.sel=id;renderProductsGrid();
+  if(window.innerWidth<=900){const d=$('sm-detail');if(d&&d.scrollIntoView)d.scrollIntoView({behavior:'smooth',block:'start'})}
 }
 
-function closeProductModal(event){
-  if(!event||event.target.id==='product-modal-overlay'||event.target.classList.contains('modal-close'))
-    $('product-modal-overlay').classList.add('hidden');
+function renderDetail(p){
+  const el=$('sm-detail');
+  if(!p){el.innerHTML='';return}
+  const imgs=[p.Foto_Principal,...(p.Fotos_Extras?String(p.Fotos_Extras).split(',').map(u=>u.trim()):[])].filter(Boolean);
+  const cat=[p.Categoria,p.Subcategoria].filter(Boolean).join(' · ');
+  const est=parseInt(p.Estoque);
+  const photo=imgs.length
+    ?`<img id="sm-photo" src="${esc(imgs[0])}" alt="${esc(p.Nome)}"/>`
+    :`<span class="sm-photo-ph" aria-hidden="true">${esc(String(p.Nome||'').slice(0,3).toUpperCase())}</span>`;
+  const thumbs=imgs.length>1
+    ?`<div class="sm-thumbs">${imgs.map((u,i)=>`<button type="button" class="sm-thumb${i===0?' active':''}" data-i="${i}" aria-label="Foto ${i+1}"><img src="${esc(u)}" alt=""/></button>`).join('')}</div>`
+    :'';
+  el.innerHTML=`<div class="sm-photo">${photo}</div>${thumbs}<h2 class="sm-d-name">${esc(p.Nome)}</h2><dl class="sm-dl"><dt>Código</dt><dd>${esc(p.Codigo_Interno||'—')}</dd><dt>Lugar de estoque</dt><dd class="loc">${esc(p.Local_Estoque||'—')}</dd><dt>Estoque</dt><dd>${Number.isNaN(est)?'—':est+' un.'}</dd><dt>Categoria</dt><dd>${esc(cat||'—')}</dd></dl>${p.Observacoes?`<p class="sm-d-obs">${esc(p.Observacoes)}</p>`:''}`;
+  el.querySelectorAll('.sm-thumb').forEach(b=>{b.onclick=()=>{const i=Number(b.dataset.i);const main=$('sm-photo');if(main)main.src=imgs[i];el.querySelectorAll('.sm-thumb').forEach(t=>t.classList.remove('active'));b.classList.add('active')}});
 }
 
 async function doLogin(){
@@ -735,7 +730,7 @@ function filterProducts(){
   filtered.forEach(p=>{
     const tr=document.createElement('tr');
     const imgHtml=p.Foto_Principal?`<img class="product-img-thumb" src="${esc(p.Foto_Principal)}" alt=""/>`:`<div class="product-img-thumb" style="display:flex;align-items:center;justify-content:center;color:var(--muted)">💡</div>`;
-    tr.innerHTML=`<td style="padding-left:16px">${imgHtml}</td><td><strong>${esc(p.Nome)}</strong></td><td class="admin-code-cell">${esc(p.Codigo_Interno||'-')}</td><td class="stock-cell">${esc(p.Estoque||'0')}</td><td>${esc([p.Categoria,p.Subcategoria].filter(Boolean).join(' › '))}</td><td>${p.Preco_Por?formatMoney(p.Preco_Por):'-'}</td><td><span class="status-badge status-disponivel">Disponível</span></td><td><div class="actions-cell"><button class="btn btn-danger btn-sm" onclick="abrirModalVenda('${esc(p.ID)}')">✓ Vendido</button><button class="btn btn-outline btn-sm" onclick="editProduct('${esc(p.ID)}')">✏️ Editar</button><button class="btn btn-outline btn-sm" onclick="printLabel('${esc(p.ID)}')">🖨️ Etiqueta</button><button class="btn btn-danger btn-sm" onclick="deleteProduct('${esc(p.ID)}')">🗑️</button></div></td>`;
+    tr.innerHTML=`<td style="padding-left:16px">${imgHtml}</td><td><strong>${esc(p.Nome)}</strong></td><td class="admin-code-cell">${esc(p.Codigo_Interno||'-')}</td><td class="stock-cell">${esc(p.Estoque||'0')}</td><td>${esc([p.Categoria,p.Subcategoria].filter(Boolean).join(' › '))}</td><td>${esc(p.Local_Estoque||'-')}</td><td><span class="status-badge status-disponivel">Disponível</span></td><td><div class="actions-cell"><button class="btn btn-danger btn-sm" onclick="abrirModalVenda('${esc(p.ID)}')">✓ Vendido</button><button class="btn btn-outline btn-sm" onclick="editProduct('${esc(p.ID)}')">✏️ Editar</button><button class="btn btn-outline btn-sm" onclick="printLabel('${esc(p.ID)}')">🖨️ Etiqueta</button><button class="btn btn-danger btn-sm" onclick="deleteProduct('${esc(p.ID)}')">🗑️</button></div></td>`;
     tbody.appendChild(tr);
   });
 }
@@ -920,7 +915,7 @@ async function deleteProduct(id){
 }
 
 function clearProductForm(){
-  ['pf-nome','pf-cod-interno','pf-estoque','pf-obs','pf-price-de','pf-price-por'].forEach(id=>{const el=$(id);if(el)el.value=''});
+  ['pf-nome','pf-cod-interno','pf-estoque','pf-local','pf-obs','pf-price-de','pf-price-por'].forEach(id=>{const el=$(id);if(el)el.value=''});
   $('pf-cat').value='';$('pf-subcat').innerHTML='<option value="">Selecione...</option>';
   $('preview-main').innerHTML='';$('preview-extras').innerHTML='';
   $('progress-main').style.width='0%';$('progress-extras').style.width='0%';
@@ -933,7 +928,7 @@ function editProduct(id){
   const p=state.products.find(p=>p.ID===id);if(!p)return;
   adminNav('add-product');state.editingProductId=id;
   $('product-form-title').textContent='Editar Produto';
-  $('pf-nome').value=p.Nome||'';$('pf-cod-interno').value=p.Codigo_Interno||'';$('pf-estoque').value=p.Estoque||'';
+  $('pf-nome').value=p.Nome||'';$('pf-cod-interno').value=p.Codigo_Interno||'';$('pf-estoque').value=p.Estoque||'';$('pf-local').value=p.Local_Estoque||'';
   $('pf-obs').value=p.Observacoes||'';$('pf-price-de').value=p.Preco_De||'';$('pf-price-por').value=p.Preco_Por||'';
   fillCatSelect();$('pf-cat').value=p.Categoria||'';onCatChange();$('pf-subcat').value=p.Subcategoria||'';
   if(p.Foto_Principal){state.productFormPhotos.main=p.Foto_Principal;$('preview-main').innerHTML=`<div class="photo-preview-item"><img src="${esc(p.Foto_Principal)}"/><button class="photo-remove" onclick="removeMainPhoto()">✕</button></div>`}
@@ -991,10 +986,9 @@ async function saveProduct(){
   const nome=$('pf-nome').value.trim(),cat=$('pf-cat').value,por=$('pf-price-por').value;
   if(!nome){toast('Informe o nome do produto.','error');return}
   if(!cat){toast('Selecione uma categoria.','error');return}
-  if(!por){toast('Informe o preço do produto.','error');return}
   const btn=$('btn-save-product');btn.disabled=true;btn.textContent='Salvando...';
   try{
-    const product={Nome:nome,Codigo_Interno:$('pf-cod-interno').value.trim(),Estoque:$('pf-estoque').value,Categoria:cat,Subcategoria:$('pf-subcat').value,Preco_De:$('pf-price-de').value,Preco_Por:por,Observacoes:$('pf-obs').value.trim(),Foto_Principal:state.productFormPhotos.main||'',Fotos_Extras:state.productFormPhotos.extras.join(',')};
+    const product={Nome:nome,Codigo_Interno:$('pf-cod-interno').value.trim(),Estoque:$('pf-estoque').value,Local_Estoque:$('pf-local').value.trim(),Categoria:cat,Subcategoria:$('pf-subcat').value,Preco_De:$('pf-price-de').value,Preco_Por:por,Observacoes:$('pf-obs').value.trim(),Foto_Principal:state.productFormPhotos.main||'',Fotos_Extras:state.productFormPhotos.extras.join(',')};
     let res;
     if(state.editingProductId){res=await apiPost({action:'updateProduct',id:state.editingProductId,product});if(res.ok){const idx=state.products.findIndex(p=>p.ID===state.editingProductId);if(idx>=0)state.products[idx]={...state.products[idx],...product}}}
     else{res=await apiPost({action:'createProduct',product});if(res.ok)state.products.unshift({ID:res.id,...product,Status:'disponivel'})}
@@ -1058,7 +1052,6 @@ async function removeSubcat(catId,idx){
 function fillSettingsForm(){
   const cfg=state.config||{};
   $('cfg-nome').value=cfg.feirao_nome||'';
-  $('cfg-mostrar-precos').value=cfg.mostrar_precos||'true';
   $('cfg-popup-titulo').value=cfg.popup_titulo||'';
   $('cfg-data').value=cfg.popup_data||'';$('cfg-horario').value=cfg.popup_horario||'';
   $('cfg-local').value=cfg.popup_local||'';$('cfg-pagamento').value=cfg.popup_pagamento||'';
@@ -1068,7 +1061,6 @@ function fillSettingsForm(){
 async function saveSettings(){
   const newCfg={
     feirao_nome:$('cfg-nome').value,
-    mostrar_precos:$('cfg-mostrar-precos').value,
     popup_titulo:$('cfg-popup-titulo').value,
     popup_data:$('cfg-data').value,
     popup_horario:$('cfg-horario').value,
@@ -1147,7 +1139,10 @@ async function init(){
   setInterval(async()=>{
     try{
       const[pRes,cRes]=await Promise.all([apiGet('getProducts'),apiGet('getCategories')]);
-      state.products=pRes.products||[];state.categories=cRes.categories||[];
+      const np=pRes.products||[],nc=cRes.categories||[];
+      const changed=JSON.stringify(np)!==JSON.stringify(state.products)||JSON.stringify(nc)!==JSON.stringify(state.categories);
+      if(!changed)return;
+      state.products=np;state.categories=nc;
       saveCache('products',state.products);saveCache('categories',state.categories);
       renderCatalog();
       if(state.isAdmin&&state.activeAdminTab==='products')renderProductsTable();
